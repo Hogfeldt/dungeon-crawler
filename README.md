@@ -35,7 +35,7 @@ I dont know. google it, I guess.
 Clone the repository, and run the following command inside the boiler-folder:
 
 ```
-npm install
+npm install --dev
 ```
 After installing, everything should be set up to start developing as a normal Vue-project, with the added features of typescript and phaser. 
 
@@ -47,7 +47,17 @@ npm run serve
 
 If this fails, you should check your node and npm version-number (See Prerequisite). If this is not the problem, Sivert is a goof, and it is probably his fault.
 
+--------------Jest Test-----------
 
+Jest and Prerequisite's should be installed with npm install (see above)
+Source files should be in folder "src"
+Test files should be in folder "tests"
+
+To run tests use:
+#npm t
+
+To run tests with coverage:
+#npm run coverage
 
 
 
