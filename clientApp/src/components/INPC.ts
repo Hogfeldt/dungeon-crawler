@@ -1,5 +1,5 @@
 
-
+// TODO Delete this file
 export interface INPC {
     Name: string;
     Type: string;
