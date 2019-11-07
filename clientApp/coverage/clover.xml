@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1573135110231" clover="3.2.0">
+  <project timestamp="1573135110231" name="All files">
+    <metrics statements="10" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1" elements="12" coveredelements="8" complexity="0" loc="10" ncloc="10" packages="1" files="1" classes="1"/>
+    <file name="NPCMonster.ts" path="E:\IKT\4. Semester\PRJ4\dungeon-crawler\clientApp\src\components\NPCMonster.ts">
+      <metrics statements="10" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
+      <line num="5" count="1" type="stmt"/>
+      <line num="15" count="2" type="stmt"/>
+      <line num="16" count="2" type="stmt"/>
+      <line num="17" count="2" type="stmt"/>
+      <line num="18" count="2" type="stmt"/>
+      <line num="19" count="2" type="stmt"/>
+      <line num="20" count="2" type="stmt"/>
+      <line num="24" count="0" type="stmt"/>
+      <line num="25" count="0" type="stmt"/>
+      <line num="26" count="0" type="stmt"/>
+    </file>
+  </project>
+</coverage>
