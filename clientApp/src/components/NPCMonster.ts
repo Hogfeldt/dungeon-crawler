@@ -2,7 +2,7 @@
 import { INPC } from './INPC';
 
 
-export default class NPCMonster implements INPC {
+export class NPCMonster implements INPC {
     public Health: number;
     public Damage: number;
 

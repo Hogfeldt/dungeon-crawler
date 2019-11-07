@@ -13,7 +13,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 import 'phaser';
 
 // Import Example classes
-import { NPCMonster } from './NPCMonster';
+import {  NPCMonster } from './NPCMonster';
 
 // Some Exampel code
 const Monster: NPCMonster = new NPCMonster(100, 50, 'BigDGlenn', 'Enemy', 0, 1);
