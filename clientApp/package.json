@@ -5,7 +5,9 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
+    "lint": "vue-cli-service lint",
+    "test": "jest",
+    "coverage": "jest --coverage"
   },
   "dependencies": {
     "core-js": "^3.3.2",
@@ -15,12 +17,15 @@
     "vue-property-decorator": "^8.3.0"
   },
   "devDependencies": {
+    "@types/jest": "^24.0.22",
     "@vue/cli-plugin-babel": "^4.0.0",
     "@vue/cli-plugin-typescript": "^4.0.0",
     "@vue/cli-service": "^4.0.0",
+    "jest": "^24.9.0",
     "prettier": "1.18.2",
+    "ts-jest": "^24.1.0",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "~3.5.3",
+    "typescript": "^3.5.3",
     "vue-template-compiler": "^2.6.10"
   }
 }
