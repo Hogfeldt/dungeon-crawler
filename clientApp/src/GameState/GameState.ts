@@ -1,11 +1,20 @@
-import { IGameState } from './GameState'
+// import { IGameState } from './GameState'
 
 
 export class GameState {
+    GameState: IGameState;
+    
 
-    constructor() {
+    constructor(gameState: IGameState) {
+        GameState = gameState;
+        
     }
     
-    changeState() {
+    getCharState() {
+        GameState
+    }
+
+    changeState(gameState: IGameState) {
+        GameState = gameState;
     }
 }

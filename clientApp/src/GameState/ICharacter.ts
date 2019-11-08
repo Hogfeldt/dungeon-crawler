@@ -5,7 +5,7 @@ export interface Icharacter {
     Health: number;
 
     inventoryList(): any;
-    item(): 
+    item(): any;
     printChar(): any;
 }
 
