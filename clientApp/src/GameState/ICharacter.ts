@@ -1,8 +1,10 @@
-export interface Icharacter {
-    Name: string;
+
+
+export interface ICharacter {
+    name: string;
     xPos: number;
     yPos: number;
-    Health: number;
+    health: number;
 
     inventoryList(): any;
     item(): any;
