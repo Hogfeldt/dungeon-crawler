@@ -17,16 +17,20 @@ export default class ChangeHandler {
 
     public getState() {
         return this.api.gameState().then(r => {
-            var npcs: NPC[] = [];
-            npcs[0] = new NPC(1, 2);
-            npcs[1] = new NPC(3, 4);
+            var data = r.data[0];
+            var npcs: INPC[] = [];
+
+            for (var i = 0; i < data.npcs.length; i++) {
+                var npc = data.npcs[i];
+                npcs.push(new NPC(npc.x, npc.y));
+            }
 
             var layer: ILayer = new Layer();
 
-            var name:string = r.data[0].player.name;
-            var xPosition: number = r.data[0].player.yPosition;
-            var yPosition: number = r.data[0].player.xPosition;
-            var health: number = r.data[0].player.xPosition;
+            var name: string = data.player.name;
+            var xPosition: number = data.player.yPosition;
+            var yPosition: number = data.player.xPosition;
+            var health: number = data.player.xPosition;
 
             var character: ICharacter = new Character(name, xPosition, yPosition, health);
 
