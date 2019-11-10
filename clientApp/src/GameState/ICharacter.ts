@@ -1,10 +1,10 @@
 
 
 export interface ICharacter {
-    Name: string;
+    name: string;
     xPos: number;
     yPos: number;
-    Health: number;
+    health: number;
 
     inventoryList(): any;
     item(): any;
