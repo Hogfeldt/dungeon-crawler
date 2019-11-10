@@ -9,7 +9,7 @@ Herefter vil man have oprettet den nye branch og man er nu også checket ind på
 Når man vil merge med masteren gør man følgende:
 
 ```
-git chckout master
+git checkout master
 git pull 
 git checkout <navn-på-branch>
 git merge master
