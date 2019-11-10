@@ -1,3 +1,5 @@
+
+
 export interface ICharacter {
     Name: string;
     xPos: number;

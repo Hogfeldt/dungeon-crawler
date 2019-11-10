@@ -1,9 +1,12 @@
-import { IGameState } from './GameState'
+import { IGameState } from "./IGameState"
+import { INPC } from "./INPC";
+import { ICharacter } from "./ICharacter";
+import { ILayer } from "./ILayer";
 
 
 export class GameState implements IGameState {
     public _NPCState:       INPC;
-    public _CharacterState: ICaracter;
+    public _CharacterState: ICharacter;
     public _LayerState:     ILayer;
 
     constructor(npcState: INPC, characterState: ICharacter, layerState: ILayer) {
