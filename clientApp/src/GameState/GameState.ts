@@ -5,11 +5,11 @@ import { ILayer } from "./ILayer";
 
 
 export class GameState implements IGameState {
-    public _NPCState:       INPC;
+    public _NPCState:       INPC[];
     public _CharacterState: ICharacter;
     public _LayerState:     ILayer;
 
-    constructor(npcState: INPC, characterState: ICharacter, layerState: ILayer) {
+    constructor(npcState: INPC[], characterState: ICharacter, layerState: ILayer) {
         this._NPCState       = npcState;
         this._CharacterState = characterState;
         this._LayerState     = layerState;
