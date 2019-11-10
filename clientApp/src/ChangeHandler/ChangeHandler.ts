@@ -1,9 +1,14 @@
-import API from './API';
+import { IApi} from "./IApi";
+import { IGameState } from "../GameState/IGameState"
 
 export class ChangeHandler {
-    api: API;
-    constructor(api:API) {
+    api: IApi;
+    constructor(api:IApi) {
         this.api = api;
+    }
+
+    getState(): IGameState {
+        throw new Error("Not implemented"); 
     }
 
     move(direction: string) {

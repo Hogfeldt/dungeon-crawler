@@ -1,25 +1,21 @@
 import axios from "axios";
 
+import { IGameState } from "@/GameState/IGameState"
+import { IApi } from "./IApi"
 
-export default class API {
+
+export class Api implements  IApi{
     private address: string;
-    
 
     constructor(address: string) {
         this.address = address;
     }
 
-    getGameState(): any {
-        axios.get(this.address + "/state");
+    public gameState() {
+        return axios.get(this.address + "/state");
     }
 
-    move(direction:string) {
-        return this.postMovement(direction).then(response => {
-            return response.data;
-        });
-    }
-
-    private postMovement(direction: string) {
+    public move(direction: string): Promise<any> {
         return axios.post(this.address + "/move",
             {
                 Direction: direction
