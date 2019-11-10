@@ -1,20 +1,8 @@
-// import { IGameState } from './GameState'
+import { IGameState } from './IGameState'
 
 
-export class GameState {
-    GameState: IGameState;
-    
-
-    constructor(gameState: IGameState) {
-        GameState = gameState;
-        
-    }
-    
-    getCharState() {
-        GameState
-    }
-
-    changeState(gameState: IGameState) {
-        GameState = gameState;
+export class GameState implements IGameState {
+    changeState(): any {
+        throw new Error("Not implemented");
     }
 }
