@@ -1,4 +1,4 @@
-export interface Icharacter {
+export interface ICharacter {
     Name: string;
     xPos: number;
     yPos: number;

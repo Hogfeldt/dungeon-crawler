@@ -1,8 +1,8 @@
 export interface IGameState {
-
-    _NPCState: INPC;
-    _Character: ICaracter;
+    _NPCState:       INPC;
+    _CharacterState: ICaracter;
+    _LayerState:     ILayer;
     
 
-    changeState(): any;
+    changeState(gameState: IGameState): void;
 }
