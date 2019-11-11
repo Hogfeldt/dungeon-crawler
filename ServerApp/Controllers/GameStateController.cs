@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServerApp.GameState;
+using Newtonsoft.Json;
 
 namespace ServerApp.Controllers
 {
@@ -13,13 +15,15 @@ namespace ServerApp.Controllers
     {
         // GET: api/GameState
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            string ret = Newtonsoft.Json.JsonConvert.SerializeObject(new GameState.GameState(new Map(5)));
+            Console.WriteLine(ret);
+            return ret;
         }
 
         // GET: api/GameState/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetGameState")]
         public string Get(int id)
         {
             return "value";

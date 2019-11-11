@@ -9,7 +9,7 @@ namespace ServerApp.GameState
     public class Layer: ILayer
     {
         public ITile[,] tiles { private set; get; }
-        public List<ICharacter> Characters { private set; get; } = new List<ICharacter>();
+        public List<Character> Characters { private set; get; } = new List<Character>();
 
         public Layer(uint width, uint height)
         {
@@ -24,12 +24,12 @@ namespace ServerApp.GameState
             }
         }
 
-        public void AddCharacter(ICharacter character)
+        public void AddCharacter(Character character)
         {
             Characters.Add(character);
         }
 
-        public void RemoveCharacter(ICharacter character)
+        public void RemoveCharacter(Character character)
         {
             Characters.Remove(character);
         }

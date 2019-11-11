@@ -3,7 +3,7 @@ using System.Threading;
 
 namespace ServerApp.GameState
 {
-    public abstract class Character: ICharacter
+    public abstract class Character
     {
         public uint XPos { private set; get; }
         public uint YPos { private set; get; }
