@@ -4,7 +4,7 @@ import { IGameState } from "@/GameState/IGameState"
 import { IApi } from "./IApi"
 
 
-export class Api implements  IApi{
+export default class Api implements  IApi{
     private address: string;
 
     constructor(address: string) {
@@ -12,7 +12,7 @@ export class Api implements  IApi{
     }
 
     public gameState() {
-        return axios.get(this.address + "/state");
+        return axios.get(this.address + "/gamestate");
     }
 
     public move(direction: string): Promise<any> {
