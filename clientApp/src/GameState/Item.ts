@@ -3,7 +3,7 @@ export class Item {
     Name: string;
     Type: string;
     Value: number;
-    Damage: number | undefined;
+    Damage: number;
 
     constructor(name: string, type: string, value: number)
     {
