@@ -2,7 +2,7 @@
 
 namespace ServerApp.GameState
 {
-    public abstract class HostileNPC: Character
+    public class HostileNPC: Character
     {
 
     }

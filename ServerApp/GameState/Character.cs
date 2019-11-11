@@ -7,7 +7,6 @@ namespace ServerApp.GameState
     {
         public uint XPos { private set; get; }
         public uint YPos { private set; get; }
-        public int Layer { private set; get; }
         public enum Direction
         {
             Up,
@@ -23,13 +22,6 @@ namespace ServerApp.GameState
         public virtual void Move(Direction direction)
         {
             
-        }
-
-        public void SetPos(uint XPos, uint YPos, int Layer)
-        {
-            this.XPos = XPos;
-            this.YPos = XPos;
-            this.Layer = Layer;
         }
 
         public void SetPos(uint XPos, uint YPos)

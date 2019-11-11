@@ -8,18 +8,18 @@ namespace ServerApp.GameState
 {
     public class Layer: ILayer
     {
-        public ITile[,] tiles { private set; get; }
+        public ITile[,] Tiles { private set; get; }
         public List<Character> Characters { private set; get; } = new List<Character>();
 
         public Layer(uint width, uint height)
         {
-            tiles = new ITile[width,height];
+            Tiles = new ITile[width,height];
 
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    tiles[x, y] = new Tile();
+                    Tiles[x, y] = new Tile(null);
                 }
             }
         }
@@ -27,16 +27,25 @@ namespace ServerApp.GameState
         public void AddCharacter(Character character)
         {
             Characters.Add(character);
+            Character replaced = Tiles[character.XPos, character.YPos].ReplaceCharacter(character);
+
+            if (replaced != null)
+            {
+                Characters.Remove(replaced);
+            }
         }
 
         public void RemoveCharacter(Character character)
         {
-            Characters.Remove(character);
+            if (Characters.Remove(character)) { 
+                Tiles[character.XPos, character.YPos].RemoveCharacter();
+            }
+
         }
 
         public ITile GetTile(uint x, uint y)
         {
-            return tiles[x, y];
+            return Tiles[x, y];
         }
     }
 }
