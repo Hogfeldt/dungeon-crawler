@@ -50,9 +50,9 @@ namespace ServerApp.GameState
                 }
             }
 
-            npcs[3, 1] = new HostileNPC();
-            npcs[3, 4] = new HostileNPC();
-            npcs[8, 4] = new HostileNPC();
+            npcs[3, 1] = new HostileNPC(new Position(0,0), new Stats(), droppedGold: 10);
+            npcs[3, 4] = new HostileNPC(new Position(0, 0), new Stats(), droppedGold: 10);
+            npcs[8, 4] = new HostileNPC(new Position(0, 0), new Stats(), droppedGold: 10);
 
             return new Layer(tiles, npcs);
         }

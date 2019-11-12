@@ -8,9 +8,10 @@ namespace ServerApp.GameState
         public int Layer { get; private set; }
         public int Gold { get; private set; }
 
-        public Player(uint xPos, uint yPos, uint maxHealth, uint damage, uint speed, int layer): base(xPos, yPos, maxHealth, damage, speed)
+        public Player(Position position, Stats stats, string name = "Player McName", int layer = 0): base(position, stats, name)
         {
             Layer = layer;
+            Gold = 0;
         }
 
         public void Ascend()

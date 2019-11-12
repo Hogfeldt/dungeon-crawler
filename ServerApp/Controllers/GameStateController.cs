@@ -19,7 +19,7 @@ namespace ServerApp.Controllers
         public string Get()
         {
             ILayerGenerator layerGenerator = new HardCodedLayerGenerator();
-            Player player = new Player(0, 0, 50, 10, 10, 0);
+            Player player = new Player(new Position(0,0), new Stats(50, 10, 10));
             return Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(player, new Map(layerGenerator,5))));
         }
 

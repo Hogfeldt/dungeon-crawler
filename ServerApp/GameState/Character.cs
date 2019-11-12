@@ -7,10 +7,8 @@ namespace ServerApp.GameState
     public abstract class Character
     {
         public Position Position { protected set; get; }
-        public uint MaxHealth { protected set; get; }
-        public uint CurrentHealth { protected set; get; } = 0;
-        public uint Damage { protected set; get; }
-        public uint Speed { protected set; get; }
+        public Stats Stats { protected set; get; }
+        public string Name { protected set; get; }
 
         public enum Direction
         {
@@ -20,13 +18,11 @@ namespace ServerApp.GameState
             Right
         }
 
-        protected Character(uint xPos = 0, uint yPos = 0, uint maxHealth = 0, uint damage = 0, uint speed = 0)
+        protected Character(Position position, Stats stats, string name = "Character McName")
         {
-            this.Position = new Position(xPos, yPos);
-            this.MaxHealth = maxHealth;
-            this.CurrentHealth = maxHealth;
-            this.Damage = damage;
-            this.Speed = speed;
+            this.Position = position;
+            this.Stats = stats;
+            this.Name = name;
         }
 
         public virtual void Move(Direction direction)
