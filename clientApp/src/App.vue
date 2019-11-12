@@ -1,19 +1,23 @@
 <template>
-  <div id="app">
-    <Main/>
-  </div>
+    <div>
+        <Game></Game>
+    </div>
 </template>
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import Main from './components/Main.vue';
+    import { Component, Vue } from 'vue-property-decorator';
+    import Main from './components/Main.vue';
+    import Game from './components/Game.vue';
 
-@Component({
-  components: {
-    Main,
-  },
-})
-export default class App extends Vue {}
+    export default {
+        name: "App",
+        data() {
+
+        },
+        components: {
+            Game
+        },
+    };
 </script>
 
 <style>

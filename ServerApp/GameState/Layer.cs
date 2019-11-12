@@ -8,35 +8,59 @@ namespace ServerApp.GameState
 {
     public class Layer: ILayer
     {
-        public ITile[,] tiles { private set; get; }
-        public List<ICharacter> Characters { private set; get; } = new List<ICharacter>();
-
+        public ITile[,] Tiles { private set; get; }
+        public Character[,] NPCs { private set; get; }
         public Layer(uint width, uint height)
         {
-            tiles = new ITile[width,height];
+            Tiles = new ITile[width,height];
+            NPCs = new Character[width,height];
 
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    tiles[x, y] = new Tile();
+                    Tiles[x, y] = new Tile(true);
+                    NPCs[x, y] = null;
                 }
             }
         }
 
-        public void AddCharacter(ICharacter character)
+        public Layer(ITile[,] tiles, Character[,] npcs)
         {
-            Characters.Add(character);
+            Tiles = tiles;
+            NPCs = npcs;
         }
 
-        public void RemoveCharacter(ICharacter character)
+        public void AddNPC(Character NPC)
         {
-            Characters.Remove(character);
+            NPCs[NPC.Position.X, NPC.Position.Y] = NPC;
         }
 
-        public ITile GetTile(uint x, uint y)
+        public void RemoveNPCFromPosition(Position position)
         {
-            return tiles[x, y];
+            NPCs[position.X, position.Y] = null;
         }
+
+        public Character GetNPC(Position position)
+        {
+            return NPCs[position.X, position.Y];
+        }
+
+        public Character GetNPCFromPositionWithOffset(Position position, int xOff, int yOff)
+        {
+            return NPCs[position.X - xOff, position.Y - yOff];
+        }
+
+        public ITile GetTile(Position position)
+        {
+            return Tiles[position.X, position.Y];
+        }
+
+        public ITile GetTileWithOffset(Position position, int xOff, int yOff)
+        {
+            return Tiles[position.X - xOff, position.Y - yOff];
+        }
+
+
     }
 }

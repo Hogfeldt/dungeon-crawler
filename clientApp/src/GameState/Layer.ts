@@ -2,7 +2,13 @@ import { ILayer } from "./ILayer"
 import { ITile } from "./ITile";
 
 export class Layer implements ILayer {
+
+    private tiles: ITile[][];
+
+    constructor(tiles: ITile[][]) {
+        this.tiles = tiles;
+    }
     getTile(x: number, y: number): ITile {
-         throw new Error("Not implemented");
+        return this.tiles[x][y];
     }
 }

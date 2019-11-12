@@ -7,9 +7,14 @@ import { ICharacter } from "../GameState/ICharacter"
 import { Character } from "../GameState/Character"
 import { ILayer } from "../GameState/ILayer"
 import { Layer } from "../GameState/Layer"
+import { ITile } from "../GameState/ITile"
+import { Tile } from "../GameState/Tile"
 
 
-export default class ChangeHandler {
+const mapSize = 10;
+
+
+export class ChangeHandler {
     api: IApi;
     constructor(api:IApi) {
         this.api = api;
@@ -17,24 +22,52 @@ export default class ChangeHandler {
 
     public getState() {
         return this.api.gameState().then(r => {
-            var data = r.data[0];
-            var npcs: INPC[] = [];
+            console.log(r);
 
-            for (var i = 0; i < data.npcs.length; i++) {
-                var npc = data.npcs[i];
-                npcs.push(new NPC(npc.x, npc.y));
+            var data = r.data;
+            //var npcs: INPC[] = [];
+
+            //for (var i = 0; i < data.NPCs.length; i++) {
+            //    var npc = data.NPCs[i];
+            //    npcs.push(new NPC(npc.x, npc.y));
+            //}
+
+            var tiles: any[][] = new Array();
+
+            for (var j = 0; j < data.Tiles.length; j++) {
+                tiles[j] = [];
+                for (var k = 0; k < data.Tiles[j].length; k++) {
+
+                    if (data.Tiles[j][k] != null) {
+                        tiles[j][k] = new Tile(data.Tiles[j][k].Walkable);
+                    } else {
+                        tiles[j][k] = null;
+                    }
+                }
+            }
+            var layer: ILayer = new Layer(tiles);
+
+            var NPCs: any[][] = new Array();
+            for (var l = 0; l < data.NPCs.length; l++) {
+                NPCs[l] = [];
+                for (var m = 0; m < data.NPCs[l].length; m++) {
+                    if (data.NPCs[l][m] != null) {
+                        console.log(l, m);
+                        NPCs[l][m] = new NPC(l, m);
+                    } else {
+                        NPCs[l][m] = null;
+                    }
+                }
             }
 
-            var layer: ILayer = new Layer();
-
-            var name: string = data.player.name;
-            var xPosition: number = data.player.yPosition;
-            var yPosition: number = data.player.xPosition;
-            var health: number = data.player.xPosition;
+            var name: string = data.Player.name;
+            var xPosition: number = data.Player.XPos;
+            var yPosition: number = data.Player.YPos;
+            var health: number = data.Player.Health;
 
             var character: ICharacter = new Character(name, xPosition, yPosition, health);
 
-            var state = new GameState(npcs, character, layer);
+            var state = new GameState(NPCs, character, layer);
             
             return state;
         });

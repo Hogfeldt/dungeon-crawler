@@ -1,13 +1,15 @@
 ﻿using System;
+using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 
 namespace ServerApp.GameState
 {
-    public abstract class Character: ICharacter
+    public abstract class Character
     {
-        public uint XPos { private set; get; }
-        public uint YPos { private set; get; }
-        public int Layer { private set; get; }
+        public Position Position { protected set; get; }
+        public Stats Stats { protected set; get; }
+        public string Name { protected set; get; }
+
         public enum Direction
         {
             Up,
@@ -15,9 +17,12 @@ namespace ServerApp.GameState
             Left,
             Right
         }
-        protected Character()
+
+        protected Character(Position position, Stats stats, string name = "Character McName")
         {
-            
+            this.Position = position;
+            this.Stats = stats;
+            this.Name = name;
         }
 
         public virtual void Move(Direction direction)
@@ -25,19 +30,9 @@ namespace ServerApp.GameState
             
         }
 
-        public void SetPos(uint XPos, uint YPos, int Layer)
+        public void SetPos(Position position)
         {
-            this.XPos = XPos;
-            this.YPos = XPos;
-            this.Layer = Layer;
+            this.Position = position;
         }
-
-        public void SetPos(uint XPos, uint YPos)
-        {
-            this.XPos = XPos;
-            this.YPos = XPos;
-        }
-
-
     }
 }

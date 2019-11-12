@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using ServerApp.GameState;
+using Newtonsoft.Json;
 
 namespace ServerApp.Controllers
 {
@@ -13,13 +16,15 @@ namespace ServerApp.Controllers
     {
         // GET: api/GameState
         [HttpGet]
-        public IEnumerable<string> Get()
+        public string Get()
         {
-            return new string[] { "value1", "value2" };
+            ILayerGenerator layerGenerator = new HardCodedLayerGenerator();
+            Player player = new Player(new Position(0,0), new Stats(50, 10, 10));
+            return Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(player, new Map(layerGenerator,5))));
         }
 
         // GET: api/GameState/5
-        [HttpGet("{id}", Name = "Get")]
+        [HttpGet("{id}", Name = "GetGameState")]
         public string Get(int id)
         {
             return "value";
