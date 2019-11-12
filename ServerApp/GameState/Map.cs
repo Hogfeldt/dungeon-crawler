@@ -9,11 +9,11 @@ namespace ServerApp.GameState
     {
         public List<ILayer> Layers { get; private set; } = new List<ILayer>();
 
-        public Map(uint layerCount)
+        public Map(ILayerGenerator layerGenerator, int layerCount)
         {
             for (int i = 0; i < layerCount; i++)
             {
-                Layers.Add(new Layer(10, 10));
+                Layers.Add(layerGenerator.GenerateLayer());
             }
         }
 

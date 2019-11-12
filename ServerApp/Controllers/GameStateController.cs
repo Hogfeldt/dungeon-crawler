@@ -18,7 +18,9 @@ namespace ServerApp.Controllers
         [HttpGet]
         public string Get()
         {
-            return Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(new Player(0, 0, 50), new Map(5))));
+            ILayerGenerator layerGenerator = new HardCodedLayerGenerator();
+            Player player = new Player(0, 0, 50, 10, 10, 0);
+            return Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(player, new Map(layerGenerator,5))));
         }
 
         // GET: api/GameState/5

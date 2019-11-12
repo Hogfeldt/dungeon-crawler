@@ -10,7 +10,6 @@ namespace ServerApp.GameState
     {
         public ITile[,] Tiles { private set; get; }
         public Character[,] NPCs { private set; get; }
-
         public Layer(uint width, uint height)
         {
             Tiles = new ITile[width,height];
@@ -26,33 +25,42 @@ namespace ServerApp.GameState
             }
         }
 
-        public void AddCharacter(Character character) { }
-        public void RemoveCharacter(Character character) { }
-
-        /*
-        public void AddCharacter(Character character)
+        public Layer(ITile[,] tiles, Character[,] npcs)
         {
-            Characters.Add(character);
-            Character replaced = Tiles[character.XPos, character.YPos].ReplaceCharacter(character);
-
-            if (replaced != null)
-            {
-                Characters.Remove(replaced);
-            }
+            Tiles = tiles;
+            NPCs = npcs;
         }
 
-        public void RemoveCharacter(Character character)
+        public void AddNPC(Character NPC)
         {
-            if (Characters.Remove(character)) { 
-                Tiles[character.XPos, character.YPos].RemoveCharacter();
-            }
-
+            NPCs[NPC.Position.X, NPC.Position.Y] = NPC;
         }
-        */
 
-        public ITile GetTile(uint x, uint y)
+        public void RemoveNPCFromPosition(Position position)
         {
-            return Tiles[x, y];
+            NPCs[position.X, position.Y] = null;
         }
+
+        public Character GetNPC(Position position)
+        {
+            return NPCs[position.X, position.Y];
+        }
+
+        public Character GetNPCFromPositionWithOffset(Position position, int xOff, int yOff)
+        {
+            return NPCs[position.X - xOff, position.Y - yOff];
+        }
+
+        public ITile GetTile(Position position)
+        {
+            return Tiles[position.X, position.Y];
+        }
+
+        public ITile GetTileWithOffset(Position position, int xOff, int yOff)
+        {
+            return Tiles[position.X - xOff, position.Y - yOff];
+        }
+
+
     }
 }
