@@ -26,7 +26,7 @@ import { release } from 'os';
 
             this.handler.getState().then(r => {
                 console.log("hejlol");
-                this.state = 123;
+                this.state = r;
             });
 
         }

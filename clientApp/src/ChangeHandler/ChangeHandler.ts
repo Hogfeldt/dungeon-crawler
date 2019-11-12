@@ -17,21 +17,22 @@ export class ChangeHandler {
 
     public getState() {
         return this.api.gameState().then(r => {
+            console.log(r);
 
-            var data = r.data[0];
+            var data = r.data;
             var npcs: INPC[] = [];
 
-            for (var i = 0; i < data.npcs.length; i++) {
-                var npc = data.npcs[i];
+            for (var i = 0; i < data.NPCs.length; i++) {
+                var npc = data.NPCs[i];
                 npcs.push(new NPC(npc.x, npc.y));
             }
 
             var layer: ILayer = new Layer();
 
-            var name: string = data.player.name;
-            var xPosition: number = data.player.yPosition;
-            var yPosition: number = data.player.xPosition;
-            var health: number = data.player.xPosition;
+            var name: string = data.Player.name;
+            var xPosition: number = data.Player.XPos;
+            var yPosition: number = data.Player.YPos;
+            var health: number = data.Player.Health;
 
             var character: ICharacter = new Character(name, xPosition, yPosition, health);
 
