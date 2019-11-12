@@ -10,5 +10,9 @@ namespace ServerApp.GameState
         {
             this.DroppedGold = droppedGold;
         }
+        public void DropGoldToChar(Player player)
+        {
+            player.AddGold(DroppedGold);
+        }
     }
 }
