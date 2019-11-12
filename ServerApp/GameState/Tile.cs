@@ -2,34 +2,16 @@
 {
     public class Tile: ITile
     {
-        public Character Character { get; private set; } = null;
-
-        public bool Walkable { set; get; }
-        public bool Occupied { set; get; }
-        public Tile(Character character)
-        {
-            this.Character = character;
-        }
+        public bool Walkable { set; get; } = true;
 
         public Tile()
         {
 
         }
 
-        //Set the character of the tile, returns whatever was already on it (null or a Character object).
-        public Character ReplaceCharacter(Character character)
+        public Tile(bool walkable)
         {
-            Character old = Character;
-            Character = character;
-
-            return old;
+            Walkable = walkable;
         }
-
-        public void RemoveCharacter()
-        {
-            Character = null;
-        }
-
-
     }
 }

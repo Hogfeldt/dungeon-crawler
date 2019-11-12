@@ -9,21 +9,27 @@ namespace ServerApp.GameState
     public class Layer: ILayer
     {
         public ITile[,] Tiles { private set; get; }
-        public List<Character> Characters { private set; get; } = new List<Character>();
+        public Character[,] NPCs { private set; get; }
 
         public Layer(uint width, uint height)
         {
             Tiles = new ITile[width,height];
+            NPCs = new Character[width,height];
 
             for (var x = 0; x < width; x++)
             {
                 for (var y = 0; y < height; y++)
                 {
-                    Tiles[x, y] = new Tile(null);
+                    Tiles[x, y] = new Tile(true);
+                    NPCs[x, y] = null;
                 }
             }
         }
 
+        public void AddCharacter(Character character) { }
+        public void RemoveCharacter(Character character) { }
+
+        /*
         public void AddCharacter(Character character)
         {
             Characters.Add(character);
@@ -42,6 +48,7 @@ namespace ServerApp.GameState
             }
 
         }
+        */
 
         public ITile GetTile(uint x, uint y)
         {

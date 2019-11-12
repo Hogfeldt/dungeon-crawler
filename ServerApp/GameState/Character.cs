@@ -5,8 +5,10 @@ namespace ServerApp.GameState
 {
     public abstract class Character
     {
-        public uint XPos { private set; get; }
-        public uint YPos { private set; get; }
+        public uint XPos { protected set; get; }
+        public uint YPos { protected set; get; }
+        public uint Health { protected set; get; }
+
         public enum Direction
         {
             Up,

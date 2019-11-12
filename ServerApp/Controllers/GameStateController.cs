@@ -17,7 +17,7 @@ namespace ServerApp.Controllers
         [HttpGet]
         public string Get()
         {
-            string ret = Newtonsoft.Json.JsonConvert.SerializeObject(new GameState.GameState(new Map(5)));
+            string ret = Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(new Player(0, 0, 50), new Map(5))));
             Console.WriteLine(ret);
             return ret;
         }

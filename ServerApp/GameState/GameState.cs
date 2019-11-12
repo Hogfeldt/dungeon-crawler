@@ -13,6 +13,5 @@ namespace ServerApp.GameState
             this.Player = player;
             this.Map = map;
         }
-
     }
 }
