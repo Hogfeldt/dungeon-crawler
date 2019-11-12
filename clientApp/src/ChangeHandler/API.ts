@@ -4,7 +4,7 @@ import { IGameState } from "@/GameState/IGameState"
 import { IApi } from "./IApi"
 
 
-export default class Api implements  IApi{
+export class Api implements  IApi{
     private address: string;
 
     constructor(address: string) {

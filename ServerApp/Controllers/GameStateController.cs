@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ServerApp.GameState;
@@ -17,9 +18,7 @@ namespace ServerApp.Controllers
         [HttpGet]
         public string Get()
         {
-            string ret = Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(new Player(0, 0, 50), new Map(5))));
-            Console.WriteLine(ret);
-            return ret;
+            return Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(new Player(0, 0, 50), new Map(5))));
         }
 
         // GET: api/GameState/5

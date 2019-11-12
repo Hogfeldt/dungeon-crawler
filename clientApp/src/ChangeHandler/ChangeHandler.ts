@@ -9,7 +9,7 @@ import { ILayer } from "../GameState/ILayer"
 import { Layer } from "../GameState/Layer"
 
 
-export default class ChangeHandler {
+export class ChangeHandler {
     api: IApi;
     constructor(api:IApi) {
         this.api = api;
@@ -17,6 +17,7 @@ export default class ChangeHandler {
 
     public getState() {
         return this.api.gameState().then(r => {
+
             var data = r.data[0];
             var npcs: INPC[] = [];
 
