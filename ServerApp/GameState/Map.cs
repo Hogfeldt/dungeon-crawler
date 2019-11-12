@@ -13,7 +13,7 @@ namespace ServerApp.GameState
         {
             for (int i = 0; i < layerCount; i++)
             {
-                Layers.Add(layerGenerator.GenerateLayer());
+                Layers.Add(layerGenerator.GenerateLayer(i));
             }
         }
 

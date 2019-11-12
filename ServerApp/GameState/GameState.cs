@@ -5,10 +5,10 @@ namespace ServerApp.GameState
 {
     public class GameState
     {
-        public Character Player { get; private set; }
+        public Player Player { get; private set; }
         public IMap Map { get; private set; }
 
-        public GameState(Character player, IMap map)
+        public GameState(Player player, IMap map)
         {
             this.Player = player;
             this.Map = map;

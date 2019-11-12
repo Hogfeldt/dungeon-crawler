@@ -6,7 +6,7 @@ namespace ServerApp.GameState
     public class HardCodedLayerGenerator: ILayerGenerator
     {
 
-        public ILayer GenerateLayer()
+        public ILayer GenerateLayer(int layerNumber)
         {
             uint width = 10;
             uint height = 10;
@@ -53,6 +53,8 @@ namespace ServerApp.GameState
             npcs[3, 1] = new HostileNPC(new Position(0,0), new Stats(), droppedGold: 10);
             npcs[3, 4] = new HostileNPC(new Position(0, 0), new Stats(), droppedGold: 10);
             npcs[8, 4] = new HostileNPC(new Position(0, 0), new Stats(), droppedGold: 10);
+
+            tiles[9, layerNumber].Walkable = true;
 
             return new Layer(tiles, npcs);
         }

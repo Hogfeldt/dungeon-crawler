@@ -2,6 +2,6 @@
 {
     public interface ILayerGenerator
     { 
-        ILayer GenerateLayer();
+        ILayer GenerateLayer(int layerNumber);
     }
 }

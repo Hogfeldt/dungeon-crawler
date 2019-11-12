@@ -2,7 +2,7 @@
 {
     public class DefaultLayerGenerator : ILayerGenerator
     {
-        public ILayer GenerateLayer()
+        public ILayer GenerateLayer(int layerNumber)
         {
             uint width = 10;
             uint height = 10;

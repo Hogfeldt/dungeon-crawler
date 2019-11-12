@@ -14,13 +14,20 @@ namespace ServerApp.Controllers
     [ApiController]
     public class GameStateController : ControllerBase
     {
+        public GameState.GameState GameState;
+        public GameStateController()
+        {
+            ILayerGenerator layerGenerator = new HardCodedLayerGenerator();
+            Player player = new Player(new Position(0,0),new Stats(50, 10, 10), "PlayerBBoy123",0);
+
+            GameState = new GameState.GameState(player, new Map(layerGenerator, 5));
+        }
+
         // GET: api/GameState
         [HttpGet]
         public string Get()
         {
-            ILayerGenerator layerGenerator = new HardCodedLayerGenerator();
-            Player player = new Player(new Position(0,0), new Stats(50, 10, 10));
-            return Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(new GameState.GameState(player, new Map(layerGenerator,5))));
+            return Newtonsoft.Json.JsonConvert.SerializeObject(new ClientGameState(GameState));
         }
 
         // GET: api/GameState/5
@@ -32,8 +39,9 @@ namespace ServerApp.Controllers
 
         // POST: api/GameState
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post(string value)
         {
+            GameState.Player.Descend();
         }
 
         // PUT: api/GameState/5

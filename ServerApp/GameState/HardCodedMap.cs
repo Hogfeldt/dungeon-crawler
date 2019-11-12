@@ -10,7 +10,7 @@ namespace ServerApp.GameState
             HardCodedLayerGenerator layerGenerator = new HardCodedLayerGenerator();
             for (int i = 0; i < 5; i++)
             {
-                Layers.Add(layerGenerator.GenerateLayer());
+                Layers.Add(layerGenerator.GenerateLayer(i));
             }
         }
 
