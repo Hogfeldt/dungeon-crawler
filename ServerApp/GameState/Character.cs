@@ -6,9 +6,9 @@ namespace ServerApp.GameState
 {
     public abstract class Character
     {
+        public string Name { protected set; get; }
         public Position Position { protected set; get; }
         public Stats Stats { protected set; get; }
-        public string Name { protected set; get; }
 
         public enum Direction
         {
