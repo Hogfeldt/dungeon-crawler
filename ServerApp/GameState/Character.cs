@@ -6,8 +6,7 @@ namespace ServerApp.GameState
 {
     public abstract class Character
     {
-        public uint XPos { protected set; get; }
-        public uint YPos { protected set; get; }
+        public Position Position { protected set; get; }
         public uint MaxHealth { protected set; get; }
         public uint CurrentHealth { protected set; get; } = 0;
         public uint Damage { protected set; get; }
@@ -23,8 +22,7 @@ namespace ServerApp.GameState
 
         protected Character(uint xPos = 0, uint yPos = 0, uint maxHealth = 0, uint damage = 0, uint speed = 0)
         {
-            this.XPos = xPos;
-            this.YPos = yPos;
+            this.Position = new Position(xPos, yPos);
             this.MaxHealth = maxHealth;
             this.CurrentHealth = maxHealth;
             this.Damage = damage;
@@ -36,10 +34,9 @@ namespace ServerApp.GameState
             
         }
 
-        public void SetPos(uint XPos, uint YPos)
+        public void SetPos(Position position)
         {
-            this.XPos = XPos;
-            this.YPos = XPos;
+            this.Position = position;
         }
     }
 }

@@ -4,13 +4,19 @@ namespace ServerApp.GameState
 {
     public class HardCodedMap: IMap
     {
-        public List<ILayer> = new List<HardCodedLayer>
+        public List<ILayer> Layers = new List<ILayer>();
         public HardCodedMap()
         {
+            HardCodedLayerGenerator layerGenerator = new HardCodedLayerGenerator();
             for (int i = 0; i < 5; i++)
             {
-                Layers.Add(new Layer(10, 10));
+                Layers.Add(layerGenerator.GenerateLayer());
             }
+        }
+
+        public ILayer GetLayer(int layer)
+        {
+            return Layers[layer];
         }
     }
 }

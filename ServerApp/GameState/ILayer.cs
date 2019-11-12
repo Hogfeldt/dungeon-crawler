@@ -5,9 +5,13 @@ namespace ServerApp.GameState
     public interface ILayer
     {
         ITile[,] Tiles { get; }
-        Character[,] NPCs { get; }
-        ITile GetTile(uint x, uint y);
-        void AddCharacter(Character character);
-        void RemoveCharacter(Character character);
+        Character[,] NPCs { get; } 
+
+        void AddNPC(Character NPC);
+        void RemoveNPCFromPosition(Position position);
+        Character GetNPC(Position position);
+        Character GetNPCFromPositionWithOffset(Position position, int xOff, int yOff);
+        ITile GetTile(Position position);
+        ITile GetTileWithOffset(Position position, int xOff, int yOff);
     }
 }
