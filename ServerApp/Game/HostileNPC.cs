@@ -11,5 +11,9 @@ namespace ServerApp.Game
         {
             this.DroppedGold = droppedGold;
         }
+        public void DropGoldToChar(Player player)
+        {
+            player.AddGold(DroppedGold);
+        }
     }
 }
