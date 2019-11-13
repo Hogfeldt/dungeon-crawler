@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ServerApp.GameState
+namespace ServerApp.Game
 {
     public interface IMap
     {

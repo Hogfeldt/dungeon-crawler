@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 
-namespace ServerApp.GameState
+namespace ServerApp.Game
 {
     public interface ILayer
     {
         ITile[,] Tiles { get; }
-        Character[,] NPCs { get; } 
+        NPC[,] NPCs { get; } 
 
-        void AddNPC(Character NPC);
+        void AddNPC(NPC NPC);
         void RemoveNPCFromPosition(Position position);
-        Character GetNPC(Position position);
-        Character GetNPCFromPositionWithOffset(Position position, int xOff, int yOff);
+        NPC GetNPC(Position position);
+        NPC GetNPCFromPositionWithOffset(Position position, int xOff, int yOff);
         ITile GetTile(Position position);
         ITile GetTileWithOffset(Position position, int xOff, int yOff);
     }

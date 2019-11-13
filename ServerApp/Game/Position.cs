@@ -4,22 +4,28 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 
-namespace ServerApp.GameState
+namespace ServerApp.Game
 {
     public class Position
     {
-        public uint X { get; set; }
-        public uint Y { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
 
         public Position()
         {
             this.X = 0;
             this.Y = 0;
         }
-        public Position(uint x, uint y)
+        public Position(int x, int y)
         {
             this.X = x;
             this.Y = y;
+        }
+
+        public Position(Position position, int xOff, int yOff)
+        {
+            this.X = position.X - xOff;
+            this.Y = position.Y - yOff;
         }
     }
 }

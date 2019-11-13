@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
 
-namespace ServerApp.GameState
+namespace ServerApp.Game
 {
     public class ClientGameState
     {
@@ -10,7 +10,7 @@ namespace ServerApp.GameState
 
         public ClientGameState(GameState gameState)
         {
-            Player = (Player) gameState.Player;
+            Player = gameState.Player;
             Tiles = gameState.Map.GetLayer(Player.Layer).Tiles;
             NPCs = gameState.Map.GetLayer(Player.Layer).NPCs;
         }

@@ -1,4 +1,4 @@
-﻿namespace ServerApp.GameState
+﻿namespace ServerApp.Game
 {
     public class DefaultLayerGenerator : ILayerGenerator
     {
@@ -8,7 +8,7 @@
             uint height = 10;
 
 
-            Character[,] npcs = new Character[width, height];
+            NPC[,] npcs = new NPC[width, height];
             ITile[,] tiles = new ITile[width, height];
 
             for (var x = 0; x < width; x++)

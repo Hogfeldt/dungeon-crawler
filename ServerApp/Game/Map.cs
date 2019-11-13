@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices.ComTypes;
 using Microsoft.CodeAnalysis.Host.Mef;
 
-namespace ServerApp.GameState
+namespace ServerApp.Game
 {
     public class Map: IMap
     {

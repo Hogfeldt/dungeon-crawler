@@ -1,17 +1,16 @@
 ﻿using System;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
-namespace ServerApp.GameState
+namespace ServerApp.Game
 {
     public class Player: Character
     {
         public int Layer { get; private set; }
-        public int Gold { get; private set; }
+        public int Gold { get; private set; } = 0;
 
         public Player(Position position, Stats stats, string name = "Player McName", int layer = 0): base(position, stats, name)
         {
             Layer = layer;
-            Gold = 0;
         }
 
         public void Ascend()
@@ -40,6 +39,11 @@ namespace ServerApp.GameState
             {
                 Gold -= gold;
             }
+        }
+
+        public void SetNextMove(Character.Direction direction)
+        {
+            NextMove = direction;
         }
     }
 
