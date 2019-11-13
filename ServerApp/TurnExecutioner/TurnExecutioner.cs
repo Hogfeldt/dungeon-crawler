@@ -8,6 +8,7 @@ namespace ServerApp.TurnExec
     {
         private List<Character> _characters;
         private GameState _gameState;
+        private Position _deadMobPosition = null;
 
         public TurnExecutioner(GameState gameState)
         {
@@ -22,6 +23,12 @@ namespace ServerApp.TurnExec
                 SortCharactersBySpeedDescending();
 
                 ExecuteCharacterMoves();
+                RemoveDeadCharacters();
+
+                if (_deadMobPosition != null)
+                {
+                    MovePlayerToDeadMobPosition();
+                }
             }
 
             return _gameState;
@@ -57,7 +64,10 @@ namespace ServerApp.TurnExec
                     ExecuteCharacterMove(character);
                 }
             }
+        }
 
+        private void RemoveDeadCharacters()
+        {
             for (int i = _characters.Count - 1; i >= 0; i--)
             {
                 if (!_characters[i].Alive)
@@ -66,6 +76,11 @@ namespace ServerApp.TurnExec
                     _characters.RemoveAt(i);
                 }
             }
+        }
+
+        private void MovePlayerToDeadMobPosition()
+        {
+            _gameState.Map.GetCurrentLayer().MoveCharacter(_gameState.Player.Position, _deadMobPosition);
         }
 
         private void ExecuteCharacterMove(Character character)
@@ -107,32 +122,17 @@ namespace ServerApp.TurnExec
 
         private void PlayerFightHostileNPC(HostileNPC hostile)
         {
-            //Punch the hostile NPC and move to their tile if we kill it.
-            var player = _gameState.Player;
-            //Deal damage to the monster and figure out if it died in one swoop.
-            if(hostile.TakeDamage(player.Stats.Damage) == 0)
+            //Punch the hostile NPC and save their position if they died.
+            var player = _gameState.Map.GetPlayer();
+
+            hostile.TakeDamage(player.Stats.Damage);
+            if(!hostile.Alive)
             {
-                //Hostile died, save its position
-                Position hostilePosition = new Position(hostile.Position);
-                
-                //Award gold to player
+                //The monster died - Award gold to player
                 hostile.DropGoldToChar(player);
 
-                /*
-                //Remove hostile from list of characters to execute actions for
-                _characters.Remove(hostile);
-
-                //Remove hostile from map
-                _gameState.Map.GetCurrentLayer().RemoveCharacterFromPosition(hostile.Position);
-
-                //Move character to hostilePosition, check if this fails, which it really shouldn't.
-
-                if (!_gameState.Map.GetCurrentLayer().MoveCharacter(_gameState.Map.GetPlayer().Position, hostilePosition))
-                {
-                    throw new NotImplementedException(
-                          "HostileNPC was killed and Player attempted to its location but failed");
-                }
-                */
+                //Save the monster position so that we can move the player after cleaning the layer.
+                _deadMobPosition = hostile.Position;
             }
         }
 
