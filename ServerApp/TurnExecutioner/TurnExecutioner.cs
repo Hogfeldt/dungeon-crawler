@@ -4,95 +4,142 @@ using ServerApp.Game;
 
 namespace ServerApp.TurnExec
 {
-    public static class TurnExecutioner
+    public class TurnExecutioner
     {
-        public static GameState Execute(GameState gameState)
+        private List<Character> _characters;
+        private GameState _gameState;
+
+        public TurnExecutioner(GameState gameState)
         {
-            List<NPC> NPCs = gameState.GetNPCsOnLayer(gameState.Player.Layer);
+            this._gameState = gameState;
+        }
 
-            ILayer currentLayer = gameState.Map.GetLayer(gameState.Player.Layer);
-
-            foreach (var character in NPCs)
+        public GameState Execute()
+        {
+            if (ValidatePlayerMove())
             {
-                character.GenerateMove();
+                PopulateCharacters();
+                SortCharactersBySpeedDescending();
+
+                ExecuteCharacterMoves();
             }
 
-            List<Character> characters = new List<Character>();
-            characters.Add(gameState.Player);
-            characters.AddRange(NPCs);
+            return _gameState;
+        }
 
-            characters.Sort((c1, c2) => c2.Stats.Speed - c1.Stats.Speed);
-
-            foreach (var character in characters)
+        private bool ValidatePlayerMove()
+        {
+            var moveTo = PositionToMoveTo(_gameState.Player);
+            if (_gameState.Map.GetCurrentLayer().GetTile(moveTo).Walkable)
             {
-                Position moveTo = PositionToMoveTo(character);
-                if (currentLayer.GetTile(moveTo).Walkable)
+                return true;
+            }
+
+            return false;
+        }
+
+        private void PopulateCharacters()
+        {
+            _characters = _gameState.Map.GetCurrentLayer().CharactersAsList();
+        }
+
+        private void SortCharactersBySpeedDescending()
+        {
+            _characters.Sort((c1, c2) => c2.Stats.Speed - c1.Stats.Speed);
+        }
+
+        private void ExecuteCharacterMoves()
+        {
+            foreach (var character in _characters)
+            {
+                if (character.Alive)
                 {
-                    NPC characterOnTile = currentLayer.GetNPC(moveTo);
-                    if (currentLayer.GetNPC(moveTo) == null && gameState.Player.Position != moveTo)
-                    {
-                        if (character.GetType() == typeof(Player))
-                        {
-                            gameState = MovePlayer(gameState, moveTo);
-                        }
-                        else
-                        {
-                            gameState = MoveNPC(gameState, character as NPC, moveTo);
-                        }
-                    }
-                    else
-                    {
-                        if (character.GetType() == typeof(Player))
-                        {
-                            gameState = PlayerFightNPC(gameState, moveTo);
-                        } else if (character.GetType() == typeof(HostileNPC) && gameState.Player.Position == moveTo)
-                        {
-                            NPCFightPlayer(gameState, (HostileNPC) character);
-                        }
-                    }
+                    ExecuteCharacterMove(character);
                 }
             }
 
-            return gameState;
+            for (int i = _characters.Count - 1; i >= 0; i--)
+            {
+                if (!_characters[i].Alive)
+                {
+                    _gameState.Map.GetCurrentLayer().RemoveCharacterFromPosition(_characters[i].Position);
+                    _characters.RemoveAt(i);
+                }
+            }
         }
 
-        public static GameState PlayerFightNPC(GameState gameState, Position moveTo)
+        private void ExecuteCharacterMove(Character character)
         {
-            HostileNPC npc = (HostileNPC)gameState.Map.GetLayer(gameState.Player.Layer).GetNPC(moveTo);
-            if (npc.TakeDamage(gameState.Player.Stats.Damage) == 0)
+            var layer = _gameState.Map.GetCurrentLayer();
+            var moveTo = PositionToMoveTo(character);
+
+            //Character didn't wanna move, we are done.
+            if (moveTo == null)
             {
-                gameState.Player.AddGold(npc.DroppedGold);
-                gameState.Map.GetLayer(gameState.Player.Layer).RemoveNPCFromPosition(moveTo);
-                gameState.Player.Position = moveTo;
+                return;
             }
 
-            return gameState;
-        }
-
-        public static GameState NPCFightPlayer(GameState gameState, HostileNPC npc)
-        {
-            if (gameState.Player.TakeDamage(npc.Stats.Damage) == 0)
+            //Attempt to move character, will return false if tile is not walkable or is already occupied
+            if (!layer.MoveCharacter(character.Position, moveTo))
             {
-                throw new NotImplementedException("The player died, woopsies");
+                Character characterOnTile = layer.GetCharacter(moveTo);
+                //Moving didn't work, find out if failure was because it was occupied
+                if (layer.GetCharacter(moveTo) != null)
+                {
+                    //Couldn't move because tile was occupied, figure out if we punch character on tile.
+                    if (character.GetType() == typeof(Player) && characterOnTile.GetType() == typeof(HostileNPC))
+                    {
+                        //character is Player and characterOnTile is HostileNPC, Player punches HostileNPC
+                        PlayerFightHostileNPC((HostileNPC) characterOnTile);
+
+                    } else if (character.GetType() == typeof(HostileNPC) && characterOnTile.GetType() == typeof(Player))
+                    {
+                        //character is HostileNPC and characterOnTile is Player, HostileNPC punches Player.
+                        HostileNPCFightPlayer((HostileNPC) character);
+                    }
+                    //We don't punch our friends and thus do not move either, we are done.
+                }
+                //We couldn't move and there was no other character on tile, must mean we attempted to move into a wall
             }
-
-            return gameState;
+            //Movement succeded, we are done.
         }
 
-        public static GameState MovePlayer(GameState gameState, Position moveTo)
+
+        private void PlayerFightHostileNPC(HostileNPC hostile)
         {
-            gameState.Player.Position = moveTo;
-            return gameState;
+            //Punch the hostile NPC and move to their tile if we kill it.
+            var player = _gameState.Player;
+            //Deal damage to the monster and figure out if it died in one swoop.
+            if(hostile.TakeDamage(player.Stats.Damage) == 0)
+            {
+                //Hostile died, save its position
+                Position hostilePosition = new Position(hostile.Position);
+                
+                //Award gold to player
+                hostile.DropGoldToChar(player);
+
+                /*
+                //Remove hostile from list of characters to execute actions for
+                _characters.Remove(hostile);
+
+                //Remove hostile from map
+                _gameState.Map.GetCurrentLayer().RemoveCharacterFromPosition(hostile.Position);
+
+                //Move character to hostilePosition, check if this fails, which it really shouldn't.
+
+                if (!_gameState.Map.GetCurrentLayer().MoveCharacter(_gameState.Map.GetPlayer().Position, hostilePosition))
+                {
+                    throw new NotImplementedException(
+                          "HostileNPC was killed and Player attempted to its location but failed");
+                }
+                */
+            }
         }
-        public static GameState MoveNPC(GameState gameState, NPC npc, Position moveTo)
+
+        private void HostileNPCFightPlayer(HostileNPC hostile)
         {
-            Position prevPosition = npc.Position;
-            npc.Position = moveTo;
-
-            gameState.Map.GetLayer(gameState.Player.Layer).RemoveNPCFromPosition(prevPosition);
-            gameState.Map.GetLayer(gameState.Player.Layer).AddNPC(npc);
-
-            return gameState;
+            //Punch the player and ????????????????? if they die.
+            throw new NotImplementedException("HostileNPCFightPlayer isn't implemented yet");
         }
 
         public static Position PositionToMoveTo(Character character)
@@ -108,7 +155,7 @@ namespace ServerApp.TurnExec
                 case Character.Direction.Right:
                     return new Position(character.Position.X + 1, character.Position.Y);
                 case Character.Direction.None:
-                    return character.Position;
+                    return null;
                 default:
                     throw new NotImplementedException("Reached code path that should be unreachable - Character.Direction enum has changed");
             }

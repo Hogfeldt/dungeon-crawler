@@ -29,7 +29,7 @@ namespace ServerApp.Controllers
         public void Post(string value)
         {
             var gameState = SessionManager.GetGameState(HttpContext);
-            gameState.Player.Descend();
+            gameState.Map.MovePlayerToNewLayer(gameState.Map.CurrentLayerNumber + 1);
             SessionManager.SetGameState(HttpContext, gameState);
         }
     }

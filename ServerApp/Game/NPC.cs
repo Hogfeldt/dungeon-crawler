@@ -5,7 +5,7 @@ namespace ServerApp.Game
 {
     public abstract class NPC: Character
     {
-        public IMovementStrategy _movementStrategy;
+        private IMovementStrategy _movementStrategy;
 
         protected NPC(Position position, Stats stats, IMovementStrategy movementStrategy, string name = "NPC McDefaultName"): base(position, stats, name)
         {
@@ -15,6 +15,11 @@ namespace ServerApp.Game
         public void GenerateMove()
         {
             this.NextMove = _movementStrategy.GenerateMove();
+        }
+
+        public void SetMovementStrategy(IMovementStrategy movementStrategy)
+        {
+            this._movementStrategy = movementStrategy;
         }
     }
 }

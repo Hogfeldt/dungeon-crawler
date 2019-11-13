@@ -22,6 +22,12 @@ namespace ServerApp.Game
             this.Y = y;
         }
 
+        public Position(Position position)
+        {
+            this.X = position.X;
+            this.Y = position.Y;
+        }
+
         public Position(Position position, int xOff, int yOff)
         {
             this.X = position.X - xOff;

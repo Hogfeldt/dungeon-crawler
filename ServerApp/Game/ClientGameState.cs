@@ -6,13 +6,13 @@ namespace ServerApp.Game
     {
         public Player Player = null;
         public ITile[,] Tiles = null;
-        public Character[,] NPCs = null;
+        public Character[,] Characters = null;
 
         public ClientGameState(GameState gameState)
         {
             Player = gameState.Player;
-            Tiles = gameState.Map.GetLayer(Player.Layer).Tiles;
-            NPCs = gameState.Map.GetLayer(Player.Layer).NPCs;
+            Tiles = gameState.Map.GetCurrentLayer().Tiles;
+            Characters = gameState.Map.GetCurrentLayer().Characters;
         }
     }
 }

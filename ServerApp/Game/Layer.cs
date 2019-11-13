@@ -9,60 +9,87 @@ namespace ServerApp.Game
 {
     public class Layer: ILayer
     {
-        public int Height { private set; get; } = 10;
-        public int Width { private set; get; } = 10;
+        public int Height { private set; get; }
+        public int Width { private set; get; }
         public ITile[,] Tiles { private set; get; }
-        public NPC[,] NPCs { private set; get; }
+        public Character[,] Characters { private set; get; }
+
+        public Position InitialPlayerPosition { private set; get; }
 
         [JsonConstructor]
-        public Layer(ITile[,] tiles, NPC[,] npcs)
+        public Layer(ITile[,] tiles, Character[,] characters, Position initialPlayerPosition)
         {
             Tiles = tiles;
-            NPCs = npcs;
+            Characters = characters;
             Width = Tiles.GetLength(0);
             Height = Tiles.GetLength(1);
+            InitialPlayerPosition = initialPlayerPosition;
         }
 
-        public bool PositionIsValid(Position position)
+        //Validates a position in the layer, returns true if position is within bounds of layer.
+        private bool PositionIsValid(Position position)
         {
             if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height) return false;
             return true;
         }
 
-        public void AddNPC(NPC npc)
+        //Moves a character in the layer from oldPosition to newPosition
+        //If either position is invalid or newPosition is already occupied returns false
+        //If successful returns true
+        public bool MoveCharacter(Position oldPosition, Position newPosition)
         {
-            if (!PositionIsValid(npc.Position))
+            if(!PositionIsValid(oldPosition) || !PositionIsValid(newPosition))
+            {
+                return false;
+            }
+
+            if(GetCharacter(newPosition) != null || !GetTile(newPosition).Walkable)
+            {
+                return false;
+            }
+
+            Character toMove = GetCharacter(oldPosition);
+            toMove.Position = newPosition;
+            AddCharacter(toMove);
+            RemoveCharacterFromPosition(oldPosition);
+
+            return true;
+        }
+
+        public void AddCharacter(Character character)
+        {
+            if (!PositionIsValid(character.Position))
             {
                 return;
             }
 
-            NPCs[npc.Position.X, npc.Position.Y] = npc;
+            Characters[character.Position.X, character.Position.Y] = character;
         }
 
-        public void RemoveNPCFromPosition(Position position)
+        public void RemoveCharacterFromPosition(Position position)
         {
             if (!PositionIsValid(position))
             {
                 return;
             }
 
-            NPCs[position.X, position.Y] = null;
+            Characters[position.X, position.Y] = null;
         }
 
-        public NPC GetNPC(Position position)
+        public Character GetCharacter(Position position)
         {
             if (!PositionIsValid(position))
             {
                 return null;
             }
-            return NPCs[position.X, position.Y];
+            return Characters[position.X, position.Y];
         }
 
-        public NPC GetNPCFromPositionWithOffset(Position position, int xOff, int yOff)
+        public Character GetCharacterFromPositionWithOffset(Position position, int xOff, int yOff)
         {
             Position offsetPosition = new Position(position, xOff, yOff);
 
-            return GetNPC(offsetPosition);
+            return GetCharacter(offsetPosition);
         }
 
         public ITile GetTile(Position position)
@@ -81,6 +108,19 @@ namespace ServerApp.Game
             return GetTile(offSetPosition);
         }
 
+        public List<Character> CharactersAsList()
+        {
+            List<Character> characterList = new List<Character>();
 
+            foreach (var character in Characters)
+            {
+                if (character != null)
+                {
+                    characterList.Add(character);
+                }
+            }
+
+            return characterList;
+        }
     }
 }

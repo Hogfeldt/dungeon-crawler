@@ -30,7 +30,9 @@ namespace ServerApp.Controllers
                 var direction = StringToDirection(value);
                 var gameState = SessionManager.GetGameState(HttpContext);
                 gameState.Player.SetNextMove(direction);
-                SessionManager.SetGameState(HttpContext, TurnExecutioner.Execute(gameState));
+                gameState.Map.GetPlayer().SetNextMove(direction);
+                TurnExecutioner turnExec = new TurnExecutioner(gameState);
+                SessionManager.SetGameState(HttpContext, turnExec.Execute());
 
                 return JsonConvert.SerializeObject(new ClientGameState(SessionManager.GetGameState(HttpContext)));
             }

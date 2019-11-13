@@ -11,6 +11,8 @@ namespace ServerApp.Game
         public Stats Stats { set; get; }
         public Direction NextMove { protected set; get; }
 
+        public bool Alive { protected set; get; } = true;
+
         public enum Direction
         {
             None,
@@ -34,6 +36,7 @@ namespace ServerApp.Game
             if (this.Stats.CurrentHealth < 0)
             {
                 this.Stats.CurrentHealth = 0;
+                this.Alive = false;
             }
 
             return this.Stats.CurrentHealth;

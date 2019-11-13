@@ -5,24 +5,11 @@ namespace ServerApp.Game
 {
     public class Player: Character
     {
-        public int Layer { get; private set; }
-        public int Gold { get; private set; } = 0;
+        public int Gold { get; private set; }
 
-        public Player(Position position, Stats stats, string name = "Player McName", int layer = 0): base(position, stats, name)
+        public Player(Position position, Stats stats, string name = "Player McName", int gold = 15) : base(position, stats, name)
         {
-            Layer = layer;
-        }
-
-        public void Ascend()
-        {
-            if (Layer > 0) {
-                Layer -= 1;
-            }
-        }
-
-        public void Descend()
-        {
-            Layer += 1;
+            Gold = gold;
         }
 
         public void AddGold(int gold)

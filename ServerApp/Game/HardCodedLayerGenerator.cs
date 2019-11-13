@@ -5,14 +5,13 @@ namespace ServerApp.Game
 {
     public class HardCodedLayerGenerator: ILayerGenerator
     {
-
         public ILayer GenerateLayer(int layerNumber)
         {
             uint width = 10;
             uint height = 10;
 
 
-            NPC[,] npcs = new NPC[width,height];
+            Character[,] characters = new Character[width,height];
             ITile[,] tiles = new ITile[width, height];
 
             for (var x = 0; x < width; x++)
@@ -20,7 +19,7 @@ namespace ServerApp.Game
                 for (var y = 0; y < height; y++)
                 {
                     tiles[x, y] = new Tile(false);
-                    npcs[x, y] = null;
+                    characters[x, y] = null;
                 }
             }
 
@@ -50,13 +49,13 @@ namespace ServerApp.Game
                 }
             }
 
-            npcs[3, 1] = new HostileNPC(new Position(3,1), new Stats(speed: 3), new RandomMovementStrategy(), "Hurtigfar", 30);
-            npcs[3, 4] = new HostileNPC(new Position(3, 4), new Stats(speed: 2), new RandomMovementStrategy(), "Mellemhurtigfar", 20);
-            npcs[8, 4] = new HostileNPC(new Position(8, 4), new Stats(speed: 1), new RandomMovementStrategy(), "Langsomfar", 10);
+            characters[3, 1] = new HostileNPC(new Position(3,1), new Stats(speed: 3), new StandStillMovementStrategy(), "Hurtigfar", 30);
+            characters[3, 4] = new HostileNPC(new Position(3, 4), new Stats(speed: 2), new StandStillMovementStrategy(), "Mellemhurtigfar", 20);
+            characters[8, 4] = new HostileNPC(new Position(8, 4), new Stats(speed: 1), new StandStillMovementStrategy(), "Langsomfar", 10);
 
             tiles[layerNumber,9].Walkable = true;
 
-            return new Layer(tiles, npcs);
+            return new Layer(tiles, characters, new Position(0,0));
         }
     }
 

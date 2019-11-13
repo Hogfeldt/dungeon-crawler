@@ -7,11 +7,10 @@ namespace ServerApp.Game
 {
     public class Stats
     {
-        public int MaxHealth { get; set; } = 1;
-        public int CurrentHealth { get; set; } = 1;
+        public int MaxHealth { get; set; }
+        public int CurrentHealth { get; set; }
         public int Damage { get; set; } = 0;
         public int Speed { get; set; } = 0;
-        public int Gold { get; set; } = 0;
 
         public Stats(int health = 1, int damage = 0, int speed = 0)
         {
