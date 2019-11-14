@@ -1,19 +1,20 @@
 
 export class Item {
-    Name: string;
-    Type: string;
-    Value: number;
-    Damage: number;
+    name: string;
+    type: string;
+    value: number;
+    damage: number;
 
-    constructor(name: string, type: string, value: number)
+    constructor(name: string, type: string, value: number, damage: number)
     {
-        this.Name  = name;
-        this.Type  = type;
-        this.Value = value;
+        this.name  = name;
+        this.type  = type;
+        this.value = value;
+        this.damage = damage;
     }
     
-    function AddDamage(damage: number)
+    public addDamage(damage: number)
     {
-        this.Damage = damage;
+        this.damage = damage;
     }
 }
