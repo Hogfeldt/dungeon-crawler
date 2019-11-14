@@ -1,4 +1,4 @@
-﻿namespace ServerApp.GameState
+﻿namespace ServerApp.Game
 {
     public class Tile: ITile
     {

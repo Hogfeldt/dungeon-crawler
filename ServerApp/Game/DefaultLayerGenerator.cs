@@ -1,14 +1,14 @@
-﻿namespace ServerApp.GameState
+﻿namespace ServerApp.Game
 {
     public class DefaultLayerGenerator : ILayerGenerator
     {
-        public ILayer GenerateLayer()
+        public ILayer GenerateLayer(int layerNumber)
         {
             uint width = 10;
             uint height = 10;
 
 
-            Character[,] npcs = new Character[width, height];
+            NPC[,] npcs = new NPC[width, height];
             ITile[,] tiles = new ITile[width, height];
 
             for (var x = 0; x < width; x++)
@@ -20,7 +20,7 @@
                 }
             }
 
-            return new Layer(tiles, npcs);
+            return new Layer(tiles, npcs, new Position(0,0));
         }
     }
 }

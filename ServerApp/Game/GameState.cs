@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Reflection.PortableExecutable;
 
-namespace ServerApp.GameState
+namespace ServerApp.Game
 {
     public class GameState
     {
-        public Character Player { get; private set; }
+        public Player Player => Map.GetPlayer();
         public IMap Map { get; private set; }
 
-        public GameState(Character player, IMap map)
+        public GameState(IMap map)
         {
-            this.Player = player;
             this.Map = map;
         }
     }
