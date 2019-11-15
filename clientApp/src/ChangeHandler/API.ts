@@ -16,9 +16,7 @@ export class Api implements  IApi{
     }
 
     public move(direction: string): Promise<any> {
-        return axios.post(this.address + "/api/move",
-            {
-                Direction: direction
-            });
+        console.log(direction);
+        return axios.post(this.address + "/api/move", direction);
     }
 }

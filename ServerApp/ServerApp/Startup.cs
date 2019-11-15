@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace ServerApp
 {
     public class Startup
-    {
+    {   
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;

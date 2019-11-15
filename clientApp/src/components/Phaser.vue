@@ -40,13 +40,20 @@
     
     var api: IApi = new Api("https://localhost:44333");
     var handler: ChangeHandler = new ChangeHandler(api);
-    var gameState: GameState;
+    var updating: bool = false;
     var player;
 
     var tileWidth: number = 32;
     var tiles;
     var npcs;
+    var cursors;
+    var healthText;
     var game = new Phaser.Game(config);
+
+    var up;
+    var down;
+    var right;
+    var left;
 
     function preload() {
         this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
@@ -58,6 +65,7 @@
 
     function create() {
 
+        cursors = this.input.keyboard.createCursorKeys();
         tiles = this.add.group();
         npcs = this.add.group();
 
@@ -66,47 +74,71 @@
         handler.getState().then(r => {
             drawFromState(r, this);
         })
+    }
 
-        //var tileValues = [[true, true, false, false, false, false, false, false, false, true],
-        //[true, true, false, false, false, false, false, false, false, false],
-        //[true, true, false, false, false, false, false, false, false, false],
-        //[true, true, true, true, true, false, false, false, false, false],
-        //[false, false, false, false, true, false, false, false, false, false],
-        //[false, false, false, false, true, false, false, false, false, false],
-        //[false, false, false, false, true, false, false, false, false, false],
-        //[false, false, false, false, true, true, true, false, false, false],
-        //[false, false, false, false, true, true, true, false, false, false],
-        //[false, false, false, false, true, true, true, false, false, false]];
+    function update() {
 
-        //var width = tileValues.length;
-        //var height = tileValues[0].length;
-        //var xOff = 100;
-        //var yOff = 100;
+        if (cursors.left.isDown) {
+            left = true;
+        }
 
-        //for (var i = 0; i < width; i++) {
-        //    for (var j = 0; j < height; j++) {
-        //        if (tileValues[i][j]) {
-        //            tiles.create(i * tileWidth + xOff, j * tileWidth + yOff, 'floor').setScale(2);
-        //        } else {
-        //            tiles.create(i * tileWidth + xOff, j * tileWidth + yOff, 'wall').setScale(2);
-        //        }
-        //    }
-        //}
+        if (left && cursors.left.isUp)
+        {
+            left = false;
+            handler.move("Left").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
 
-        //player = this.add.sprite(100, 100, 'knight');
-        //player.setScale(2, 2);
+         if (cursors.right.isDown) {
+            right = true;
+        }
 
+        if (right && cursors.right.isUp)
+        {
+            right = false;
+            handler.move("Right").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
 
-        //this.anims.create({
-        //    key: 'knight_idle',
-        //    frames: this.anims.generateFrameNumbers('knight', { start: 0, end: 3 }),
-        //    frameRate: 10,
-        //    repeat: -1
-        //});
+         if (cursors.up.isDown) {
+            up = true;
+        }
 
+        if (up && cursors.up.isUp)
+        {
+            up = false;
+            handler.move("Up").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
 
-        //player.anims.play('knight_idle');
+        if (cursors.down.isDown) {
+            down = true;
+        }
 
+        if (down && cursors.down.isUp)
+        {
+            down = false;
+            handler.move("Down").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
+    }
+
+    function cleanUp(game: any) {
+        npcs.clear();
+        tiles.clear();
+        destroySprite(player);
+    }
+
+    function destroySprite(sprite: any) {
+        sprite.destroy();
     }
 
     function drawFromState(state: GameState, game: any) {
@@ -136,8 +168,8 @@
             for (var j = 0; j < layer.getHeight(); j++) {
                 var character = characters[i][j];
                 if (character != null) {
-                    console.log(character.constructor.name);
                     if (character.constructor.name == "Character") {
+                        console.log("Creating character");
                         player = game.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - playerYOff, 'knight').setScale(2, 2);
                     } else if (character.constructor.name == "NPC") {
                         npcs.create(i * tileWidth + xOff, j * tileWidth + yOff - mobYOff, 'mob').setScale(2, 2);
@@ -145,6 +177,11 @@
                 }
             }
         }
+
+        healthText = game.add.text(16, 16, 'Health: ' + state._CharacterState.health, { fontSize: '20px'});
+
+
+
 
         game.anims.create({
             key: 'knight_idle',
@@ -156,8 +193,6 @@
         player.anims.play('knight_idle');
     }
 
-    function update() {
-    }
 
     @Component
     export default class PhaserGame extends Vue {

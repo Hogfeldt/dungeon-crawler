@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -23,8 +25,15 @@ namespace ServerApp.Controllers
 
         // POST: api/Move
         [HttpPost]
-        public string Post([FromBody] string value)
+        public string Post()
         {
+            string value;
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                value =  reader.ReadToEnd();
+            }
+
+
             try
             {
                 var direction = StringToDirection(value);
