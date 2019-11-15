@@ -4,7 +4,7 @@ using NSubstitute;
 using NUnit.Framework;
 using ServerApp.Game;
 
-namespace Test
+namespace Test.UnitTests.GameStateUnitTest
 {
     [TestFixture]
     class FriendlyNPCTest

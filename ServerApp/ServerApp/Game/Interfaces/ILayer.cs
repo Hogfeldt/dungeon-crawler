@@ -6,15 +6,15 @@ namespace ServerApp.Game
     {
         ITile[,] Tiles { get; }
         Character[,] Characters { get; } 
-        Position InitialPlayerPosition { get; }
+        IPosition InitialPlayerPosition { get; }
 
         void AddCharacter(Character character);
-        void RemoveCharacterFromPosition(Position position);
-        bool MoveCharacter(Position oldPos, Position newPos);
-        Character GetCharacter(Position position);
-        Character GetCharacterFromPositionWithOffset(Position position, int xOff, int yOff);
-        ITile GetTile(Position position);
-        ITile GetTileWithOffset(Position position, int xOff, int yOff);
+        void RemoveCharacterFromPosition(IPosition position);
+        bool MoveCharacter(IPosition oldPos, IPosition newPos);
+        Character GetCharacter(IPosition position);
+        Character GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff);
+        ITile GetTile(IPosition position);
+        ITile GetTileWithOffset(IPosition position, int xOff, int yOff);
         List<Character> CharactersAsList();
     }
 }

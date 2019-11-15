@@ -3,7 +3,7 @@ using System.Reflection.PortableExecutable;
 
 namespace ServerApp.Game
 {
-    public class GameState
+    public class GameState : IGameState
     {
         public Player Player => Map.GetPlayer();
         public IMap Map { get; private set; }

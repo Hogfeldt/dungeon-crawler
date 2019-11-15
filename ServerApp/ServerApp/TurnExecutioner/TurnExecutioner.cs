@@ -8,7 +8,7 @@ namespace ServerApp.TurnExec
     {
         private List<Character> _characters;
         private GameState _gameState;
-        private Position _deadMobPosition = null;
+        private IPosition _deadMobPosition = null;
 
         public TurnExecutioner(GameState gameState)
         {
@@ -129,7 +129,7 @@ namespace ServerApp.TurnExec
             if(!hostile.Alive)
             {
                 //The monster died - Award gold to player
-                hostile.DropGoldToChar(player);
+                hostile.DropGoldToCharacter(player);
 
                 //Save the monster position so that we can move the player after cleaning the layer.
                 _deadMobPosition = hostile.Position;

@@ -4,7 +4,7 @@ using System.Threading;
 
 namespace ServerApp.Game
 {
-    public abstract class Character
+    public abstract class Character : ICharacter
     {
         public string Name { protected set; get; }
         public IPosition Position { set; get; }
