@@ -1,6 +1,9 @@
 <template>
     <div>
         <p>Game</p>
+
+        <p>{{ this.state }}</p>
+
     </div>
 </template>
 
@@ -8,7 +11,7 @@
 <script>
     import { ChangeHandler } from "@/ChangeHandler/ChangeHandler"
     import { Api } from "@/ChangeHandler/API"
-import { release } from 'os';
+    import { release } from 'os';
 
     export default {
         data() {
@@ -21,7 +24,7 @@ import { release } from 'os';
         mounted() {
             console.log("hej");
 
-            this.api = new Api("https://localhost:44333/api");
+            this.api = new Api("https://localhost:44333");
             this.handler = new ChangeHandler(this.api);
 
             this.handler.getState().then(r => {

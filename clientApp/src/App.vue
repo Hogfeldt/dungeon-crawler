@@ -1,6 +1,6 @@
 <template>
     <div>
-        <Game></Game>
+        <PhaserGame></PhaserGame>
     </div>
 </template>
 
@@ -8,6 +8,7 @@
     import { Component, Vue } from 'vue-property-decorator';
     import Main from './components/Main.vue';
     import Game from './components/Game.vue';
+    import PhaserGame from './components/Phaser.vue';
 
     export default {
         name: "App",
@@ -15,7 +16,9 @@
 
         },
         components: {
-            Game
+            Main,
+            Game,
+            PhaserGame
         },
     };
 </script>

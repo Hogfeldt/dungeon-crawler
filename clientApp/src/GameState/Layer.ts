@@ -11,4 +11,12 @@ export class Layer implements ILayer {
     getTile(x: number, y: number): ITile {
         return this.tiles[x][y];
     }
+
+    getHeight(): number {
+        return this.tiles[0].length;
+    }
+
+    getWidth(): number {
+        return this.tiles.length;
+    }
 }
