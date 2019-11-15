@@ -1,4 +1,4 @@
-﻿namespace ServerApp.Game
+﻿namespace ServerApp.GameState
 {
     public interface IMovementStrategy
     {

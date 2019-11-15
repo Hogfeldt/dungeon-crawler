@@ -1,7 +1,7 @@
 ﻿using System.Security.Cryptography.X509Certificates;
-using ServerApp.Game;
+using ServerApp.GameState;
 
-namespace ServerApp.Game
+namespace ServerApp.GameState
 {
     public class HardCodedLayerGenerator: ILayerGenerator
     {

@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Host.Mef;
 using Newtonsoft.Json;
 
-namespace ServerApp.Game
+namespace ServerApp.GameState
 {
     public class Map: IMap
     {

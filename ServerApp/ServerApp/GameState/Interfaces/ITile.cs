@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ServerApp.Game
+namespace ServerApp.GameState
 {
     public interface ITile
     {
