@@ -7,7 +7,7 @@ namespace ServerApp.Game
     {
         public int Gold { get; private set; }
 
-        public Player(Position position, Stats stats, string name = "Player McName", int gold = 15) : base(position, stats, name)
+        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 15) : base(position, stats, name)
         {
             Gold = gold;
         }

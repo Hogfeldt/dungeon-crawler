@@ -7,8 +7,8 @@ namespace ServerApp.Game
     public abstract class Character
     {
         public string Name { protected set; get; }
-        public Position Position { set; get; }
-        public Stats Stats { set; get; }
+        public IPosition Position { set; get; }
+        public IStats Stats { set; get; }
         public Direction NextMove { protected set; get; }
 
         public bool Alive { protected set; get; } = true;
@@ -22,7 +22,7 @@ namespace ServerApp.Game
             Right
         }
 
-        protected Character(Position position, Stats stats, string name = "Character McDefaultName")
+        protected Character(IPosition position, IStats stats, string name = "Character McDefaultName")
         {
             this.Position = position;
             this.Stats = stats;

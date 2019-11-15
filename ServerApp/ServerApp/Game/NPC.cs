@@ -7,7 +7,7 @@ namespace ServerApp.Game
     {
         private IMovementStrategy _movementStrategy;
 
-        protected NPC(Position position, Stats stats, IMovementStrategy movementStrategy, string name = "NPC McDefaultName"): base(position, stats, name)
+        protected NPC(IPosition position, IStats stats, IMovementStrategy movementStrategy, string name = "NPC McDefaultName"): base(position, stats, name)
         {
             this._movementStrategy = movementStrategy;
         }
