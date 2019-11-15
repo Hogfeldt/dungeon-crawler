@@ -14,10 +14,10 @@ namespace ServerApp.Game
         public ITile[,] Tiles { private set; get; }
         public Character[,] Characters { private set; get; }
 
-        public Position InitialPlayerPosition { private set; get; }
+        public IPosition InitialPlayerPosition { private set; get; }
 
         [JsonConstructor]
-        public Layer(ITile[,] tiles, Character[,] characters, Position initialPlayerPosition)
+        public Layer(ITile[,] tiles, Character[,] characters, IPosition initialPlayerPosition)
         {
             Tiles = tiles;
             Characters = characters;
@@ -27,7 +27,7 @@ namespace ServerApp.Game
         }
 
         //Validates a position in the layer, returns true if position is within bounds of layer.
-        private bool PositionIsValid(Position position)
+        private bool PositionIsValid(IPosition position)
         {
             if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height) return false;
             return true;
@@ -36,7 +36,7 @@ namespace ServerApp.Game
         //Moves a character in the layer from oldPosition to newPosition
         //If either position is invalid or newPosition is already occupied returns false
         //If successful returns true
-        public bool MoveCharacter(Position oldPosition, Position newPosition)
+        public bool MoveCharacter(IPosition oldPosition, IPosition newPosition)
         {
             if(!PositionIsValid(oldPosition) || !PositionIsValid(newPosition))
             {
@@ -66,7 +66,7 @@ namespace ServerApp.Game
             Characters[character.Position.X, character.Position.Y] = character;
         }
 
-        public void RemoveCharacterFromPosition(Position position)
+        public void RemoveCharacterFromPosition(IPosition position)
         {
             if (!PositionIsValid(position))
             {
@@ -76,7 +76,7 @@ namespace ServerApp.Game
             Characters[position.X, position.Y] = null;
         }
 
-        public Character GetCharacter(Position position)
+        public Character GetCharacter(IPosition position)
         {
             if (!PositionIsValid(position))
             {
@@ -85,14 +85,14 @@ namespace ServerApp.Game
             return Characters[position.X, position.Y];
         }
 
-        public Character GetCharacterFromPositionWithOffset(Position position, int xOff, int yOff)
+        public Character GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff)
         {
-            Position offsetPosition = new Position(position, xOff, yOff);
+            IPosition offsetPosition = new Position(position, xOff, yOff);
 
             return GetCharacter(offsetPosition);
         }
 
-        public ITile GetTile(Position position)
+        public ITile GetTile(IPosition position)
         {
             if (!PositionIsValid(position))
             {
@@ -101,9 +101,9 @@ namespace ServerApp.Game
             return Tiles[position.X, position.Y];
         }
 
-        public ITile GetTileWithOffset(Position position, int xOff, int yOff)
+        public ITile GetTileWithOffset(IPosition position, int xOff, int yOff)
         {
-            Position offSetPosition = new Position(position, xOff, yOff);
+            IPosition offSetPosition = new Position(position, xOff, yOff);
 
             return GetTile(offSetPosition);
         }

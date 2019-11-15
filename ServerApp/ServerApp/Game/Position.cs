@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServerApp.Game
 {
-    public class Position
+    public class Position : IPosition
     {
         public int X { get; set; }
         public int Y { get; set; }
@@ -22,13 +22,13 @@ namespace ServerApp.Game
             this.Y = y;
         }
 
-        public Position(Position position)
+        public Position(IPosition position)
         {
             this.X = position.X;
             this.Y = position.Y;
         }
 
-        public Position(Position position, int xOff, int yOff)
+        public Position(IPosition position, int xOff, int yOff)
         {
             this.X = position.X - xOff;
             this.Y = position.Y - yOff;
