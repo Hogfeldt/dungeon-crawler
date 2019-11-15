@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using ServerApp.Game;
+using ServerApp.GameState;
 using ServerApp.RequestHandler;
 using ServerApp.TurnExec;
 

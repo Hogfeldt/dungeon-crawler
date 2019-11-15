@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.IdentityModel.Tokens;
 using Newtonsoft.Json;
 
-namespace ServerApp.Game
+namespace ServerApp.GameState
 {
     public class Layer: ILayer
     {

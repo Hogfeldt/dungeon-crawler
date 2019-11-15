@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
-namespace ServerApp.Game
+namespace ServerApp.GameState
 {
     public class Player: Character
     {
