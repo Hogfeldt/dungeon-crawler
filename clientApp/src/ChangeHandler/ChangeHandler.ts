@@ -25,10 +25,11 @@ export class ChangeHandler {
             console.log(r);
 
             var data = r.data;
+
             //var npcs: INPC[] = [];
 
-            //for (var i = 0; i < data.NPCs.length; i++) {
-            //    var npc = data.NPCs[i];
+            //for (var i = 0; i < data.Characters.length; i++) {
+            //    var npc = data.Characters[i];
             //    npcs.push(new NPC(npc.x, npc.y));
             //}
 
@@ -47,27 +48,34 @@ export class ChangeHandler {
             }
             var layer: ILayer = new Layer(tiles);
 
-            var NPCs: any[][] = new Array();
-            for (var l = 0; l < data.NPCs.length; l++) {
-                NPCs[l] = [];
-                for (var m = 0; m < data.NPCs[l].length; m++) {
-                    if (data.NPCs[l][m] != null) {
+            var characters: any[][] = new Array();
+            for (var l = 0; l < data.Characters.length; l++) {
+                characters[l] = [];
+                for (var m = 0; m < data.Characters[l].length; m++) {
+                    if (data.Characters[l][m] != null) {
                         console.log(l, m);
-                        NPCs[l][m] = new NPC(l, m);
+                        if (data.Characters[l][m].hasOwnProperty("Gold")) {
+                            characters[l][m] = new Character(data.Characters[l][m].name,
+                                l,
+                                m,
+                                data.Characters[l][m].Stats.MaxHealth);
+                        } else {
+                            characters[l][m] = new NPC(l, m);
+                        }
                     } else {
-                        NPCs[l][m] = null;
+                        characters[l][m] = null;
                     }
                 }
             }
 
-            var name: string = data.Player.name;
-            var xPosition: number = data.Player.XPos;
-            var yPosition: number = data.Player.YPos;
-            var health: number = data.Player.Health;
+            var name: string = data.Player.Name;
+            var xPosition: number = data.Player.Position.X;
+            var yPosition: number = data.Player.Position.Y;
+            var health: number = data.Player.Stats.CurrentHealth;
 
-            var character: ICharacter = new Character(name, xPosition, yPosition, health);
+            var player: ICharacter = new Character(name, xPosition, yPosition, health);
 
-            var state = new GameState(NPCs, character, layer);
+            var state = new GameState(characters, player, layer);
             
             return state;
         });

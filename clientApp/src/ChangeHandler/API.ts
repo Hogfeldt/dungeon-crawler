@@ -12,11 +12,11 @@ export class Api implements  IApi{
     }
 
     public gameState() {
-        return axios.get(this.address + "/gamestate");
+        return axios.get(this.address + "/api/GameState");
     }
 
     public move(direction: string): Promise<any> {
-        return axios.post(this.address + "/move",
+        return axios.post(this.address + "/api/move",
             {
                 Direction: direction
             });
