@@ -16,14 +16,17 @@ namespace ServerApp.Game
 
         public IPosition InitialPlayerPosition { private set; get; }
 
+        public IPosition ExitPosition { private set; get; }
+
         [JsonConstructor]
-        public Layer(ITile[,] tiles, Character[,] characters, IPosition initialPlayerPosition)
+        public Layer(ITile[,] tiles, Character[,] characters, IPosition initialPlayerPosition, IPosition exitPosition)
         {
             Tiles = tiles;
             Characters = characters;
             Width = Tiles.GetLength(0);
             Height = Tiles.GetLength(1);
             InitialPlayerPosition = initialPlayerPosition;
+            ExitPosition = exitPosition;
         }
 
         //Validates a position in the layer, returns true if position is within bounds of layer.

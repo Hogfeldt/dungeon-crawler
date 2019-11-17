@@ -55,7 +55,7 @@ namespace ServerApp.Game
 
             tiles[layerNumber,9].Walkable = true;
 
-            return new Layer(tiles, characters, new Position(0,0));
+            return new Layer(tiles, characters, new Position(0,0), new Position(8,5));
         }
     }
 

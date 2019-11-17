@@ -7,6 +7,7 @@ namespace ServerApp.Game
         ITile[,] Tiles { get; }
         Character[,] Characters { get; } 
         IPosition InitialPlayerPosition { get; }
+        IPosition ExitPosition { get; }
 
         void AddCharacter(Character character);
         void RemoveCharacterFromPosition(IPosition position);

@@ -20,7 +20,7 @@
                 }
             }
 
-            return new Layer(tiles, npcs, new Position(0,0));
+            return new Layer(tiles, npcs, new Position(0,0), new Position(9,9));
         }
     }
 }
