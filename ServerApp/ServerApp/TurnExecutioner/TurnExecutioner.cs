@@ -1,21 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
-using ServerApp.Game;
+using ServerApp.GameState;
 
 namespace ServerApp.TurnExec
 {
     public class TurnExecutioner
     {
         private List<Character> _characters;
-        private GameState _gameState;
+        private GameStateClass _gameState;
         private IPosition _deadMobPosition = null;
 
-        public TurnExecutioner(GameState gameState)
+        public TurnExecutioner(GameStateClass gameState)
         {
             this._gameState = gameState;
         }
 
-        public GameState Execute()
+        public GameStateClass Execute()
         {
             if (ValidatePlayerMove())
             {

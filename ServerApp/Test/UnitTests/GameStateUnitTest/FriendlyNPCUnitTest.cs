@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using NSubstitute;
 using NUnit.Framework;
-using ServerApp.Game;
+using ServerApp.GameState;
 
 namespace Test.UnitTests.GameStateUnitTest
 {

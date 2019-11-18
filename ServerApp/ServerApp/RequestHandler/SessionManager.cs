@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
-using ServerApp.Game;
+using ServerApp.GameState;
 
 namespace ServerApp.RequestHandler
 {
@@ -7,21 +7,21 @@ namespace ServerApp.RequestHandler
     {
         private static string SessionKeyGameState = "_GameState";
         
-        public static Game.GameState GetGameState(HttpContext httpContext)
+        public static GameState.GameStateClass GetGameState(HttpContext httpContext)
         {
-            var gameState = httpContext.Session.Get<Game.GameState>(SessionKeyGameState);
+            var gameState = httpContext.Session.Get<GameState.GameStateClass>(SessionKeyGameState);
             if (gameState == null)
             {
                 gameState = GameStateFactory.GenerateNewGameState();
-                httpContext.Session.Set<Game.GameState>(SessionKeyGameState, gameState);
+                httpContext.Session.Set<GameState.GameStateClass>(SessionKeyGameState, gameState);
             }
 
             return gameState;
         }
 
-        public static void SetGameState(HttpContext httpContext, Game.GameState gameState)
+        public static void SetGameState(HttpContext httpContext, GameState.GameStateClass gameState)
         {
-            httpContext.Session.Set<Game.GameState>(SessionKeyGameState, gameState);
+            httpContext.Session.Set<GameState.GameStateClass>(SessionKeyGameState, gameState);
         }
     }
 }

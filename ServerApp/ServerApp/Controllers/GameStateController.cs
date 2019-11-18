@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using ServerApp.Game;
+using ServerApp.GameState;
 using ServerApp.RequestHandler;
 using Newtonsoft.Json;
 

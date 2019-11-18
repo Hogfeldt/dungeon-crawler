@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices.ComTypes;
 using System.Threading;
 
-namespace ServerApp.Game
+namespace ServerApp.GameState
 {
     public abstract class Character : ICharacter
     {
@@ -32,10 +32,9 @@ namespace ServerApp.Game
 
         public int TakeDamage(int damage)
         {
-            this.Stats.CurrentHealth -= damage;
-            if (this.Stats.CurrentHealth < 0)
+            this.Stats.TakeDamage(damage);
+            if (this.Stats.CurrentHealth == 0)
             {
-                this.Stats.CurrentHealth = 0;
                 this.Alive = false;
             }
 
