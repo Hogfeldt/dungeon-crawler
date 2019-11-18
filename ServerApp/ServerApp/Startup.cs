@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 namespace ServerApp
 {
     public class Startup
-    {
+    {   
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -41,7 +41,8 @@ namespace ServerApp
             app.UseCors(b => b
                 .AllowAnyOrigin()
                 .AllowAnyMethod()
-                .AllowAnyHeader());
+                .AllowAnyHeader()
+                .AllowCredentials());
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

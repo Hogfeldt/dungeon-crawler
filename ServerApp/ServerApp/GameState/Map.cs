@@ -42,7 +42,7 @@ namespace ServerApp.GameState
 
         public ILayer GetLayer(int layer)
         {
-            if (Layers.Count - 1 > layer && layer >= 0)
+            if (Layers.Count > layer && layer >= 0)
             {
                 return Layers[layer];
             } else { 

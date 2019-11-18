@@ -116,6 +116,13 @@ namespace ServerApp.TurnExec
                 }
                 //We couldn't move and there was no other character on tile, must mean we attempted to move into a wall
             }
+
+            //Figure out if the player just moved onto next layer
+            if (character.GetType() == typeof(Player) && layer.ExitPosition.X == moveTo.X && layer.ExitPosition.Y == moveTo.Y)
+            {
+                _gameState.Map.MovePlayerToNewLayer(_gameState.Map.CurrentLayerNumber + 1);
+            }
+
             //Movement succeded, we are done.
         }
 

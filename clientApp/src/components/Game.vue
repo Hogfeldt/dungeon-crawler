@@ -28,7 +28,6 @@
             this.handler = new ChangeHandler(this.api);
 
             this.handler.getState().then(r => {
-                console.log("hejlol");
                 this.state = r;
             });
 

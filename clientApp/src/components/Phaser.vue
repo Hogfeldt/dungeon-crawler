@@ -17,6 +17,7 @@
     import { ITile } from '@/GameState/ITile';
     import { GameState } from "@/GameState/GameState";
     import { Character } from "@/GameState/Character";
+    import { IPosition } from "@/GameState/IPosition";
 
     import 'phaser';
 
@@ -40,78 +41,127 @@
     
     var api: IApi = new Api("https://localhost:44333");
     var handler: ChangeHandler = new ChangeHandler(api);
-    var gameState: GameState;
     var player;
 
     var tileWidth: number = 32;
     var tiles;
     var npcs;
+    var cursors;
+    var healthText;
+    var goldText;
     var game = new Phaser.Game(config);
+
+    var up;
+    var down;
+    var right;
+    var left;
 
     function preload() {
         this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
         this.load.image('floor', 'floor.png');
+        this.load.image('spawn', 'floor_spawn.png');
+        this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
-        this.load.image('mob', 'mob.png');
+        this.load.spritesheet('mob', 'mob.png', { frameWidth: 16, frameHeight: 20 });
         this.load.spritesheet('knight', 'knight.png', { frameWidth: 16, frameHeight: 28 });
     }
 
     function create() {
 
+        cursors = this.input.keyboard.createCursorKeys();
         tiles = this.add.group();
         npcs = this.add.group();
+
+        game.anims.create({
+            key: 'knight_idle',
+            frames: game.anims.generateFrameNumbers('knight', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        game.anims.create({
+            key: 'mob_idle',
+            frames: game.anims.generateFrameNumbers('mob', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        })
 
         //  A simple background for our game
 
         handler.getState().then(r => {
             drawFromState(r, this);
         })
+    }
 
-        //var tileValues = [[true, true, false, false, false, false, false, false, false, true],
-        //[true, true, false, false, false, false, false, false, false, false],
-        //[true, true, false, false, false, false, false, false, false, false],
-        //[true, true, true, true, true, false, false, false, false, false],
-        //[false, false, false, false, true, false, false, false, false, false],
-        //[false, false, false, false, true, false, false, false, false, false],
-        //[false, false, false, false, true, false, false, false, false, false],
-        //[false, false, false, false, true, true, true, false, false, false],
-        //[false, false, false, false, true, true, true, false, false, false],
-        //[false, false, false, false, true, true, true, false, false, false]];
+    function update() {
 
-        //var width = tileValues.length;
-        //var height = tileValues[0].length;
-        //var xOff = 100;
-        //var yOff = 100;
+        if (cursors.left.isDown) {
+            left = true;
+        }
 
-        //for (var i = 0; i < width; i++) {
-        //    for (var j = 0; j < height; j++) {
-        //        if (tileValues[i][j]) {
-        //            tiles.create(i * tileWidth + xOff, j * tileWidth + yOff, 'floor').setScale(2);
-        //        } else {
-        //            tiles.create(i * tileWidth + xOff, j * tileWidth + yOff, 'wall').setScale(2);
-        //        }
-        //    }
-        //}
+        if (left && cursors.left.isUp)
+        {
+            left = false;
+            handler.move("Left").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
 
-        //player = this.add.sprite(100, 100, 'knight');
-        //player.setScale(2, 2);
+         if (cursors.right.isDown) {
+            right = true;
+        }
 
+        if (right && cursors.right.isUp)
+        {
+            right = false;
+            handler.move("Right").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
 
-        //this.anims.create({
-        //    key: 'knight_idle',
-        //    frames: this.anims.generateFrameNumbers('knight', { start: 0, end: 3 }),
-        //    frameRate: 10,
-        //    repeat: -1
-        //});
+         if (cursors.up.isDown) {
+            up = true;
+        }
 
+        if (up && cursors.up.isUp)
+        {
+            up = false;
+            handler.move("Up").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
 
-        //player.anims.play('knight_idle');
+        if (cursors.down.isDown) {
+            down = true;
+        }
 
+        if (down && cursors.down.isUp)
+        {
+            down = false;
+            handler.move("Down").then(r => {
+                cleanUp(this);
+                drawFromState(r, this);
+            })
+        }
+    }
+
+    function cleanUp(game: any) {
+        npcs.clear();
+        tiles.clear();
+        goldText.destroy();
+        healthText.destroy();
+        destroySprite(player);
+        
+    }
+
+    function destroySprite(sprite: any) {
+        sprite.destroy();
     }
 
     function drawFromState(state: GameState, game: any) {
-
-        console.log(state);
 
         var layer: ILayer = state._LayerState;
         var characters: any[][] = state._NPCState;
@@ -132,32 +182,32 @@
             }
         }
 
+        tiles.create(layer.getSpawn().x * tileWidth + xOff, layer.getSpawn().y  * tileWidth + yOff, 'spawn').setScale(2);
+        tiles.create(layer.getExit().x * tileWidth + xOff, layer.getExit().y * tileWidth + yOff, 'exit').setScale(2);
+
+
+
         for (var i = 0; i < layer.getWidth(); i++) {
             for (var j = 0; j < layer.getHeight(); j++) {
                 var character = characters[i][j];
                 if (character != null) {
-                    console.log(character.constructor.name);
                     if (character.constructor.name == "Character") {
                         player = game.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - playerYOff, 'knight').setScale(2, 2);
                     } else if (character.constructor.name == "NPC") {
-                        npcs.create(i * tileWidth + xOff, j * tileWidth + yOff - mobYOff, 'mob').setScale(2, 2);
+                        var mob = game.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - mobYOff, 'mob').setScale(2, 2);
+                        mob.anims.play('mob_idle');
+                        mob.flipX = true;
+                        npcs.add(mob);
                     }
                 }
             }
         }
-
-        game.anims.create({
-            key: 'knight_idle',
-            frames: game.anims.generateFrameNumbers('knight', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
+        healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
+        goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
 
         player.anims.play('knight_idle');
     }
 
-    function update() {
-    }
 
     @Component
     export default class PhaserGame extends Vue {
