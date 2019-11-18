@@ -30,6 +30,6 @@ export class Layer implements ILayer {
     }
 
     getExit(): IPosition {
-        return this.spawnPos;
+        return this.exitPos;
     }
 }

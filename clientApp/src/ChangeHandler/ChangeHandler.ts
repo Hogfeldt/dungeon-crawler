@@ -23,7 +23,6 @@ export class ChangeHandler {
 
     public getState() {
         return this.api.gameState().then(r => {
-            console.log(r);
 
             var data = r.data;
 
@@ -60,18 +59,25 @@ export class ChangeHandler {
         var exitPos: Position = new Position(data.ExitPosition.X, data.ExitPosition.Y);
         var layer: ILayer = new Layer(tiles, spawnPos, exitPos);
 
+        var name: string = data.Player.Name;
+        var xPosition: number = data.Player.Position.X;
+        var yPosition: number = data.Player.Position.Y;
+        var health: number = data.Player.Stats.CurrentHealth;
+        var maxHealth: number = data.Player.Stats.MaxHealth;
+        var gold: number = data.Player.Gold;
+
+        var player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold);
+
         var characters: any[][] = new Array();
         for (var l = 0; l < data.Characters.length; l++) {
             characters[l] = [];
             for (var m = 0; m < data.Characters[l].length; m++) {
                 if (data.Characters[l][m] != null) {
-                    if (data.Characters[l][m].hasOwnProperty("Gold")) {
-                        characters[l][m] = new Character(data.Characters[l][m].name,
-                            l,
-                            m,
-                            data.Characters[l][m].Stats.MaxHealth);
+                    var currentCharacter: any = data.Characters[l][m];
+                    if (currentCharacter.hasOwnProperty("Gold")) {
+                        characters[l][m] = player;
                     } else {
-                        characters[l][m] = new NPC(l, m);
+                        characters[l][m] = new NPC(currentCharacter.Position.x, currentCharacter.Position.Y);
                     }
                 } else {
                     characters[l][m] = null;
@@ -79,12 +85,6 @@ export class ChangeHandler {
             }
         }
 
-        var name: string = data.Player.Name;
-        var xPosition: number = data.Player.Position.X;
-        var yPosition: number = data.Player.Position.Y;
-        var health: number = data.Player.Stats.CurrentHealth;
-
-        var player: ICharacter = new Character(name, xPosition, yPosition, health);
 
         var state = new GameState(characters, player, layer);
 

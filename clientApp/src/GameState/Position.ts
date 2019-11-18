@@ -1,11 +1,15 @@
 import { IPosition } from "./IPosition";
 
 export class Position implements IPosition {
-    xPos: number;
-    yPos: number;
+    public x: number;
+    public y: number;
 
-    constructor(xPos: number, yPos: number) {
-        this.xPos = xPos;
-        this.yPos = yPos;
+    constructor(x: number, y: number) {
+        this.x = x;
+        this.y = y;
     }
+
+    getX(): number { return this.x }
+
+    getY(): number { return this.y }
 }

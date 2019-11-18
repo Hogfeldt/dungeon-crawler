@@ -17,6 +17,7 @@
     import { ITile } from '@/GameState/ITile';
     import { GameState } from "@/GameState/GameState";
     import { Character } from "@/GameState/Character";
+    import { IPosition } from "@/GameState/IPosition";
 
     import 'phaser';
 
@@ -40,7 +41,6 @@
     
     var api: IApi = new Api("https://localhost:44333");
     var handler: ChangeHandler = new ChangeHandler(api);
-    var updating: bool = false;
     var player;
 
     var tileWidth: number = 32;
@@ -48,6 +48,7 @@
     var npcs;
     var cursors;
     var healthText;
+    var goldText;
     var game = new Phaser.Game(config);
 
     var up;
@@ -58,8 +59,10 @@
     function preload() {
         this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
         this.load.image('floor', 'floor.png');
+        this.load.image('spawn', 'floor_spawn.png');
+        this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
-        this.load.image('mob', 'mob.png');
+        this.load.spritesheet('mob', 'mob.png', { frameWidth: 16, frameHeight: 20 });
         this.load.spritesheet('knight', 'knight.png', { frameWidth: 16, frameHeight: 28 });
     }
 
@@ -68,6 +71,20 @@
         cursors = this.input.keyboard.createCursorKeys();
         tiles = this.add.group();
         npcs = this.add.group();
+
+        game.anims.create({
+            key: 'knight_idle',
+            frames: game.anims.generateFrameNumbers('knight', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        });
+
+        game.anims.create({
+            key: 'mob_idle',
+            frames: game.anims.generateFrameNumbers('mob', { start: 0, end: 3 }),
+            frameRate: 10,
+            repeat: -1
+        })
 
         //  A simple background for our game
 
@@ -134,7 +151,10 @@
     function cleanUp(game: any) {
         npcs.clear();
         tiles.clear();
+        goldText.destroy();
+        healthText.destroy();
         destroySprite(player);
+        
     }
 
     function destroySprite(sprite: any) {
@@ -142,8 +162,6 @@
     }
 
     function drawFromState(state: GameState, game: any) {
-
-        console.log(state);
 
         var layer: ILayer = state._LayerState;
         var characters: any[][] = state._NPCState;
@@ -164,31 +182,28 @@
             }
         }
 
+        tiles.create(layer.getSpawn().x * tileWidth + xOff, layer.getSpawn().y  * tileWidth + yOff, 'spawn').setScale(2);
+        tiles.create(layer.getExit().x * tileWidth + xOff, layer.getExit().y * tileWidth + yOff, 'exit').setScale(2);
+
+
+
         for (var i = 0; i < layer.getWidth(); i++) {
             for (var j = 0; j < layer.getHeight(); j++) {
                 var character = characters[i][j];
                 if (character != null) {
                     if (character.constructor.name == "Character") {
-                        console.log("Creating character");
                         player = game.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - playerYOff, 'knight').setScale(2, 2);
                     } else if (character.constructor.name == "NPC") {
-                        npcs.create(i * tileWidth + xOff, j * tileWidth + yOff - mobYOff, 'mob').setScale(2, 2);
+                        var mob = game.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - mobYOff, 'mob').setScale(2, 2);
+                        mob.anims.play('mob_idle');
+                        mob.flipX = true;
+                        npcs.add(mob);
                     }
                 }
             }
         }
-
-        healthText = game.add.text(16, 16, 'Health: ' + state._CharacterState.health, { fontSize: '20px'});
-
-
-
-
-        game.anims.create({
-            key: 'knight_idle',
-            frames: game.anims.generateFrameNumbers('knight', { start: 0, end: 3 }),
-            frameRate: 10,
-            repeat: -1
-        });
+        healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
+        goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
 
         player.anims.play('knight_idle');
     }

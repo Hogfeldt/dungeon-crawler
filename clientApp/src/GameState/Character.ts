@@ -1,17 +1,21 @@
 import { ICharacter } from './ICharacter';
 
 export class Character implements ICharacter {
-    name:   string;
-    xPos:   number;
-    yPos:   number;
-    health: number;
+    name:      string;
+    xPos:      number;
+    yPos:      number;
+    health:    number;
+    maxHealth: number;
+    gold:      number;
     
-    constructor(name: string, xpos: number, ypos: number, health: number)
+    constructor(name: string, xpos: number, ypos: number, health: number, maxHealth: number, gold: number)
     {
         this.name   = name;
         this.xPos   = xpos;
         this.yPos   = ypos;
         this.health = health;
+        this.maxHealth = maxHealth;
+        this.gold = gold;
     }
 
     inventoryList(): any { throw new Error("Not implemented"); }
