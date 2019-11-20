@@ -1,7 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Reflection.PortableExecutable;
-
-namespace ServerApp.GameState
+﻿namespace ServerApp.GameState
 {
     public class GameStateClass : IGameState
     {

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ApplicationParts;
-
-namespace ServerApp.GameState
+﻿namespace ServerApp.GameState
 {
     public class ClientGameState
     {
