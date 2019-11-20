@@ -22,10 +22,10 @@ namespace ServerApp.GameState
             if(Gold < gold)
             {
                 throw new NotEnoughGoldException("Not enough gold!");
-            } else
-            {
-                Gold -= gold;
             }
+            
+            Gold -= gold;
+            
         }
 
         public void SetNextMove(Character.Direction direction)
