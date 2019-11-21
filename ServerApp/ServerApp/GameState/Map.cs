@@ -64,14 +64,21 @@ namespace ServerApp.GameState
             return null;
         }
 
-        public bool MovePlayerToNewLayer(int layerNumber)
+        public bool MovePlayerToNewLayer(int layerNumber, bool descending)
         {
             Player player = GetPlayer();
             Position previousPosition = new Position(player.Position);
             ILayer layer = GetLayer(layerNumber);
             if (layer == null)
                 return false;
-            player.Position = layer.InitialPlayerPosition;
+            if (descending)
+            {
+                player.Position = layer.InitialPlayerPosition;
+            }
+            else
+            {
+                player.Position = layer.ExitPosition;
+            }
             layer.AddCharacter(player);
             GetLayer(CurrentLayerNumber).RemoveCharacterFromPosition(player.Position);
             CurrentLayerNumber = layerNumber;

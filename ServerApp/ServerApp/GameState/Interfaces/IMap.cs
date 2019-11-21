@@ -8,6 +8,6 @@ namespace ServerApp.GameState
         ILayer GetLayer(int layer);
         ILayer GetCurrentLayer();
         Player GetPlayer();
-        bool MovePlayerToNewLayer(int layer);
+        bool MovePlayerToNewLayer(int layer, bool descending);
     }
 }
