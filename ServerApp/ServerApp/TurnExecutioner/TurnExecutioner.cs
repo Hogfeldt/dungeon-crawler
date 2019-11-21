@@ -123,6 +123,11 @@ namespace ServerApp.TurnExec
                 _gameState.Map.MovePlayerToNewLayer(_gameState.Map.CurrentLayerNumber + 1);
             }
 
+            if (character.GetType() == typeof(Player) && layer.InitialPlayerPosition.X == moveTo.X && layer.InitialPlayerPosition.Y == moveTo.Y)
+            {
+                _gameState.Map.MovePlayerToNewLayer(_gameState.Map.CurrentLayerNumber - 1);
+            }
+
             //Movement succeded, we are done.
         }
 

@@ -41,8 +41,9 @@ namespace ServerApp.GameState
             if (Layers.Count > layer && layer >= 0)
             {
                 return Layers[layer];
-            } else { 
-                throw new ArgumentOutOfRangeException(nameof(layer),"Input larger than amount of layers or less than 0");
+            } else
+            {
+                return null;
             }
         }
 
@@ -63,14 +64,18 @@ namespace ServerApp.GameState
             return null;
         }
 
-        public void MovePlayerToNewLayer(int layer)
+        public bool MovePlayerToNewLayer(int layerNumber)
         {
             Player player = GetPlayer();
             Position previousPosition = new Position(player.Position);
-            player.Position = GetLayer(layer).InitialPlayerPosition;
-            GetLayer(layer).AddCharacter(player);
+            ILayer layer = GetLayer(layerNumber);
+            if (layer == null)
+                return false;
+            player.Position = layer.InitialPlayerPosition;
+            layer.AddCharacter(player);
             GetLayer(CurrentLayerNumber).RemoveCharacterFromPosition(player.Position);
-            CurrentLayerNumber = layer;
+            CurrentLayerNumber = layerNumber;
+            return true;
         }
     }
 }
