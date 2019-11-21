@@ -15,14 +15,5 @@ namespace ServerApp.Controllers
         {
             return JsonConvert.SerializeObject(new ClientGameState(SessionManager.GetGameState(HttpContext)));
         }
-
-        // POST: api/GameState
-        [HttpPost]
-        public void Post(string value)
-        {
-            var gameState = SessionManager.GetGameState(HttpContext);
-            gameState.Map.MovePlayerToNewLayer(gameState.Map.CurrentLayerNumber + 1);
-            SessionManager.SetGameState(HttpContext, gameState);
-        }
     }
 }
