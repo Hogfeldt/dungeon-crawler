@@ -5,9 +5,9 @@ namespace ServerApp.GameState
     public class Player: Character
     {
         public int Gold { get; private set; }
-        public int Xp { get; private set;  }
+        public int Experience { get; private set;  }
 
-        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 15) : base(position, stats, name)
+        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) : base(position, stats, name)
         {
             Gold = gold;
         }
@@ -16,7 +16,7 @@ namespace ServerApp.GameState
         {
             if (xp > 0)
             {
-                Xp += xp;
+                Experience += xp;
             }
         }
 

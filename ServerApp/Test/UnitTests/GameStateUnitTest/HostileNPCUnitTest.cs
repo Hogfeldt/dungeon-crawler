@@ -26,13 +26,29 @@ namespace Test.UnitTests.GameStateUnitTest
             Assert.AreEqual("HostileName", uut.Name);
         }
 
+
         [Test]
         public void TestDropGoldToCharacter()
         {
             Player player = Substitute.For<Player>(position, stats, "SomePLayer", 100);
             uut.DroppedGold = 200;
-            uut.DropGoldToCharacter(player);
+            uut.DropToCharacter(player);
             Assert.AreEqual(300, player.Gold);
+        }
+
+        [TestCase(10, 20)]
+        [TestCase(0, 10)]
+        [TestCase(10, 0)]
+        [Test]
+        public void TestDropExperienceToCharacter(int xp1, int xp2)
+        {
+            Player player = Substitute.For<Player>(position, stats, "SomePLayer", 100);
+            IStats npcStats = Substitute.For<IStats>();
+            npcStats.MaxHealth.Returns(xp1);
+            npcStats.Damage.Returns(xp2);
+            uut = new HostileNPC(position, npcStats, movementStrategy, "HostileName");
+            uut.DropToCharacter(player);
+            Assert.AreEqual(xp1 * xp2, player.Experience);
         }
 
     }

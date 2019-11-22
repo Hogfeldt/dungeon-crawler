@@ -98,7 +98,7 @@ namespace Test.UnitTests.GameStateUnitTest
         public void TestAddExperience(int xp)
         {
             uut.AddExperience(xp);
-            Assert.AreEqual(20 + xp, uut.Xp);
+            Assert.AreEqual(20 + xp, uut.Experience);
         }
 
         
@@ -109,7 +109,7 @@ namespace Test.UnitTests.GameStateUnitTest
         {
             uut.AddExperience(xp1);
             uut.AddExperience(xp2);
-            Assert.AreEqual(20 + xp1 + xp2, uut.Xp);
+            Assert.AreEqual(20 + xp1 + xp2, uut.Experience);
         }
 
 
@@ -119,7 +119,7 @@ namespace Test.UnitTests.GameStateUnitTest
         public void TestAddNegativeExperience(int xp)
         {
             uut.AddExperience(xp);
-            Assert.AreEqual(20, uut.Xp);
+            Assert.AreEqual(20, uut.Experience);
         }
 
 
