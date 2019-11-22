@@ -169,8 +169,8 @@
         var characters: any[][] = state._NPCState;
         var playerState: Character = state._CharacterState;
 
-        var xOff = 100;
-        var yOff = 100;
+        var xOff = 150;
+        var yOff = 150;
         var playerYOff = 20;
         var mobYOff = 12;
 
@@ -206,7 +206,7 @@
         }
         healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
         goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
-        experienceText = game.add.text(16, 45, 'Experience: ' + playerState.experience, { fontSize: '20px' });
+        experienceText = game.add.text(16, 74, 'Experience: ' + playerState.experience, { fontSize: '20px' });
 
         player.anims.play('knight_idle');
     }

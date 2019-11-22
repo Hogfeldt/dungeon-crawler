@@ -65,7 +65,7 @@ export class ChangeHandler {
         var health: number = data.Player.Stats.CurrentHealth;
         var maxHealth: number = data.Player.Stats.MaxHealth;
         var gold: number = data.Player.Gold;
-        var experience: number = data.Player.experience;
+        var experience: number = data.Player.Experience;
 
         var player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold, experience);
 
