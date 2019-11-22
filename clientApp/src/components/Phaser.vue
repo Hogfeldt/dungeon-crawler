@@ -49,6 +49,7 @@
     var cursors;
     var healthText;
     var goldText;
+    var experienceText;
     var game = new Phaser.Game(config);
 
     var up;
@@ -152,6 +153,7 @@
         npcs.clear();
         tiles.clear();
         goldText.destroy();
+        experienceText.destroy();
         healthText.destroy();
         destroySprite(player);
         
@@ -204,6 +206,7 @@
         }
         healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
         goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
+        experienceText = game.add.text(16, 45, 'Experience: ' + playerState.experience, { fontSize: '20px' });
 
         player.anims.play('knight_idle');
     }
