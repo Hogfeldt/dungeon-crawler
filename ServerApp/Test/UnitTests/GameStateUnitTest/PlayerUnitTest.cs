@@ -21,32 +21,53 @@ namespace Test.UnitTests.GameStateUnitTest
             uut = new Player(position, stats, "Karl", 20);
         }
 
+        [TestCase(20)]
+        [TestCase(1)]
+        [TestCase(0)]
         [Test]
-        public void TestAddGold()
+        public void TestAddGoldSuccess(int gold)
         {
-            uut.AddGold(10);
-            Assert.AreEqual(30, uut.Gold);
+            uut.AddGold(gold);
+            Assert.AreEqual(20+gold, uut.Gold);
         }
 
+        [TestCase(-20)]
+        [TestCase(-1)]
         [Test]
-        public void TestRemoveGoldSuccess()
+        public void TestAddGoldFail(int gold)
         {
-            uut.RemoveGold(10);
-            Assert.AreEqual(10, uut.Gold);
+            uut.AddGold(gold);
+            Assert.AreEqual(20, uut.Gold);
         }
 
+
+
+        [TestCase(20)]
+        [TestCase(19)]
+        [TestCase(0)]
         [Test]
-        public void TestRemoveGoldNotEnough()
+        public void TestRemoveGoldSuccess(int gold)
         {
-            Assert.Throws<NotEnoughGoldException>(() => uut.RemoveGold(50));
+            Assert.IsTrue(uut.RemoveGold(gold));
+            Assert.AreEqual(20-gold, uut.Gold);
+        }
+
+        [TestCase(50)]
+        [TestCase(21)]
+        [TestCase(-5)]
+        [Test]
+        public void TestRemoveGoldNotEnough(int gold)
+        {
+            Assert.IsFalse(uut.RemoveGold(gold));
+            Assert.AreEqual(20, uut.Gold);
         }
 
         [Test]
         public void TestRemoveGoldNotEnoughThenRemoveAcceptableAmount()
         {
-            Assert.Throws<NotEnoughGoldException>(() => uut.RemoveGold(50));
+            Assert.IsFalse(uut.RemoveGold(50));
             Assert.AreEqual(20, uut.Gold);
-            uut.RemoveGold(10);
+            Assert.IsTrue(uut.RemoveGold(10));
             Assert.AreEqual(10, uut.Gold);
         }
 
@@ -56,10 +77,16 @@ namespace Test.UnitTests.GameStateUnitTest
             Assert.AreEqual("Karl", uut.Name);
         }
 
+        [TestCase(Character.Direction.None)]
+        [TestCase(Character.Direction.Up)]
+        [TestCase(Character.Direction.Down)]
+        [TestCase(Character.Direction.Left)]
+        [TestCase(Character.Direction.Right)]
         [Test]
-        public void TestSetNextMove()
+        public void TestSetNextMove(Character.Direction direction)
         {
-            //Todo:: Make this test
+            uut.SetNextMove(direction);
+            Assert.AreEqual(direction, uut.NextMove);
         }
 
     }

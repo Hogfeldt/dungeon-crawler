@@ -13,30 +13,28 @@ namespace ServerApp.GameState
 
         public void AddGold(int gold)
         {
-            Gold += gold;
+            if (gold > 0)
+            {
+                Gold += gold;
+            }
         }
 
-        public void RemoveGold(int gold)
+        public bool RemoveGold(int gold)
         {
+            if (gold < 0) return false;
+
             if(Gold < gold)
             {
-                throw new NotEnoughGoldException("Not enough gold!");
+                return false;
             }
             
             Gold -= gold;
-            
+            return true;
         }
 
         public void SetNextMove(Character.Direction direction)
         {
             NextMove = direction;
-        }
-    }
-
-    public class NotEnoughGoldException: Exception
-    {
-        public NotEnoughGoldException(string message): base(message)
-        {
         }
     }
 }
