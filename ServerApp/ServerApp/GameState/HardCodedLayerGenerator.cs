@@ -10,6 +10,8 @@
 
             Character[,] characters = new Character[width,height];
             ITile[,] tiles = new ITile[width, height];
+            IInteractiveObject[,] objects = new IInteractiveObject[width, height];
+            objects[3,0] = new Chest();
 
             for (var x = 0; x < width; x++)
             {
@@ -54,17 +56,17 @@
 
             if (layerNumber == 2)
             {
-                return new Layer(tiles, characters, new Position(2,0), new Position(8,6));
+                return new Layer(tiles, characters, new Position(2,0), new Position(8,6), objects);
             }
 
             if (layerNumber == 3)
             {
                 characters[1, 1] = new HostileNPC(new Position(1,1), new Stats(speed: 3, health: 35), new StandStillMovementStrategy(), "TankyFar", 200);
 
-            return new Layer(tiles, characters, new Position(9,4),new Position(0,1));
+            return new Layer(tiles, characters, new Position(9,4),new Position(0,1), objects);
             }
 
-            return new Layer(tiles, characters, new Position(0,0), new Position(8,5));
+            return new Layer(tiles, characters, new Position(0,0), new Position(8,5), objects);
         }
     }
 

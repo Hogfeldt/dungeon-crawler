@@ -120,7 +120,12 @@ namespace ServerApp.TurnExec
             //Figure out if the player just moved onto next layer
             if (character.GetType() == typeof(Player) && layer.ExitPosition.X == moveTo.X && layer.ExitPosition.Y == moveTo.Y)
             {
-                _gameState.Map.MovePlayerToNewLayer(_gameState.Map.CurrentLayerNumber + 1);
+                _gameState.Map.MovePlayerToNewLayer(_gameState.Map.CurrentLayerNumber + 1, true);
+            }
+
+            if (character.GetType() == typeof(Player) && layer.InitialPlayerPosition.X == moveTo.X && layer.InitialPlayerPosition.Y == moveTo.Y)
+            {
+                _gameState.Map.MovePlayerToNewLayer(_gameState.Map.CurrentLayerNumber - 1, false);
             }
 
             //Movement succeded, we are done.

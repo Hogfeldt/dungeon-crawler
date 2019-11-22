@@ -24,8 +24,8 @@
 
         public Position(IPosition position, int xOff, int yOff)
         {
-            this.X = position.X - xOff;
-            this.Y = position.Y - yOff;
+            this.X = position.X + xOff;
+            this.Y = position.Y + yOff;
         }
     }
 }
