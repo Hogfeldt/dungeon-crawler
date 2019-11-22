@@ -48,9 +48,9 @@
                 }
             }
 
-            characters[3, 1] = new HostileNPC(new Position(3,1), new Stats(speed: 3), new StandStillMovementStrategy(), "Hurtigfar", 30);
-            characters[3, 4] = new HostileNPC(new Position(3, 4), new Stats(speed: 2), new StandStillMovementStrategy(), "Mellemhurtigfar", 20);
-            characters[8, 4] = new HostileNPC(new Position(8, 4), new Stats(speed: 1), new RandomMovementStrategy(), "Langsomfar", 10);
+            characters[3, 1] = new HostileNPC(new Position(3,1), new Stats(1, 1, 1), new StandStillMovementStrategy(), "Hurtigfar", 30);
+            characters[3, 4] = new HostileNPC(new Position(3, 4), new Stats(10, 2, 2), new StandStillMovementStrategy(), "Mellemhurtigfar", 20);
+            characters[8, 4] = new HostileNPC(new Position(8, 4), new Stats(10, 10, 10), new RandomMovementStrategy(), "Langsomfar", 10);
 
             tiles[layerNumber,9].Walkable = true;
 
@@ -61,7 +61,7 @@
 
             if (layerNumber == 3)
             {
-                characters[1, 1] = new HostileNPC(new Position(1,1), new Stats(speed: 3, health: 35), new StandStillMovementStrategy(), "TankyFar", 200);
+                characters[1, 1] = new HostileNPC(new Position(1,1), new Stats(35, 5, 4), new StandStillMovementStrategy(), "TankyFar", 200);
 
             return new Layer(tiles, characters, new Position(9,4),new Position(0,1), objects);
             }

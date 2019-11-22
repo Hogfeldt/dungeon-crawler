@@ -19,6 +19,7 @@ namespace Test.UnitTests.GameStateUnitTest
             position = Substitute.For<IPosition>();
             stats = Substitute.For<IStats>();
             uut = new Player(position, stats, "Karl", 20);
+            uut.AddExperience(20);
         }
 
         [TestCase(20)]
@@ -55,6 +56,7 @@ namespace Test.UnitTests.GameStateUnitTest
         [TestCase(50)]
         [TestCase(21)]
         [TestCase(-5)]
+        [TestCase(-1)]
         [Test]
         public void TestRemoveGoldNotEnough(int gold)
         {
@@ -88,6 +90,38 @@ namespace Test.UnitTests.GameStateUnitTest
             uut.SetNextMove(direction);
             Assert.AreEqual(direction, uut.NextMove);
         }
+
+        [TestCase(0)]
+        [TestCase(1)]
+        [TestCase(100)]
+        [Test]
+        public void TestAddExperience(int xp)
+        {
+            uut.AddExperience(xp);
+            Assert.AreEqual(20 + xp, uut.Experience);
+        }
+
+        
+        [TestCase(100, 550)]
+        [TestCase(0, 2)]
+        [Test]
+        public void TestAddExperienceMultipleTimes(int xp1, int xp2)
+        {
+            uut.AddExperience(xp1);
+            uut.AddExperience(xp2);
+            Assert.AreEqual(20 + xp1 + xp2, uut.Experience);
+        }
+
+
+        [TestCase(-1)]
+        [TestCase(-2)]
+        [Test]
+        public void TestAddNegativeExperience(int xp)
+        {
+            uut.AddExperience(xp);
+            Assert.AreEqual(20, uut.Experience);
+        }
+
 
     }
 }
