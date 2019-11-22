@@ -1,8 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices.ComTypes;
-using System.Threading;
-
-namespace ServerApp.GameState
+﻿namespace ServerApp.GameState
 {
     public abstract class Character : ICharacter
     {

@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+using System.IO;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ServerApp.GameState;
@@ -23,8 +21,15 @@ namespace ServerApp.Controllers
 
         // POST: api/Move
         [HttpPost]
-        public string Post([FromBody] string value)
+        public string Post()
         {
+            string value;
+            using (StreamReader reader = new StreamReader(Request.Body, Encoding.UTF8))
+            {
+                value =  reader.ReadToEnd();
+            }
+
+
             try
             {
                 var direction = StringToDirection(value);

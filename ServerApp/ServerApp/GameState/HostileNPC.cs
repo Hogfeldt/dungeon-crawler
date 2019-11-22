@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ServerApp.GameState
+﻿namespace ServerApp.GameState
 {
     public class HostileNPC : NPC
     {

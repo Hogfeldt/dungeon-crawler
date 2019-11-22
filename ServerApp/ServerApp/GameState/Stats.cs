@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
@@ -33,6 +31,15 @@ namespace ServerApp.GameState
         {
             this.MaxHealth = health;
             this.CurrentHealth = health;
+            this.Damage = damage;
+            this.Speed = speed;
+        }
+
+        [JsonConstructor]
+        public Stats(int maxHealth, int currentHealth, int damage, int speed)
+        {
+            this.MaxHealth = maxHealth;
+            this.CurrentHealth = currentHealth;
             this.Damage = damage;
             this.Speed = speed;
         }

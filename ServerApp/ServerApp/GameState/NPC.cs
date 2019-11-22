@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-using ServerApp.GameState;
-
-namespace ServerApp.GameState
+﻿namespace ServerApp.GameState
 {
     public abstract class NPC: Character
     {

@@ -1,5 +1,4 @@
 ﻿using System;
-using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 
 namespace ServerApp.GameState
 {

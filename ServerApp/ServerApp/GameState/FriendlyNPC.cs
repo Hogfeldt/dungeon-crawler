@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ViewFeatures.Internal;
-
-namespace ServerApp.GameState
+﻿namespace ServerApp.GameState
 {
     public class FriendlyNPC: NPC
     {
