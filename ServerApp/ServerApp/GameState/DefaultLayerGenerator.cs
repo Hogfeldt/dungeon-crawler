@@ -10,6 +10,7 @@
 
             NPC[,] npcs = new NPC[width, height];
             ITile[,] tiles = new ITile[width, height];
+            IInteractiveObject[,] objects = new IInteractiveObject[width, height];
 
             for (var x = 0; x < width; x++)
             {
@@ -20,7 +21,7 @@
                 }
             }
 
-            return new Layer(tiles, npcs, new Position(0,0), new Position(9,9));
+            return new Layer(tiles, npcs, new Position(0,0), new Position(9,9), objects);
         }
     }
 }
