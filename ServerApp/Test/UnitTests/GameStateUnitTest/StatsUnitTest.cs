@@ -63,6 +63,5 @@ namespace Test.UnitTests.GameStateUnitTest
             Assert.AreEqual(6, uut.Damage);
             Assert.AreEqual(7, uut.Speed);
         }
-
     }
 }
