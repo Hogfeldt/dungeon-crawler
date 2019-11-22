@@ -59,7 +59,7 @@
     function preload() {
         this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
         this.load.image('floor', 'floor.png');
-        this.load.image('spawn', 'floor_spawn.png');
+        this.load.image('spawn', 'floor_entrance.png');
         this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
         this.load.spritesheet('mob', 'mob.png', { frameWidth: 16, frameHeight: 20 });
