@@ -6,7 +6,7 @@ FROM $REPO:2.1-stretch-slim
 RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         curl \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* \
 	&& apt-get install -y git
 
 # Install ASP.NET Core
