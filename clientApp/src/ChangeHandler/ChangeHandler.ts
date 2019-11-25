@@ -63,7 +63,7 @@ export class ChangeHandler {
             var temp: (InteractiveObject | null)[] = [];
             for (var j=0; j<data.InteractiveObjects[i].length; j++) {
                 if (data.InteractiveObjects[i][j] != null) {
-                    temp.push(new InteractiveObject(data.InteractiveObjects[i][j].Name));
+                    temp.push(new InteractiveObject(data.InteractiveObjects[i][j].Name, data.InteractiveObjects[i][j].goldContent));
                 } else {
                     temp.push(null);
                 }

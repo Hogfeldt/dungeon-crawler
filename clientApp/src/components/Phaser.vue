@@ -23,6 +23,109 @@
 import { stat } from 'fs';
 import { InteractiveObject } from '../GameState/InteractiveObject';
 
+class Demo extends Phaser.Scene {
+    constructor() {
+        super({
+            key: 'Demo'
+        })
+    }
+
+    preload() { 
+        this.load.scenePlugin({
+            key: 'rexuiplugin',
+            url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/plugins/dist/rexuiplugin.min.js',
+            sceneKey: 'rexUI'
+        });      
+    }
+
+    create() {
+        var dialog = this.rexUI.add.dialog({
+            x: 400,
+            y: 300,
+
+            background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x1565c0),
+
+            title: this.rexUI.add.label({
+                background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x003c8f),
+                text: this.add.text(0, 0, 'Title', {
+                    fontSize: '24px'
+                }),
+                space: {
+                    left: 15,
+                    right: 15,
+                    top: 10,
+                    bottom: 10
+                }
+            }),
+
+            content: this.add.text(0, 0, 'Do you want to build a snow man?', {
+                fontSize: '24px'
+            }),
+
+            actions: [
+                createLabel(this, 'Yes'),
+                createLabel(this, 'No')
+            ],
+
+            space: {
+                title: 25,
+                content: 25,
+                action: 15,
+
+                left: 20,
+                right: 20,
+                top: 20,
+                bottom: 20,
+            },
+
+            align: {
+                actions: 'right', // 'center'|'left'|'right'
+            },
+
+            expand: {
+                content: false, // Content is a pure text object
+            }
+        })
+            .layout()
+            // .drawBounds(this.add.graphics(), 0xff0000)
+            .popUp(1000);
+
+        this.print = this.add.text(0, 0, '');
+        dialog
+            .on('button.click', function (button, groupName, index) {
+                this.print.text += index + ': ' + button.text + '\n';
+            }, this)
+            .on('button.over', function (button, groupName, index) {
+                button.getElement('background').setStrokeStyle(1, 0xffffff);
+            })
+            .on('button.out', function (button, groupName, index) {
+                button.getElement('background').setStrokeStyle();
+            });
+    }
+
+    update() { }
+}
+
+var createLabel = function (scene, text) {
+    return scene.rexUI.add.label({
+        // width: 40,
+        // height: 40,
+
+        background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x5e92f3),
+
+        text: scene.add.text(0, 0, text, {
+            fontSize: '24px'
+        }),
+
+        space: {
+            left: 10,
+            right: 10,
+            top: 10,
+            bottom: 10
+        }
+    });
+}
+
     var config = {
         type: Phaser.AUTO,
         width: 800,
@@ -34,13 +137,14 @@ import { InteractiveObject } from '../GameState/InteractiveObject';
                 debug: false
             }
         },
-        scene: {
+        scene: [{
             preload: preload,
             create: create,
             update: update
-        }
+        }, Demo],
+        "render.transparent": true
     };
-    
+
     var api: IApi = new Api("https://localhost:5001");
     var handler: ChangeHandler = new ChangeHandler(api);
     var player;
@@ -58,6 +162,7 @@ import { InteractiveObject } from '../GameState/InteractiveObject';
     var down;
     var right;
     var left;
+    var space;
 
     function preload() {
         this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
@@ -66,6 +171,7 @@ import { InteractiveObject } from '../GameState/InteractiveObject';
         this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
         this.load.image('chest', 'chest.png');
+        this.load.image('chest_empty', "chest_open.png")
         this.load.spritesheet('mob', 'mob.png', { frameWidth: 16, frameHeight: 20 });
         this.load.spritesheet('knight', 'knight.png', { frameWidth: 16, frameHeight: 28 });
     }
@@ -92,6 +198,7 @@ import { InteractiveObject } from '../GameState/InteractiveObject';
         })
 
         //  A simple background for our game
+        
 
         handler.getState().then(r => {
             drawFromState(r, this);
@@ -151,6 +258,12 @@ import { InteractiveObject } from '../GameState/InteractiveObject';
                 drawFromState(r, this);
             })
         }
+        if (cursors.space.isDown) {
+            space = true;
+        }
+        if(space && cursors.space.isUp) {
+            this.scene.start('Demo');
+        }
     }
 
     function cleanUp(game: any) {
@@ -196,8 +309,11 @@ import { InteractiveObject } from '../GameState/InteractiveObject';
         for (var i = 0; i < layer.getWidth(); i++) {
             for (var j = 0; j < layer.getHeight(); j++) {
                 if (interObjcs[i][j] != null) {
-                    console.log(state);
-                    interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
+                    if(interObjcs[i][j].goldContent == 0){
+                        interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_empty').setScale(2);
+                    } else{
+                        interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
+                    }
                 }
             }
         }
@@ -223,7 +339,6 @@ import { InteractiveObject } from '../GameState/InteractiveObject';
 
         player.anims.play('knight_idle');
     }
-
 
     @Component
     export default class PhaserGame extends Vue {
