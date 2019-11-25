@@ -146,8 +146,8 @@ namespace ServerApp.TurnExec
             hostile.TakeDamage(player.Stats.Damage);
             if(!hostile.Alive)
             {
-                //The monster died - Award gold to player
-                hostile.DropGoldToCharacter(player);
+                //The monster died - Award gold and experience to player
+                hostile.DropToCharacter(player);
 
                 //Save the monster position so that we can move the player after cleaning the layer.
                 _deadMobPosition = hostile.Position;

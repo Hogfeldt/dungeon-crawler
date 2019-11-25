@@ -156,6 +156,7 @@ var createLabel = function (scene, text) {
     var cursors;
     var healthText;
     var goldText;
+    var experienceText;
     var game = new Phaser.Game(config);
 
     var up;
@@ -167,7 +168,7 @@ var createLabel = function (scene, text) {
     function preload() {
         this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
         this.load.image('floor', 'floor.png');
-        this.load.image('spawn', 'floor_spawn.png');
+        this.load.image('spawn', 'floor_entrance.png');
         this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
         this.load.image('chest', 'chest.png');
@@ -270,6 +271,7 @@ var createLabel = function (scene, text) {
         npcs.clear();
         tiles.clear();
         goldText.destroy();
+        experienceText.destroy();
         healthText.destroy();
         interactiveObjects.clear();
         destroySprite(player);
@@ -287,8 +289,8 @@ var createLabel = function (scene, text) {
         var playerState: Character = state._CharacterState;
         var interObjcs: (InteractiveObject | null)[][] = layer.getInteractiveObjects();
 
-        var xOff = 100;
-        var yOff = 100;
+        var xOff = 150;
+        var yOff = 150;
         var playerYOff = 20;
         var mobYOff = 12;
 
@@ -336,6 +338,7 @@ var createLabel = function (scene, text) {
         }
         healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
         goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
+        experienceText = game.add.text(16, 74, 'Experience: ' + playerState.experience, { fontSize: '20px' });
 
         player.anims.play('knight_idle');
     }

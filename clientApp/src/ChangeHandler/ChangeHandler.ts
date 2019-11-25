@@ -78,8 +78,9 @@ export class ChangeHandler {
         var health: number = data.Player.Stats.CurrentHealth;
         var maxHealth: number = data.Player.Stats.MaxHealth;
         var gold: number = data.Player.Gold;
+        var experience: number = data.Player.Experience;
 
-        var player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold);
+        var player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold, experience);
 
         var characters: any[][] = new Array();
         for (var l = 0; l < data.Characters.length; l++) {
