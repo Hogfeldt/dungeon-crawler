@@ -90,6 +90,7 @@ namespace ServerApp.Database.Models
                 return BadRequest(ModelState);
             }
 
+            userInfoModel.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(userInfoModel.Password);
             _context.UserInfoModel.Add(userInfoModel);
             await _context.SaveChangesAsync();
 
