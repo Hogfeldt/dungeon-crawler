@@ -39,7 +39,7 @@
         }
     };
     
-    var api: IApi = new Api("https://localhost:44333");
+    var api: IApi = new Api("https://178.62.43.127:5001");
     var handler: ChangeHandler = new ChangeHandler(api);
     var player;
 
