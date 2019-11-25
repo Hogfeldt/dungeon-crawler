@@ -8,6 +8,7 @@ namespace ServerApp.GameState
         Character[,] Characters { get; } 
         IPosition InitialPlayerPosition { get; }
         IPosition ExitPosition { get; }
+        IInteractiveObject[,] InteractiveObjects {get;}
 
         void AddCharacter(Character character);
         void RemoveCharacterFromPosition(IPosition position);

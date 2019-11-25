@@ -10,6 +10,7 @@ import { Layer } from "../GameState/Layer"
 import { ITile } from "../GameState/ITile"
 import { Tile } from "../GameState/Tile"
 import { Position } from "../GameState/Position";
+import { InteractiveObject } from '@/GameState/InteractiveObject';
 
 
 const mapSize = 10;
@@ -57,7 +58,19 @@ export class ChangeHandler {
 
         var spawnPos: Position = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
         var exitPos: Position = new Position(data.ExitPosition.X, data.ExitPosition.Y);
-        var layer: ILayer = new Layer(tiles, spawnPos, exitPos);
+        var interactiveObjects: (InteractiveObject | null)[][] = []
+        for(var i=0; i<data.InteractiveObjects.length; i++) {
+            var temp: (InteractiveObject | null)[] = [];
+            for (var j=0; j<data.InteractiveObjects[i].length; j++) {
+                if (data.InteractiveObjects[i][j] != null) {
+                    temp.push(new InteractiveObject(data.InteractiveObjects[i][j].Name, data.InteractiveObjects[i][j].goldContent));
+                } else {
+                    temp.push(null);
+                }
+            }
+            interactiveObjects.push(temp);
+        } 
+        var layer: ILayer = new Layer(tiles, spawnPos, exitPos, interactiveObjects);
 
         var name: string = data.Player.Name;
         var xPosition: number = data.Player.Position.X;
