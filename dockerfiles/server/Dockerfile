@@ -4,7 +4,7 @@ USER root
 
 RUN apt-get update -y && \
     apt-get upgrade -y && \
-	apt-get install git
+	apt-get install -y git
 
 RUN apt-get -y install apt-transport-https && \
     wget -q https://packages.microsoft.com/config/ubuntu/18.04/packages-microsoft-prod.deb && \
