@@ -7,6 +7,7 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends \
         curl \
     && rm -rf /var/lib/apt/lists/*
+	&& apt-get install -y git
 
 # Install ASP.NET Core
 ENV ASPNETCORE_VERSION 2.1.14
