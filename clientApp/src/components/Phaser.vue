@@ -20,6 +20,8 @@
     import { IPosition } from "@/GameState/IPosition";
 
     import 'phaser';
+import { stat } from 'fs';
+import { InteractiveObject } from '../GameState/InteractiveObject';
 
     var config = {
         type: Phaser.AUTO,
@@ -39,13 +41,14 @@
         }
     };
     
-    var api: IApi = new Api("https://localhost:44333");
+    var api: IApi = new Api("https://localhost:5001");
     var handler: ChangeHandler = new ChangeHandler(api);
     var player;
 
     var tileWidth: number = 32;
     var tiles;
     var npcs;
+    var interactiveObjects;
     var cursors;
     var healthText;
     var goldText;
@@ -62,6 +65,7 @@
         this.load.image('spawn', 'floor_spawn.png');
         this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
+        this.load.image('chest', 'chest.png');
         this.load.spritesheet('mob', 'mob.png', { frameWidth: 16, frameHeight: 20 });
         this.load.spritesheet('knight', 'knight.png', { frameWidth: 16, frameHeight: 28 });
     }
@@ -71,6 +75,7 @@
         cursors = this.input.keyboard.createCursorKeys();
         tiles = this.add.group();
         npcs = this.add.group();
+        interactiveObjects = this.add.group();
 
         game.anims.create({
             key: 'knight_idle',
@@ -153,6 +158,7 @@
         tiles.clear();
         goldText.destroy();
         healthText.destroy();
+        interactiveObjects.clear();
         destroySprite(player);
         
     }
@@ -166,6 +172,7 @@
         var layer: ILayer = state._LayerState;
         var characters: any[][] = state._NPCState;
         var playerState: Character = state._CharacterState;
+        var interObjcs: (InteractiveObject | null)[][] = layer.getInteractiveObjects();
 
         var xOff = 100;
         var yOff = 100;
@@ -185,6 +192,15 @@
         tiles.create(layer.getSpawn().x * tileWidth + xOff, layer.getSpawn().y  * tileWidth + yOff, 'spawn').setScale(2);
         tiles.create(layer.getExit().x * tileWidth + xOff, layer.getExit().y * tileWidth + yOff, 'exit').setScale(2);
 
+
+        for (var i = 0; i < layer.getWidth(); i++) {
+            for (var j = 0; j < layer.getHeight(); j++) {
+                if (interObjcs[i][j] != null) {
+                    console.log(state);
+                    interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
+                }
+            }
+        }
 
 
         for (var i = 0; i < layer.getWidth(); i++) {
