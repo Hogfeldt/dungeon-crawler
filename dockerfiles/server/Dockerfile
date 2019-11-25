@@ -1,14 +1,10 @@
-# https://github.com/dotnet/dotnet-docker/blob/5c25dd2ed863dfd73edb1a6381dd9635734d0e5f/2.1/aspnet/stretch-slim/amd64/Dockerfile
-
 ARG REPO=mcr.microsoft.com/dotnet/core/runtime-deps
 FROM $REPO:2.1-stretch-slim
 
 RUN apt-get update \
-	&& apt-get upgrade \
     && apt-get install -y --no-install-recommends \
         curl \
-    && rm -rf /var/lib/apt/lists/* \
-	&& apt-get install -y git
+    && rm -rf /var/lib/apt/lists/*
 
 # Install ASP.NET Core
 ENV ASPNETCORE_VERSION 2.1.14
@@ -20,5 +16,8 @@ RUN curl -SL --output aspnetcore.tar.gz https://dotnetcli.azureedge.net/dotnet/a
     && tar -zxf aspnetcore.tar.gz -C /usr/share/dotnet \
     && rm aspnetcore.tar.gz \
     && ln -s /usr/share/dotnet/dotnet /usr/bin/dotnet
+
+RUN apt-get upgrade \
+	&& apt-get install -y git
 
 RUN git clone https://github.com/Hogfeldt/dungeon-crawler.git
