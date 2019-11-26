@@ -1,17 +1,17 @@
 import { ILayer } from "./ILayer";
 import { ITile } from "./ITile";
 import { IPosition } from "./IPosition";
-import { InteractiveObject } from './InteractiveObject';
+import { IInteractiveObject } from './IInteractiveObject';
 
 export class Layer implements ILayer {
 
     private tiles: ITile[][];
     private spawnPos: IPosition;
     private exitPos: IPosition;
-    private interactiveObjects: (InteractiveObject | null)[][];
+    private interactiveObjects: (IInteractiveObject | null)[][];
 
 
-    constructor(tiles: ITile[][], spawnPos: IPosition, exitPos: IPosition, interactiveObjects: (InteractiveObject | null)[][]) {
+    constructor(tiles: ITile[][], spawnPos: IPosition, exitPos: IPosition, interactiveObjects: (IInteractiveObject | null)[][]) {
         this.tiles = tiles;
         this.spawnPos = spawnPos;
         this.exitPos = exitPos;
@@ -37,7 +37,7 @@ export class Layer implements ILayer {
         return this.exitPos;
     }
 
-    getInteractiveObjects(): (InteractiveObject | null)[][] {
+    getInteractiveObjects(): (IInteractiveObject | null)[][] {
         return this.interactiveObjects;
     }
 }

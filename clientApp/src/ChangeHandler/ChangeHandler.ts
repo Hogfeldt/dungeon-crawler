@@ -10,7 +10,9 @@ import { Layer } from "../GameState/Layer"
 import { ITile } from "../GameState/ITile"
 import { Tile } from "../GameState/Tile"
 import { Position } from "../GameState/Position";
-import { InteractiveObject } from '@/GameState/InteractiveObject';
+import { Chest } from '@/GameState/Chest';
+import { ChestMimic } from '@/GameState/ChestMimic';
+import { IInteractiveObject } from '@/GameState/IInteractiveObject';
 
 
 const mapSize = 10;
@@ -58,12 +60,16 @@ export class ChangeHandler {
 
         var spawnPos: Position = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
         var exitPos: Position = new Position(data.ExitPosition.X, data.ExitPosition.Y);
-        var interactiveObjects: (InteractiveObject | null)[][] = []
+        var interactiveObjects: (IInteractiveObject | null)[][] = []
         for(var i=0; i<data.InteractiveObjects.length; i++) {
-            var temp: (InteractiveObject | null)[] = [];
+            var temp: (IInteractiveObject | null)[] = [];
             for (var j=0; j<data.InteractiveObjects[i].length; j++) {
                 if (data.InteractiveObjects[i][j] != null) {
-                    temp.push(new InteractiveObject(data.InteractiveObjects[i][j].Name, data.InteractiveObjects[i][j].goldContent));
+                    if(data.InteractiveObjects[i][j].Name === "Chest" ) {
+                        temp.push(new Chest(data.InteractiveObjects[i][j].Name, data.InteractiveObjects[i][j].goldContent));
+                    } else if(data.InteractiveObjects[i][j].Name === "ChestMimic") {
+                        temp.push(new ChestMimic(data.InteractiveObjects[i][j].Name, data.InteractiveObjects[i][j].discovered));
+                    }
                 } else {
                     temp.push(null);
                 }
