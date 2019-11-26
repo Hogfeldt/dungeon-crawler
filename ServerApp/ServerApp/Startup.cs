@@ -58,7 +58,7 @@ namespace ServerApp
             }
 
             app.UseSession();
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseMvc();
         }
     }
