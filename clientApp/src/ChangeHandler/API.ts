@@ -18,4 +18,16 @@ export class Api implements  IApi{
     public move(direction: string): Promise<any> {
         return axios.post(this.address + "/api/move", direction, { withCredentials: true });
     }
+
+    public postUserInfo(username: string, password: string, email: string) {
+        return axios.post(this.address + "/api/UserInfo", { UserName: username, Password: password, Email: email });
+    }
+
+    public getUserInfo(username: string, password: string) {
+        return axios({
+            method: "get",
+            url: this.address + "/api/UserInfo",
+            data: { UserName: username, Password: password }
+        });
+    }
 }
