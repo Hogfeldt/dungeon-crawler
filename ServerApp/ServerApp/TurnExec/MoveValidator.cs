@@ -14,7 +14,7 @@ namespace ServerApp.TurnExec
             switch (direction)
             {
                 case Character.Direction.Down:
-                    if (position.Y + 1 > tiles.GetLength(1))
+                    if (position.Y + 1 >= tiles.GetLength(1))
                     {
                         return false;
                     }
@@ -36,7 +36,7 @@ namespace ServerApp.TurnExec
 
 
                 case Character.Direction.Right:
-                    if (position.X + 1 > tiles.GetLength(1))
+                    if (position.X + 1 >= tiles.GetLength(1))
                     {
                         return false;
                     }
