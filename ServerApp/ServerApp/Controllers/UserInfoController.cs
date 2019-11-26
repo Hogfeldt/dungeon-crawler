@@ -20,7 +20,7 @@ namespace ServerApp.Controllers
         }
 
         // GET: api/UserInfo
-        [HttpGet]
+        [HttpGet("all")]
         public IEnumerable<UserInfoModel> GetUserInfoModel()
         {
             return _context.UserInfoModel;

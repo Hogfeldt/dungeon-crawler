@@ -47,7 +47,7 @@ export class ChangeHandler {
         });
     }
 
-    public getUserInfo(username: string, password: string, email: string) {
+    public getUserInfo(username: string, password: string) {
         return this.api.getUserInfo(username, password).then(r => {
             return r.data;
         });
