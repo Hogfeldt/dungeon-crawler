@@ -146,14 +146,20 @@ var createLabel = function (scene, text) {
         }, Demo],
         "render.transparent": true
     };    
-    var api: IApi = new Api("http://127.0.0.1:5000");
+
+    var server_path: string | undefined = process.env.VUE_APP_SERVER_PATH;
+    if (server_path == undefined) {
+        server_path = 'http://178.62.43.127:5000/';
+    }
+    console.log(server_path);
+    var api: IApi = new Api(server_path);
 
     var handler: ChangeHandler = new ChangeHandler(api);
     var player;
 
     var tileWidth: number = 32;
     var tiles;
-    var npcs;
+    var npc;
     var interactiveObjects;
     var cursors;
     var healthText;
