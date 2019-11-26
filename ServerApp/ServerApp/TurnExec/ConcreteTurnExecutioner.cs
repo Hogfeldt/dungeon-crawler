@@ -13,15 +13,18 @@ namespace ServerApp.TurnExec
         private readonly IMoveValidator _validator;
         private readonly ICharacterFormatter _formatter;
         private readonly ITurnScheduler _turnScheduler;
+        private readonly IMoveExecutioner _moveExecutioner;
 
         public ConcreteTurnExecutioner(
             IMoveValidator validator,
             ICharacterFormatter formatter,
-            ITurnScheduler scheduler)
+            ITurnScheduler scheduler,
+            IMoveExecutioner executioner)
         {
             _validator = validator;
             _formatter = formatter;
             _turnScheduler = scheduler;
+            _moveExecutioner = executioner;
         }
 
         public GameStateClass ExecuteTurn(GameStateClass state)
@@ -32,7 +35,9 @@ namespace ServerApp.TurnExec
             if (_validator.Validate(player.Position, player.NextMove, tiles))
             {
                 List<ICharacter> characters = _formatter.ToList(state.Map.GetCurrentLayer().Characters);
-                Queue<ICharacter> turns = _turnScheduler.Schedule(characters);
+                Queue<ICharacter> characterMoves = _turnScheduler.Schedule(characters);
+
+                characters = _moveExecutioner.ExecuteMoves(characterMoves);
             }
 
             return state;
