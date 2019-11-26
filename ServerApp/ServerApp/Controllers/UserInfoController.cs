@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ServerApp.Data;
+using ServerApp.Database.Models;
 
-namespace ServerApp.Database.Models
+namespace ServerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -27,35 +26,40 @@ namespace ServerApp.Database.Models
             return _context.UserInfoModel;
         }
 
-        // GET: api/UserInfo/5
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetUserInfoModel([FromRoute] long id)
+        // GET: api/UserInfo
+        [HttpGet]
+        public async Task<IActionResult> GetUserInfoModel([FromBody] UserInfoModel userInfoModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userInfoModel = await _context.UserInfoModel.FindAsync(id);
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
 
-            if (userInfoModel == null)
+            if (userFromDb == null)
             {
                 return NotFound();
             }
 
-            return Ok(userInfoModel);
+            if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
+            {
+                return Ok(userInfoModel);
+            }
+
+            return Unauthorized();
         }
 
-        // PUT: api/UserInfo/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutUserInfoModel([FromRoute] long id, [FromBody] UserInfoModel userInfoModel)
+        // PUT: api/UserInfo/Glenn
+        [HttpPut("{username}")]
+        public async Task<IActionResult> PutUserInfoModel([FromRoute] string username, [FromBody] UserInfoModel userInfoModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != userInfoModel.Id)
+            if (username != userInfoModel.UserName)
             {
                 return BadRequest();
             }
@@ -68,7 +72,7 @@ namespace ServerApp.Database.Models
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserInfoModelExists(id))
+                if (!UserInfoModelExists(username))
                 {
                     return NotFound();
                 }
@@ -90,6 +94,10 @@ namespace ServerApp.Database.Models
                 return BadRequest(ModelState);
             }
 
+            if (UserInfoModelExists(userInfoModel.UserName))
+            {
+                return BadRequest(ModelState);
+            }
             userInfoModel.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(userInfoModel.Password);
             _context.UserInfoModel.Add(userInfoModel);
             await _context.SaveChangesAsync();
@@ -97,16 +105,16 @@ namespace ServerApp.Database.Models
             return CreatedAtAction("GetUserInfoModel", new { id = userInfoModel.Id }, userInfoModel);
         }
 
-        // DELETE: api/UserInfo/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteUserInfoModel([FromRoute] long id)
+        // DELETE: api/UserInfo/Glenn
+        [HttpDelete("{username}")]
+        public async Task<IActionResult> DeleteUserInfoModel([FromRoute] string username)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userInfoModel = await _context.UserInfoModel.FindAsync(id);
+            var userInfoModel = await _context.UserInfoModel.FindAsync(username);
             if (userInfoModel == null)
             {
                 return NotFound();
@@ -118,9 +126,9 @@ namespace ServerApp.Database.Models
             return Ok(userInfoModel);
         }
 
-        private bool UserInfoModelExists(long id)
+        private bool UserInfoModelExists(string username)
         {
-            return _context.UserInfoModel.Any(e => e.Id == id);
+            return _context.UserInfoModel.Any(e => e.UserName == username);
         }
     }
 }
