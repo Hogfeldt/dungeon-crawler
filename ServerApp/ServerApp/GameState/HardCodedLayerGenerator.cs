@@ -1,4 +1,6 @@
-﻿namespace ServerApp.GameState
+﻿using System;
+
+namespace ServerApp.GameState
 {
     public class HardCodedLayerGenerator: ILayerGenerator
     {
@@ -11,7 +13,12 @@
             Character[,] characters = new Character[width,height];
             ITile[,] tiles = new ITile[width, height];
             IInteractiveObject[,] objects = new IInteractiveObject[width, height];
-            objects[3,0] = new Chest();
+            Random rnd = new Random();
+            if (rnd.Next(0, 2) == 0) {
+                objects[3,0] = new Chest();
+            } else {
+                objects[3,0] = new ChestMimic();
+            }
 
             for (var x = 0; x < width; x++)
             {
