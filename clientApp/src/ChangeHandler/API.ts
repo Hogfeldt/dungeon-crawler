@@ -24,10 +24,6 @@ export class Api implements  IApi{
     }
 
     public getUserInfo(username: string, password: string) {
-        return axios.get(this.address + "/api/UserInfo", { params: { UserName: username, Password: password } });
-    }
-
-    public getUserInfgggo(username: string, password: string) {
         return axios({
             method: "get",
             url: this.address + "/api/UserInfo",
