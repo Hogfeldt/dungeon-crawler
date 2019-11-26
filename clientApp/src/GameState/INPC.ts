@@ -1,6 +1,5 @@
-
+import { IPosition } from './IPosition';
 
 export interface INPC {
-    xPosition: number;
-    yPosition: number;
+    position: IPosition;
 }

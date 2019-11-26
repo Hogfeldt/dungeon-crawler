@@ -16,8 +16,6 @@
 
         },
         components: {
-            Main,
-            Game,
             PhaserGame
         },
     };

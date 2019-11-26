@@ -14,7 +14,7 @@ export class GameState implements IGameState {
         this._CharacterState = characterState;
         this._LayerState     = layerState;
     }
-    
+
     public changeState(gameState: IGameState) {
         this._NPCState       = gameState._NPCState;
         this._CharacterState = gameState._CharacterState;

@@ -11,124 +11,18 @@
     import { ChangeHandler } from '@/ChangeHandler/ChangeHandler';
     import { IApi } from '@/ChangeHandler/IApi';
     import { Api } from '@/ChangeHandler/API';
-    import { Layer } from '@/GameState/Layer';
     import { ILayer } from '@/GameState/ILayer';
-    import { Tile } from '@/GameState/Tile';
-    import { ITile } from '@/GameState/ITile';
     import { GameState } from "@/GameState/GameState";
     import { Character } from "@/GameState/Character";
-    import { IPosition } from "@/GameState/IPosition";
 
-    import 'phaser';
-import { stat } from 'fs';
-import { IInteractiveObject } from '../GameState/IInteractiveObject';
-import { Chest } from '@/GameState/Chest';
-import { ChestMimic } from '@/GameState/ChestMimic';
+    import Phaser from 'phaser';
+    import { IInteractiveObject } from '../GameState/IInteractiveObject';
+    import { Chest } from '@/GameState/Chest';
+    import { ChestMimic } from '@/GameState/ChestMimic';
 
-class Demo extends Phaser.Scene {
-    constructor() {
-        super({
-            key: 'Demo'
-        })
-    }
 
-    preload() { 
-        this.load.scenePlugin({
-            key: 'rexuiplugin',
-            url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/plugins/dist/rexuiplugin.min.js',
-            sceneKey: 'rexUI'
-        });      
-    }
 
-    create() {
-        var dialog = this.rexUI.add.dialog({
-            x: 400,
-            y: 300,
-
-            background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x1565c0),
-
-            title: this.rexUI.add.label({
-                background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x003c8f),
-                text: this.add.text(0, 0, 'Title', {
-                    fontSize: '24px'
-                }),
-                space: {
-                    left: 15,
-                    right: 15,
-                    top: 10,
-                    bottom: 10
-                }
-            }),
-
-            content: this.add.text(0, 0, 'Do you want to build a snow man?', {
-                fontSize: '24px'
-            }),
-
-            actions: [
-                createLabel(this, 'Yes'),
-                createLabel(this, 'No')
-            ],
-
-            space: {
-                title: 25,
-                content: 25,
-                action: 15,
-
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: 20,
-            },
-
-            align: {
-                actions: 'right', // 'center'|'left'|'right'
-            },
-
-            expand: {
-                content: false, // Content is a pure text object
-            }
-        })
-            .layout()
-            // .drawBounds(this.add.graphics(), 0xff0000)
-            .popUp(1000);
-
-        this.print = this.add.text(0, 0, '');
-        dialog
-            .on('button.click', function (button, groupName, index) {
-                this.print.text += index + ': ' + button.text + '\n';
-            }, this)
-            .on('button.over', function (button, groupName, index) {
-                button.getElement('background').setStrokeStyle(1, 0xffffff);
-            })
-            .on('button.out', function (button, groupName, index) {
-                button.getElement('background').setStrokeStyle();
-            });
-    }
-
-    update() { }
-}
-
-var createLabel = function (scene, text) {
-    return scene.rexUI.add.label({
-        // width: 40,
-        // height: 40,
-
-        background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x5e92f3),
-
-        text: scene.add.text(0, 0, text, {
-            fontSize: '24px'
-        }),
-
-        space: {
-            left: 10,
-            right: 10,
-            top: 10,
-            bottom: 10
-        }
-    });
-}
-
-    var config = {
+    var config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
         width: 800,
         height: 600,
@@ -139,41 +33,41 @@ var createLabel = function (scene, text) {
                 debug: false
             }
         },
-        scene: [{
+        scene: {
             preload: preload,
             create: create,
             update: update
-        }, Demo],
-        "render.transparent": true
+        }
     }; 
 
     var server_path: string | undefined = process.env.VUE_APP_SERVER_PATH;
     if (server_path == undefined) {
+        //Default to server if environment variable is not set.
         server_path = 'http://178.62.43.127:5000/';
     }
-    console.log(server_path);
+
     var api: IApi = new Api(server_path);
 
     var handler: ChangeHandler = new ChangeHandler(api);
-    var player;
+    var player: Phaser.GameObjects.Sprite;
 
     var tileWidth: number = 32;
-    var tiles;
-    var npc;
-    var interactiveObjects;
-    var cursors;
-    var healthText;
-    var goldText;
-    var experienceText;
-    var game = new Phaser.Game(config);
+    var tiles: Phaser.GameObjects.Group;
+    var npcs: Phaser.GameObjects.Group;
+    var interactiveObjects: Phaser.GameObjects.Group;
+    var cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+    var healthText: Phaser.GameObjects.Text;
+    var goldText: Phaser.GameObjects.Text;
+    var experienceText: Phaser.GameObjects.Text;
+    var game: Phaser.Game = new Phaser.Game(config);
 
-    var up;
-    var down;
-    var right;
-    var left;
-    var space;
+    var up: boolean;
+    var down: boolean;
+    var right: boolean;
+    var left: boolean;
+    var space: boolean;
 
-    function preload() {
+    function preload(this: Phaser.Scene) {
         this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
         this.load.image('floor', 'floor.png');
         this.load.image('spawn', 'floor_entrance.png');
@@ -186,7 +80,7 @@ var createLabel = function (scene, text) {
         this.load.spritesheet('knight', 'knight.png', { frameWidth: 16, frameHeight: 28 });
     }
 
-    function create() {
+    function create(this: Phaser.Scene) {
 
         cursors = this.input.keyboard.createCursorKeys();
         tiles = this.add.group();
@@ -207,76 +101,67 @@ var createLabel = function (scene, text) {
             repeat: -1
         })
 
-        //  A simple background for our game
-        
-
         handler.getState().then(r => {
             drawFromState(r, this);
         })
     }
 
-    function update() {
+    function update(this: Phaser.Scene) {
 
-        if (cursors.left.isDown) {
+        if (cursors.left!.isDown) {
             left = true;
         }
 
-        if (left && cursors.left.isUp)
+        if (left && cursors.left!.isUp)
         {
             left = false;
             handler.move("Left").then(r => {
-                cleanUp(this);
+                cleanUp();
                 drawFromState(r, this);
             })
         }
 
-         if (cursors.right.isDown) {
+         if (cursors.right!.isDown) {
             right = true;
         }
 
-        if (right && cursors.right.isUp)
+        if (right && cursors.right!.isUp)
         {
             right = false;
             handler.move("Right").then(r => {
-                cleanUp(this);
+                cleanUp();
                 drawFromState(r, this);
             })
         }
 
-         if (cursors.up.isDown) {
+         if (cursors.up!.isDown) {
             up = true;
         }
 
-        if (up && cursors.up.isUp)
+        if (up && cursors.up!.isUp)
         {
             up = false;
             handler.move("Up").then(r => {
-                cleanUp(this);
+                cleanUp();
                 drawFromState(r, this);
             })
         }
 
-        if (cursors.down.isDown) {
+        if (cursors.down!.isDown) {
             down = true;
         }
 
-        if (down && cursors.down.isUp)
+        if (down && cursors.down!.isUp)
         {
             down = false;
             handler.move("Down").then(r => {
-                cleanUp(this);
+                cleanUp();
                 drawFromState(r, this);
             })
         }
-        if (cursors.space.isDown) {
-            space = true;
-        }
-        if(space && cursors.space.isUp) {
-            this.scene.start('Demo');
-        }
     }
 
-    function cleanUp(game: any) {
+    function cleanUp() {
         npcs.clear();
         tiles.clear();
         goldText.destroy();
@@ -287,11 +172,11 @@ var createLabel = function (scene, text) {
         
     }
 
-    function destroySprite(sprite: any) {
+    function destroySprite(sprite: Phaser.GameObjects.Sprite) {
         sprite.destroy();
     }
 
-    function drawFromState(state: GameState, game: any) {
+    function drawFromState(state: GameState, game: Phaser.Scene) {
 
         var layer: ILayer = state._LayerState;
         var characters: any[][] = state._NPCState;
@@ -319,14 +204,14 @@ var createLabel = function (scene, text) {
         for (var i = 0; i < layer.getWidth(); i++) {
             for (var j = 0; j < layer.getHeight(); j++) {
                 if (interObjcs[i][j] != null) {
-                    if(interObjcs[i][j]._name === "Chest"){
-                        var chest: Chest = <Chest>interObjcs[i][j]
+                    if(interObjcs[i][j]!._name === "Chest"){
+                        var chest: Chest = <Chest>interObjcs[i][j];
                         if(chest.goldContent === 0){
                             interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_empty').setScale(2);
                         } else{
                             interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
                         }
-                    } else if(interObjcs[i][j]._name === "ChestMimic") {
+                    } else if(interObjcs[i][j]!._name === "ChestMimic") {
                         var chestmimic: ChestMimic = <ChestMimic>interObjcs[i][j]
                         if(chestmimic.discovered === false){
                             interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
