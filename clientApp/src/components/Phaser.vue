@@ -21,7 +21,9 @@
 
     import 'phaser';
 import { stat } from 'fs';
-import { InteractiveObject } from '../GameState/InteractiveObject';
+import { IInteractiveObject } from '../GameState/IInteractiveObject';
+import { Chest } from '@/GameState/Chest';
+import { ChestMimic } from '@/GameState/ChestMimic';
 
 class Demo extends Phaser.Scene {
     constructor() {
@@ -172,7 +174,8 @@ var createLabel = function (scene, text) {
         this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
         this.load.image('chest', 'chest.png');
-        this.load.image('chest_empty', "chest_open.png")
+        this.load.image('chest_empty', "chest_open.png");
+        this.load.image('chest_mimic', "chest_mimic.png");
         this.load.spritesheet('mob', 'mob.png', { frameWidth: 16, frameHeight: 20 });
         this.load.spritesheet('knight', 'knight.png', { frameWidth: 16, frameHeight: 28 });
     }
@@ -287,7 +290,7 @@ var createLabel = function (scene, text) {
         var layer: ILayer = state._LayerState;
         var characters: any[][] = state._NPCState;
         var playerState: Character = state._CharacterState;
-        var interObjcs: (InteractiveObject | null)[][] = layer.getInteractiveObjects();
+        var interObjcs: (IInteractiveObject | null)[][] = layer.getInteractiveObjects();
 
         var xOff = 150;
         var yOff = 150;
@@ -307,14 +310,23 @@ var createLabel = function (scene, text) {
         tiles.create(layer.getSpawn().x * tileWidth + xOff, layer.getSpawn().y  * tileWidth + yOff, 'spawn').setScale(2);
         tiles.create(layer.getExit().x * tileWidth + xOff, layer.getExit().y * tileWidth + yOff, 'exit').setScale(2);
 
-
         for (var i = 0; i < layer.getWidth(); i++) {
             for (var j = 0; j < layer.getHeight(); j++) {
                 if (interObjcs[i][j] != null) {
-                    if(interObjcs[i][j].goldContent == 0){
-                        interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_empty').setScale(2);
-                    } else{
-                        interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
+                    if(interObjcs[i][j]._name === "Chest"){
+                        var chest: Chest = <Chest>interObjcs[i][j]
+                        if(chest.goldContent === 0){
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_empty').setScale(2);
+                        } else{
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
+                        }
+                    } else if(interObjcs[i][j]._name === "ChestMimic") {
+                        var chestmimic: ChestMimic = <ChestMimic>interObjcs[i][j]
+                        if(chestmimic.discovered === false){
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
+                        } else {
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_mimic').setScale(2);
+                        }
                     }
                 }
             }

@@ -1,6 +1,6 @@
 import { ITile } from "./ITile";
 import { IPosition } from "./IPosition";
-import { InteractiveObject } from './InteractiveObject';
+import { IInteractiveObject } from './IInteractiveObject';
 
 
 export interface ILayer {
@@ -9,6 +9,6 @@ export interface ILayer {
     getHeight(): number;
     getSpawn(): IPosition;
     getExit(): IPosition;
-    getInteractiveObjects(): (InteractiveObject | null)[][]
+    getInteractiveObjects(): (IInteractiveObject | null)[][]
 }
 
