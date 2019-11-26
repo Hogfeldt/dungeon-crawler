@@ -2,6 +2,6 @@ namespace ServerApp.GameState
 {
     public interface IInteractiveObject
     {
-        void interact();
+        void interact(IGameState gameState);
     }
 }

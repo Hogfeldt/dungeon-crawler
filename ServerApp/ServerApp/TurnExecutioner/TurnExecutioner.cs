@@ -94,6 +94,7 @@ namespace ServerApp.TurnExec
                 return;
             }
 
+
             //Attempt to move character, will return false if tile is not walkable or is already occupied
             if (!layer.MoveCharacter(character.Position, moveTo))
             {
@@ -115,6 +116,11 @@ namespace ServerApp.TurnExec
                     //We don't punch our friends and thus do not move either, we are done.
                 }
                 //We couldn't move and there was no other character on tile, must mean we attempted to move into a wall
+            }
+
+            // Handle interactive objects
+            if (character.GetType() == typeof(Player) && layer.InteractiveObjects[moveTo.X, moveTo.Y] != null) {
+                layer.InteractiveObjects[moveTo.X, moveTo.Y].interact(_gameState);
             }
 
             //Figure out if the player just moved onto next layer
