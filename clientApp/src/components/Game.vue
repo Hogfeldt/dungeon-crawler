@@ -24,7 +24,7 @@
         mounted() {
             console.log("hej");
 
-            this.api = new Api("https://localhost:44333");
+            this.api = new Api("https://178.62.43.127:5001");
             this.handler = new ChangeHandler(this.api);
 
             this.handler.getState().then(r => {

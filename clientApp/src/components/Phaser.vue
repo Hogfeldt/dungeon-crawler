@@ -145,9 +145,9 @@ var createLabel = function (scene, text) {
             update: update
         }, Demo],
         "render.transparent": true
-    };
+    };    
+    var api: IApi = new Api("http://127.0.0.1:5000");
 
-    var api: IApi = new Api("https://localhost:5001");
     var handler: ChangeHandler = new ChangeHandler(api);
     var player;
 
