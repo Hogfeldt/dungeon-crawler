@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ServerApp.GameState;
 
-namespace ServerApp.TurnExec
+namespace ServerApp.TurnExecute
 {
     public class TurnExecutioner
     {
