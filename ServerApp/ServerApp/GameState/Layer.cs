@@ -8,7 +8,7 @@ namespace ServerApp.GameState
         public int Height { private set; get; }
         public int Width { private set; get; }
         public ITile[,] Tiles { private set; get; }
-        public ICharacter[,] Characters { private set; get; }
+        public ICharacter[,] Characters { set; get; }
         public IInteractiveObject[,] InteractiveObjects {private set; get;}
 
         public IPosition InitialPlayerPosition { private set; get; }

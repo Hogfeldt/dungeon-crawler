@@ -39,6 +39,15 @@ namespace ServerApp.TurnExec
                 Queue<ICharacter> characterMoves = _turnScheduler.Schedule(characters);
 
                 characters = _moveExecutioner.ExecuteMoves(characterMoves, layer);
+
+                ICharacter[, ] characterLayer = new ICharacter[10, 10];
+
+                foreach (var character in characters)
+                {
+                    characterLayer[character.Position.X, character.Position.Y] = character;
+                }
+
+                state.Map.GetCurrentLayer().Characters = characterLayer;
             }
 
             return state;

@@ -50,7 +50,15 @@ namespace ServerApp.TurnExec
                 // Only surviving ones gets passed on
                 characters.Add(character);
             }
-            return characters;
+            List<ICharacter> survivors = new List<ICharacter>();
+            foreach (var character in characters)
+            {
+                if (character.Alive)
+                {
+                    survivors.Add(character);
+                }
+            }
+            return survivors;
 
         }
 

@@ -5,7 +5,7 @@ namespace ServerApp.GameState
     public interface ILayer
     {
         ITile[,] Tiles { get; }
-        ICharacter[,] Characters { get; } 
+        ICharacter[,] Characters { get; set; }
         IPosition InitialPlayerPosition { get; }
         IPosition ExitPosition { get; }
         IInteractiveObject[,] InteractiveObjects {get;}
