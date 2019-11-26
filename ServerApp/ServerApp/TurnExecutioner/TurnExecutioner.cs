@@ -29,6 +29,12 @@ namespace ServerApp.TurnExec
                 {
                     MovePlayerToDeadMobPosition();
                 }
+
+                if(_gameState.Player == null)
+                {
+                    // Player was killed, respawn
+                    _gameState = GameStateFactory.GenerateNewGameState();
+                }
             }
 
             return _gameState;
@@ -100,7 +106,7 @@ namespace ServerApp.TurnExec
             {
                 Character characterOnTile = layer.GetCharacter(moveTo);
                 //Moving didn't work, find out if failure was because it was occupied
-                if (layer.GetCharacter(moveTo) != null)
+                if (characterOnTile != null)
                 {
                     //Couldn't move because tile was occupied, figure out if we punch character on tile.
                     if (character.GetType() == typeof(Player) && characterOnTile.GetType() == typeof(HostileNPC))
