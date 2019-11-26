@@ -25,7 +25,7 @@ namespace ServerApp
                 {
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
-                    builder.AllowAnyOrigin();
+		    builder.WithOrigins("http://127.0.0.1:8080", "http://178.62.43.127:8080");
                     builder.AllowCredentials();
                 });
             });

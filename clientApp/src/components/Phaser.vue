@@ -39,7 +39,7 @@
         }
     };
     
-    var api: IApi = new Api("http://178.62.43.127:5000");
+    var api: IApi = new Api("http://127.0.0.1:5000");
     var handler: ChangeHandler = new ChangeHandler(api);
     var player;
 
