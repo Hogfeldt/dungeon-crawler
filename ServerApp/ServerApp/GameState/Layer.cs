@@ -8,7 +8,7 @@ namespace ServerApp.GameState
         public int Height { private set; get; }
         public int Width { private set; get; }
         public ITile[,] Tiles { private set; get; }
-        public Character[,] Characters { private set; get; }
+        public ICharacter[,] Characters { private set; get; }
         public IInteractiveObject[,] InteractiveObjects {private set; get;}
 
         public IPosition InitialPlayerPosition { private set; get; }
@@ -49,7 +49,7 @@ namespace ServerApp.GameState
                 return false;
             }
 
-            Character toMove = GetCharacter(oldPosition);
+            ICharacter toMove = GetCharacter(oldPosition);
             toMove.Position = newPosition;
             AddCharacter(toMove);
             RemoveCharacterFromPosition(oldPosition);
@@ -57,7 +57,7 @@ namespace ServerApp.GameState
             return true;
         }
 
-        public void AddCharacter(Character character)
+        public void AddCharacter(ICharacter character)
         {
             if (!PositionIsValid(character.Position))
             {
@@ -77,7 +77,7 @@ namespace ServerApp.GameState
             Characters[position.X, position.Y] = null;
         }
 
-        public Character GetCharacter(IPosition position)
+        public ICharacter GetCharacter(IPosition position)
         {
             if (!PositionIsValid(position))
             {
@@ -86,7 +86,7 @@ namespace ServerApp.GameState
             return Characters[position.X, position.Y];
         }
 
-        public Character GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff)
+        public ICharacter GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff)
         {
             IPosition offsetPosition = new Position(position, xOff, yOff);
 
@@ -109,9 +109,9 @@ namespace ServerApp.GameState
             return GetTile(offSetPosition);
         }
 
-        public List<Character> CharactersAsList()
+        public List<ICharacter> CharactersAsList()
         {
-            List<Character> characterList = new List<Character>();
+            List<ICharacter> characterList = new List<ICharacter>();
 
             foreach (var character in Characters)
             {

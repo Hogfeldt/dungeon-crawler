@@ -6,7 +6,7 @@ namespace ServerApp.TurnExecute
 {
     public class TurnExecutioner
     {
-        private List<Character> _characters;
+        private List<ICharacter> _characters;
         private GameStateClass _gameState;
         private IPosition _deadMobPosition = null;
 
@@ -89,7 +89,7 @@ namespace ServerApp.TurnExecute
             _gameState.Map.GetCurrentLayer().MoveCharacter(_gameState.Player.Position, _deadMobPosition);
         }
 
-        private void ExecuteCharacterMove(Character character)
+        private void ExecuteCharacterMove(ICharacter character)
         {
             var layer = _gameState.Map.GetCurrentLayer();
             var moveTo = PositionToMoveTo(character);
@@ -104,7 +104,7 @@ namespace ServerApp.TurnExecute
             //Attempt to move character, will return false if tile is not walkable or is already occupied
             if (!layer.MoveCharacter(character.Position, moveTo))
             {
-                Character characterOnTile = layer.GetCharacter(moveTo);
+                ICharacter characterOnTile = layer.GetCharacter(moveTo);
                 //Moving didn't work, find out if failure was because it was occupied
                 if (characterOnTile != null)
                 {
@@ -166,7 +166,7 @@ namespace ServerApp.TurnExecute
             throw new NotImplementedException("HostileNPCFightPlayer isn't implemented yet");
         }
 
-        public static Position PositionToMoveTo(Character character)
+        public static Position PositionToMoveTo(ICharacter character)
         {
             switch (character.NextMove)
             {
