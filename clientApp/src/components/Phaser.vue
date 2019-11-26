@@ -145,7 +145,7 @@ var createLabel = function (scene, text) {
             update: update
         }, Demo],
         "render.transparent": true
-    };    
+    }; 
 
     var server_path: string | undefined = process.env.VUE_APP_SERVER_PATH;
     if (server_path == undefined) {
