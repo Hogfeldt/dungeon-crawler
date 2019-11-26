@@ -31,13 +31,14 @@ namespace ServerApp.TurnExec
         {
             Player player = state.Player;
             ITile[,] tiles = state.Map.GetCurrentLayer().Tiles;
+            var layer = state.Map.GetCurrentLayer();
 
             if (_validator.Validate(player.Position, player.NextMove, tiles))
             {
-                List<ICharacter> characters = _formatter.ToList(state.Map.GetCurrentLayer().Characters);
+                List<ICharacter> characters = _formatter.ToList(layer.Characters);
                 Queue<ICharacter> characterMoves = _turnScheduler.Schedule(characters);
 
-                characters = _moveExecutioner.ExecuteMoves(characterMoves);
+                characters = _moveExecutioner.ExecuteMoves(characterMoves, layer);
             }
 
             return state;

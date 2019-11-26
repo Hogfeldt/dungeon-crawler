@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using ServerApp.GameState;
 using ServerApp.RequestHandler;
+using ServerApp.TurnExec;
 using ServerApp.TurnExecute;
 
 namespace ServerApp.Controllers
@@ -36,8 +37,17 @@ namespace ServerApp.Controllers
                 var gameState = SessionManager.GetGameState(HttpContext);
                 gameState.Player.SetNextMove(direction);
                 gameState.Map.GetPlayer().SetNextMove(direction);
-                TurnExecutioner turnExec = new TurnExecutioner(gameState);
-                SessionManager.SetGameState(HttpContext, turnExec.Execute());
+
+
+                IMoveValidator validator = new MoveValidator();
+                ICharacterFormatter characterFormatter = new CharacterFormatter();
+                ITurnScheduler turnScheduler = new TurnScheduler();
+                IMoveExecutioner moveExecutioner = new MoveExecutioner(new CombatHandler());
+                ITurnExecutioner turnExecutioner = new ConcreteTurnExecutioner(validator, characterFormatter, turnScheduler, moveExecutioner);
+
+                gameState = turnExecutioner.ExecuteTurn(gameState);
+
+                SessionManager.SetGameState(HttpContext, gameState);
 
                 return JsonConvert.SerializeObject(new ClientGameState(SessionManager.GetGameState(HttpContext)));
             }
