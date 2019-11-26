@@ -16,7 +16,7 @@ namespace ServerApp.GameState
         public IPosition ExitPosition { private set; get; }
 
         [JsonConstructor]
-        public Layer(ITile[,] tiles, Character[,] characters, IPosition initialPlayerPosition, IPosition exitPosition, IInteractiveObject[,] InteractiveObjects)
+        public Layer(ITile[,] tiles, Character[,] characters, IPosition initialPlayerPosition, IPosition exitPosition, IInteractiveObject[,] interactiveObjects)
         {
             Tiles = tiles;
             Characters = characters;
@@ -24,7 +24,7 @@ namespace ServerApp.GameState
             Height = Tiles.GetLength(1);
             InitialPlayerPosition = initialPlayerPosition;
             ExitPosition = exitPosition;
-            this.InteractiveObjects = InteractiveObjects;
+            InteractiveObjects = interactiveObjects;
         }
 
         //Validates a position in the layer, returns true if position is within bounds of layer.

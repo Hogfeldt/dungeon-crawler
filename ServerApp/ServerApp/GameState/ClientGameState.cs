@@ -7,6 +7,7 @@
         public ICharacter[,] Characters = null;
         public IPosition InitialPlayerPosition = null;
         public IPosition ExitPosition = null;
+        public IInteractiveObject[,] InteractiveObjects = null;
 
         public ClientGameState(IGameState gameState)
         { 
@@ -15,6 +16,7 @@
             Characters = gameState.Map.GetCurrentLayer().Characters;
             InitialPlayerPosition = gameState.Map.GetCurrentLayer().InitialPlayerPosition;
             ExitPosition = gameState.Map.GetCurrentLayer().ExitPosition;
+            InteractiveObjects = gameState.Map.GetCurrentLayer().InteractiveObjects;
         }
     }
 }

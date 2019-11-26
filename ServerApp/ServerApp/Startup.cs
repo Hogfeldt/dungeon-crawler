@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.EntityFrameworkCore;
+using ServerApp.Data;
 
 namespace ServerApp
 {
@@ -25,7 +27,7 @@ namespace ServerApp
                 {
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
-                    builder.AllowAnyOrigin();
+		    builder.WithOrigins("http://127.0.0.1:8080", "http://178.62.43.127:8080");
                     builder.AllowCredentials();
                 });
             });
@@ -43,6 +45,9 @@ namespace ServerApp
                 // Make the session cookie essential
                 options.Cookie.IsEssential = true;
             });
+
+            services.AddDbContext<ServerAppContext>(options =>
+                    options.UseSqlite(Configuration.GetConnectionString("ServerAppContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
