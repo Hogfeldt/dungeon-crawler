@@ -27,7 +27,7 @@ export class ChangeHandler {
     public getState() {
         return this.api.gameState().then((r) => {
 
-            let data = r.data;
+            const data = r.data;
 
             return this.gameStateFromData(data);
         });
@@ -36,7 +36,7 @@ export class ChangeHandler {
     public move(direction: string) {
         return this.api.move(direction).then((r) => {
 
-            let data = r.data;
+            const data = r.data;
 
             return this.gameStateFromData(data);
 
@@ -56,7 +56,7 @@ export class ChangeHandler {
     }
 
     private gameStateFromData(data: any): GameState {
-        let tiles: any[][] = new Array();
+        const tiles: any[][] = new Array();
 
         for (let j = 0; j < data.Tiles.length; j++) {
             tiles[j] = [];
@@ -70,46 +70,54 @@ export class ChangeHandler {
             }
         }
 
-        let spawnPos: Position = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
-        let exitPos: Position = new Position(data.ExitPosition.X, data.ExitPosition.Y);
-        let interactiveObjects: Array<IInteractiveObject | null>[] = [];
+        const spawnPos: Position = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
+        const exitPos: Position = new Position(data.ExitPosition.X, data.ExitPosition.Y);
+
+        const interactiveObjects: any[][] = new Array();
         for (let i = 0; i < data.InteractiveObjects.length; i++) {
-            let temp: Array<IInteractiveObject | null> = [];
+            interactiveObjects[i] = [];
             for (let j = 0; j < data.InteractiveObjects[i].length; j++) {
                 if (data.InteractiveObjects[i][j] != null) {
-                    if (data.InteractiveObjects[i][j].Name === 'Chest' ) {
-                        temp.push(new Chest(data.InteractiveObjects[i][j].Name, data.InteractiveObjects[i][j].goldContent));
+                    const currentObject: any = data.InteractiveObjects[i][j];
+                    if (data.InteractiveObjects[i][j].Name === 'Chest') {
+                        interactiveObjects[i][j] = new Chest(
+                            data.InteractiveObjects[i][j].Name,
+                            data.InteractiveObjects[i][j].goldContent);
                     } else if (data.InteractiveObjects[i][j].Name === 'ChestMimic') {
-                        temp.push(new ChestMimic(data.InteractiveObjects[i][j].Name, data.InteractiveObjects[i][j].discovered));
+                        interactiveObjects[i][j] = new ChestMimic(
+                            data.InteractiveObjects[i][j].Name,
+                            data.InteractiveObjects[i][j].discovered);
                     }
                 } else {
-                    temp.push(null);
+                    interactiveObjects[i][j] = null;
                 }
             }
-            interactiveObjects.push(temp);
         }
-        let layer: ILayer = new Layer(tiles, spawnPos, exitPos, interactiveObjects);
 
-        let name: string = data.Player.Name;
-        let xPosition: number = data.Player.Position.X;
-        let yPosition: number = data.Player.Position.Y;
-        let health: number = data.Player.Stats.CurrentHealth;
-        let maxHealth: number = data.Player.Stats.MaxHealth;
-        let gold: number = data.Player.Gold;
-        let experience: number = data.Player.Experience;
+        const layer: ILayer = new Layer(tiles, spawnPos, exitPos, interactiveObjects);
 
-        let player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold, experience);
+        const name: string = data.Player.Name;
+        const xPosition: number = data.Player.Position.X;
+        const yPosition: number = data.Player.Position.Y;
+        const health: number = data.Player.Stats.CurrentHealth;
+        const maxHealth: number = data.Player.Stats.MaxHealth;
+        const gold: number = data.Player.Gold;
+        const experience: number = data.Player.Experience;
 
-        let characters: any[][] = new Array();
+        const player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold, experience);
+
+        const characters: any[][] = new Array();
         for (let l = 0; l < data.Characters.length; l++) {
             characters[l] = [];
             for (let m = 0; m < data.Characters[l].length; m++) {
                 if (data.Characters[l][m] != null) {
-                    let currentCharacter: any = data.Characters[l][m];
+                    const currentCharacter: any = data.Characters[l][m];
                     if (currentCharacter.hasOwnProperty('Gold')) {
                         characters[l][m] = player;
                     } else {
-                        characters[l][m] = new NPC(new Position(currentCharacter.Position.x, currentCharacter.Position.Y));
+                        characters[l][m] = new NPC(
+                            new Position(currentCharacter.Position.x, currentCharacter.Position.Y),
+                        );
                     }
                 } else {
                     characters[l][m] = null;
@@ -118,7 +126,7 @@ export class ChangeHandler {
         }
 
 
-        let state = new GameState(characters, player, layer);
+        const state = new GameState(characters, player, layer);
 
         return state;
     }

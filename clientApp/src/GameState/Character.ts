@@ -9,7 +9,13 @@ export class Character implements ICharacter {
     public gold: number;
     public experience: number;
 
-    constructor(name: string, xpos: number, ypos: number, health: number, maxHealth: number, gold: number, experience: number) {
+    constructor(name: string,
+                xpos: number,
+                ypos: number,
+                health: number,
+                maxHealth: number,
+                gold: number,
+                experience: number) {
         this.name   = name;
         this.xPos   = xpos;
         this.yPos   = ypos;
