@@ -18,31 +18,49 @@
             <form class="sign-up" action="#">
                 <h2>Opret login</h2>
                 <div>Registrer dig her</div>
-                <input type="text" placeholder="Navn" />
+                <input type="text" placeholder="UserName" />
                 <input type="email" placeholder="Email" />
                 <input type="password" placeholder="Password" />
                 <button>Sign Up</button>
             </form>
-            <form class="sign-in" action="#">
+            <form @submit.prevent="submit" class="sign-in" action="#">
                 <h2>Log In</h2>
                 <div>Log in med din konto</div>
-                <input type="text" placeholder="UserName" />
-                <input type="password" placeholder="Password" />
+                <input type="text" placeholder="UserName" id="username" v-model="form.username" />
+                <input type="password" placeholder="Password" id="password" v-model="form.password" />
                 <a href="#">Har du glemt dit password?</a>
-                <button>Sign Up</button>
+                <button type="submit">Sign in</button>
             </form>
         </div>
     </article>
 </template>
 
 <script>
+    import axios from 'axios'
     export default {
         data: () => {
             return {
                 signUp: false
             }
         }
+
+        , methods: {
+            async submit() {
+                let response = axios.post('http://localhost:8080/', this.form)
+                console.log(response.data);
+            }
+        }
+        , data() {
+            return {
+                form: {
+                    username: '',
+                    password: '',
+
+                }
+            }
+        }
     }
+
 </script>
 
 <style lang="scss" scoped>
