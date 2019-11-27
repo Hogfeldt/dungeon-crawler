@@ -6,7 +6,7 @@ COPY . .
 
 RUN npm install
 
-RUN npm run serve
+CMD ["npm", "run", "build"]
 
 FROM nginx as production-stage
 
