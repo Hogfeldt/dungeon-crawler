@@ -1,4 +1,4 @@
-FROM node:12.13.1
+FROM node:12.13.1 as build-stage
 
 WORKDIR /usr/scr/app
 
@@ -6,5 +6,15 @@ COPY . .
 
 RUN npm install
 
+COPY ./ .
 
-CMD ["npm", "run", "build"]
+RUN npm run build
+
+
+FROM nginx as production-stage
+
+RUN mkdir /app
+
+COPY --from=build-stage /app/dist /app
+
+COPY nginx.conf /etc/nginx/nginx.conf
