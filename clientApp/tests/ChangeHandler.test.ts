@@ -1,20 +1,15 @@
-import { ChangeHandler } from "../src/ChangeHandler/ChangeHandler"
+import { ChangeHandler } from '../src/ChangeHandler/ChangeHandler';
+import { IApi } from '../src/ChangeHandler/IApi';
+import mockAPI from '../src/__mocks__/API';
+jest.mock('../src/__mocks__/API');
+import 'jest';
 
-import { IApi } from "../src/ChangeHandler/IApi"
-import mockAPI from "../src/__mocks__/API"
-jest.mock("../src/__mocks__/API");
-
-
-var changeHandler: ChangeHandler;
-var api: IApi;
-
-describe("Api", () => {
+describe('Api', () => {
     beforeEach(() => {
-        var api: IApi = new mockAPI("");
-        changeHandler = new ChangeHandler(api);
+        const api: IApi = new mockAPI('');
+        const changeHandler: ChangeHandler = new ChangeHandler(api);
     });
-    it("gets GameStateFromApi", () => {
-        //Arrange
-        
+    it('gets GameStateFromApi', () => {
+        expect(true).toEqual(true);
     });
 });

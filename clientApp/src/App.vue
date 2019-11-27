@@ -6,19 +6,12 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import Main from './components/Main.vue';
-    import Game from './components/Game.vue';
     import PhaserGame from './components/Phaser.vue';
 
     export default {
-        name: "App",
-        data() {
-
-        },
+        name: 'App',
         components: {
-            Main,
-            Game,
-            PhaserGame
+            PhaserGame,
         },
     };
 </script>

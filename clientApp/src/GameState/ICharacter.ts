@@ -1,10 +1,11 @@
-
-
 export interface ICharacter {
     name: string;
     xPos: number;
     yPos: number;
     health: number;
+    maxHealth: number;
+    gold: number;
+    experience: number;
 
     inventoryList(): any;
     item(): any;

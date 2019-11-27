@@ -9,6 +9,7 @@
     ]
   },
   "rules": {
+  	"array-type": [true, "array"],
     "indent": [true, "spaces", 2],
     "interface-name": false,
     "no-consecutive-blank-lines": false,
