@@ -1,11 +1,11 @@
-import { INPC } from "./INPC"
+import { INPC } from './INPC';
+import { IPosition } from './IPosition';
 
 export class NPC implements INPC {
-    constructor(xPosition: number, yPosition: number) {
-        this.xPosition = xPosition;
-        this.yPosition = yPosition;
-    }
 
-    xPosition: number;
-    yPosition: number;
+    public position: IPosition;
+
+    constructor(position: IPosition) {
+        this.position = position;
+    }
 }

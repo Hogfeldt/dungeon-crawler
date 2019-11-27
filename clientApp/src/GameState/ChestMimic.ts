@@ -1,12 +1,11 @@
 import { IInteractiveObject } from './IInteractiveObject';
 
 export class ChestMimic implements IInteractiveObject {
-    _name: string;
-    discovered: boolean;
+    public name: string;
+    public discovered: boolean;
 
-    constructor(name: string, discovered: boolean)
-    {
-        this._name  = name;
+    constructor(name: string, discovered: boolean) {
+        this.name  = name;
         this.discovered = discovered;
     }
 }
