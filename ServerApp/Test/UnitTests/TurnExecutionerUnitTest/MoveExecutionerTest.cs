@@ -107,5 +107,35 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             Assert.IsFalse(charactersAfterTurn.Contains(_npc2));
             Assert.IsFalse(_npc2.Alive);
         }
+
+        [Test]
+        public void MoveExecutioner_PlayerFightsNPC_NpcDoesNotDie()
+        {
+            // Player walks into NPC
+            _player.Position = new Position(2, 3);
+            _npc2.Stats = new Stats(100, 0 ,0);
+            _player.SetNextMove(Character.Direction.Up);
+
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // npc2 not dead
+            Assert.IsTrue(charactersAfterTurn.Contains(_npc2));
+            Assert.IsTrue(_npc2.Alive);
+        }
+
+        [Test]
+        public void MoveExecutioner_NpcDoesNotDieInFight_PlayerStaysOnPosition()
+        {
+            // Player walks into NPC
+            _player.Position = new Position(2, 3);
+            _npc2.Stats = new Stats(100, 0 ,0);
+            _player.SetNextMove(Character.Direction.Up);
+
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // player has not moved
+            Assert.AreEqual(2, _player.Position.X);
+            Assert.AreEqual(3, _player.Position.Y);
+        }
     }
 }
