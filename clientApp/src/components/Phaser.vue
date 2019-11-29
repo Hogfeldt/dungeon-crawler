@@ -11,124 +11,18 @@
     import { ChangeHandler } from '@/ChangeHandler/ChangeHandler';
     import { IApi } from '@/ChangeHandler/IApi';
     import { Api } from '@/ChangeHandler/API';
-    import { Layer } from '@/GameState/Layer';
     import { ILayer } from '@/GameState/ILayer';
-    import { Tile } from '@/GameState/Tile';
-    import { ITile } from '@/GameState/ITile';
-    import { GameState } from "@/GameState/GameState";
-    import { Character } from "@/GameState/Character";
-    import { IPosition } from "@/GameState/IPosition";
+    import { GameState } from '@/GameState/GameState';
+    import { Character } from '@/GameState/Character';
 
-    import 'phaser';
-import { stat } from 'fs';
-import { IInteractiveObject } from '../GameState/IInteractiveObject';
-import { Chest } from '@/GameState/Chest';
-import { ChestMimic } from '@/GameState/ChestMimic';
+    import Phaser from 'phaser';
+    import { IInteractiveObject } from '../GameState/IInteractiveObject';
+    import { Chest } from '@/GameState/Chest';
+    import { ChestMimic } from '@/GameState/ChestMimic';
 
-class Demo extends Phaser.Scene {
-    constructor() {
-        super({
-            key: 'Demo'
-        })
-    }
 
-    preload() { 
-        this.load.scenePlugin({
-            key: 'rexuiplugin',
-            url: 'https://raw.githubusercontent.com/rexrainbow/phaser3-rex-notes/master/plugins/dist/rexuiplugin.min.js',
-            sceneKey: 'rexUI'
-        });      
-    }
 
-    create() {
-        var dialog = this.rexUI.add.dialog({
-            x: 400,
-            y: 300,
-
-            background: this.rexUI.add.roundRectangle(0, 0, 100, 100, 20, 0x1565c0),
-
-            title: this.rexUI.add.label({
-                background: this.rexUI.add.roundRectangle(0, 0, 100, 40, 20, 0x003c8f),
-                text: this.add.text(0, 0, 'Title', {
-                    fontSize: '24px'
-                }),
-                space: {
-                    left: 15,
-                    right: 15,
-                    top: 10,
-                    bottom: 10
-                }
-            }),
-
-            content: this.add.text(0, 0, 'Do you want to build a snow man?', {
-                fontSize: '24px'
-            }),
-
-            actions: [
-                createLabel(this, 'Yes'),
-                createLabel(this, 'No')
-            ],
-
-            space: {
-                title: 25,
-                content: 25,
-                action: 15,
-
-                left: 20,
-                right: 20,
-                top: 20,
-                bottom: 20,
-            },
-
-            align: {
-                actions: 'right', // 'center'|'left'|'right'
-            },
-
-            expand: {
-                content: false, // Content is a pure text object
-            }
-        })
-            .layout()
-            // .drawBounds(this.add.graphics(), 0xff0000)
-            .popUp(1000);
-
-        this.print = this.add.text(0, 0, '');
-        dialog
-            .on('button.click', function (button, groupName, index) {
-                this.print.text += index + ': ' + button.text + '\n';
-            }, this)
-            .on('button.over', function (button, groupName, index) {
-                button.getElement('background').setStrokeStyle(1, 0xffffff);
-            })
-            .on('button.out', function (button, groupName, index) {
-                button.getElement('background').setStrokeStyle();
-            });
-    }
-
-    update() { }
-}
-
-var createLabel = function (scene, text) {
-    return scene.rexUI.add.label({
-        // width: 40,
-        // height: 40,
-
-        background: scene.rexUI.add.roundRectangle(0, 0, 0, 0, 20, 0x5e92f3),
-
-        text: scene.add.text(0, 0, text, {
-            fontSize: '24px'
-        }),
-
-        space: {
-            left: 10,
-            right: 10,
-            top: 10,
-            bottom: 10
-        }
-    });
-}
-
-    var config = {
+    const config: Phaser.Types.Core.GameConfig = {
         type: Phaser.AUTO,
         width: 800,
         height: 600,
@@ -136,54 +30,57 @@ var createLabel = function (scene, text) {
             default: 'arcade',
             arcade: {
                 gravity: { y: 0 },
-                debug: false
-            }
+                debug: false,
+            },
         },
-        scene: [{
-            preload: preload,
-            create: create,
-            update: update
-        }, Demo],
-        "render.transparent": true
-    };    
-    //var api: IApi = new Api("http://178.62.43.127:5000");
-    var api: IApi = new Api("http://127.0.0.1:5000");
 
+        scene: {
+            preload,
+            create,
+            update,
+        },
+    };
 
-    var handler: ChangeHandler = new ChangeHandler(api);
-    var player;
+    let SERVER_PATH: string | undefined = process.env.VUE_APP_SERVER_PATH;
+    if (SERVER_PATH === undefined) {
+        // Default to server if environment variable is not set.
+        SERVER_PATH = 'http://178.62.43.127:5000/';
+    }
 
-    var tileWidth: number = 32;
-    var tiles;
-    var npcs;
-    var interactiveObjects;
-    var cursors;
-    var healthText;
-    var goldText;
-    var experienceText;
-    var damageText;
-    var game = new Phaser.Game(config);
+    const api: IApi = new Api(SERVER_PATH);
 
-    var up;
-    var down;
-    var right;
-    var left;
-    var space;
+    const handler: ChangeHandler = new ChangeHandler(api);
+    let player: Phaser.GameObjects.Sprite;
 
-    function preload() {
-        this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/')
+    const tileWidth: number = 32;
+    let tiles: Phaser.GameObjects.Group;
+    let npcs: Phaser.GameObjects.Group;
+    let interactiveObjects: Phaser.GameObjects.Group;
+    let cursors: Phaser.Types.Input.Keyboard.CursorKeys;
+    let healthText: Phaser.GameObjects.Text;
+    let goldText: Phaser.GameObjects.Text;
+    let experienceText: Phaser.GameObjects.Text;
+    const game: Phaser.Game = new Phaser.Game(config);
+
+    let up: boolean;
+    let down: boolean;
+    let right: boolean;
+    let left: boolean;
+
+    function preload(this: Phaser.Scene) {
+        this.load.setBaseURL('https://oijfspafakporsfs-dungeon.fra1.digitaloceanspaces.com/');
         this.load.image('floor', 'floor.png');
         this.load.image('spawn', 'floor_entrance.png');
         this.load.image('exit', 'floor_ladder.png');
         this.load.image('wall', 'wall.png');
         this.load.image('chest', 'chest.png');
-        this.load.image('chest_empty', "chest_open.png");
-        this.load.image('chest_mimic', "chest_mimic.png");
+        this.load.image('chest_empty', 'chest_open.png');
+        this.load.image('chest_mimic', 'chest_mimic.png');
         this.load.spritesheet('mob', 'mob.png', { frameWidth: 16, frameHeight: 20 });
         this.load.spritesheet('knight', 'knight.png', { frameWidth: 16, frameHeight: 28 });
     }
 
-    function create() {
+    function create(this: Phaser.Scene) {
 
         cursors = this.input.keyboard.createCursorKeys();
         tiles = this.add.group();
@@ -194,115 +91,101 @@ var createLabel = function (scene, text) {
             key: 'knight_idle',
             frames: game.anims.generateFrameNumbers('knight', { start: 0, end: 3 }),
             frameRate: 10,
-            repeat: -1
+            repeat: -1,
         });
 
         game.anims.create({
             key: 'mob_idle',
             frames: game.anims.generateFrameNumbers('mob', { start: 0, end: 3 }),
             frameRate: 10,
-            repeat: -1
-        })
+            repeat: -1,
+        });
 
-        //  A simple background for our game
-        
-
-        handler.getState().then(r => {
+        handler.getState().then((r) => {
             drawFromState(r, this);
-        })
+        });
     }
 
-    function update() {
+    function update(this: Phaser.Scene) {
 
-        if (cursors.left.isDown) {
+        if (cursors.left!.isDown) {
             left = true;
         }
 
-        if (left && cursors.left.isUp)
-        {
+        if (left && cursors.left!.isUp) {
             left = false;
-            handler.move("Left").then(r => {
-                cleanUp(this);
+            handler.move('Left').then((r) => {
+                cleanUp();
                 drawFromState(r, this);
-            })
+            });
         }
 
-         if (cursors.right.isDown) {
+        if (cursors.right!.isDown) {
             right = true;
         }
 
-        if (right && cursors.right.isUp)
-        {
+        if (right && cursors.right!.isUp) {
             right = false;
-            handler.move("Right").then(r => {
-                cleanUp(this);
+            handler.move('Right').then((r) => {
+                cleanUp();
                 drawFromState(r, this);
-            })
+            });
         }
 
-         if (cursors.up.isDown) {
+        if (cursors.up!.isDown) {
             up = true;
         }
 
-        if (up && cursors.up.isUp)
-        {
+        if (up && cursors.up!.isUp) {
             up = false;
-            handler.move("Up").then(r => {
-                cleanUp(this);
+            handler.move('Up').then((r) => {
+                cleanUp();
                 drawFromState(r, this);
-            })
+            });
         }
 
-        if (cursors.down.isDown) {
+        if (cursors.down!.isDown) {
             down = true;
         }
 
-        if (down && cursors.down.isUp)
-        {
+        if (down && cursors.down!.isUp) {
             down = false;
-            handler.move("Down").then(r => {
-                cleanUp(this);
+            handler.move('Down').then((r) => {
+                cleanUp();
                 drawFromState(r, this);
-            })
-        }
-        if (cursors.space.isDown) {
-            space = true;
-        }
-        if(space && cursors.space.isUp) {
-            this.scene.start('Demo');
+            });
         }
     }
 
-    function cleanUp(game: any) {
+    function cleanUp() {
         npcs.clear();
         tiles.clear();
+        interactiveObjects.clear();
         goldText.destroy();
         experienceText.destroy();
         damageText.destroy();
         healthText.destroy();
-        interactiveObjects.clear();
         destroySprite(player);
-        
     }
 
-    function destroySprite(sprite: any) {
+    function destroySprite(sprite: Phaser.GameObjects.Sprite) {
         sprite.destroy();
     }
 
-    function drawFromState(state: GameState, game: any) {
+    function drawFromState(state: GameState, scene: Phaser.Scene) {
 
-        var layer: ILayer = state._LayerState;
-        var characters: any[][] = state._NPCState;
-        var playerState: Character = state._CharacterState;
-        var interObjcs: (IInteractiveObject | null)[][] = layer.getInteractiveObjects();
+        const layer: ILayer = state.layerState;
+        const characters: any[][] = state.NPCState;
+        const playerState: Character = state.characterState;
+        const interObjcs: (IInteractiveObject | null)[][] = layer.getInteractiveObjects();
 
-        var xOff = 150;
-        var yOff = 150;
-        var playerYOff = 20;
-        var mobYOff = 12;
+        const xOff = 150;
+        const yOff = 150;
+        const playerYOff = 20;
+        const mobYOff = 12;
 
-        for (var i = 0; i < layer.getWidth(); i++) {
-            for (var j = 0; j < layer.getHeight(); j++) {
+        for (let i = 0; i < layer.getWidth(); i++) {
+            for (let j = 0; j < layer.getHeight(); j++) {
                 if (layer.getTile(i, j).walkable) {
                     tiles.create(i * tileWidth + xOff, j * tileWidth + yOff, 'floor').setScale(2);
                 } else {
@@ -314,22 +197,26 @@ var createLabel = function (scene, text) {
         tiles.create(layer.getSpawn().x * tileWidth + xOff, layer.getSpawn().y  * tileWidth + yOff, 'spawn').setScale(2);
         tiles.create(layer.getExit().x * tileWidth + xOff, layer.getExit().y * tileWidth + yOff, 'exit').setScale(2);
 
-        for (var i = 0; i < layer.getWidth(); i++) {
-            for (var j = 0; j < layer.getHeight(); j++) {
+        for (let i = 0; i < layer.getWidth(); i++) {
+            for (let j = 0; j < layer.getHeight(); j++) {
                 if (interObjcs[i][j] != null) {
-                    if(interObjcs[i][j]._name === "Chest"){
-                        var chest: Chest = <Chest>interObjcs[i][j]
-                        if(chest.goldContent === 0){
-                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_empty').setScale(2);
-                        } else{
-                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
-                        }
-                    } else if(interObjcs[i][j]._name === "ChestMimic") {
-                        var chestmimic: ChestMimic = <ChestMimic>interObjcs[i][j]
-                        if(chestmimic.discovered === false){
-                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest').setScale(2);
+                    if (interObjcs[i][j]!.name === 'Chest') {
+                        const chest: Chest = interObjcs[i][j] as Chest;
+                        if (chest.goldContent === 0) {
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_empty')
+                                .setScale(2);
                         } else {
-                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_mimic').setScale(2);
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest')
+                                .setScale(2);
+                        }
+                    } else if (interObjcs[i][j]!.name === 'ChestMimic') {
+                        const chestmimic: ChestMimic = interObjcs[i][j] as ChestMimic;
+                        if (chestmimic.discovered === false) {
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest')
+                                .setScale(2);
+                        } else {
+                            interactiveObjects.create(i * tileWidth + xOff, j * tileWidth + yOff, 'chest_mimic')
+                                .setScale(2);
                         }
                     }
                 }
@@ -337,14 +224,16 @@ var createLabel = function (scene, text) {
         }
 
 
-        for (var i = 0; i < layer.getWidth(); i++) {
-            for (var j = 0; j < layer.getHeight(); j++) {
-                var character = characters[i][j];
+        for (let i = 0; i < layer.getWidth(); i++) {
+            for (let j = 0; j < layer.getHeight(); j++) {
+                const character = characters[i][j];
                 if (character != null) {
-                    if (character.constructor.name == "Character") {
-                        player = game.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - playerYOff, 'knight').setScale(2, 2);
-                    } else if (character.constructor.name == "NPC") {
-                        var mob = game.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - mobYOff, 'mob').setScale(2, 2);
+                    if (character.constructor.name === 'Character') {
+                        player = scene.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - playerYOff, 'knight');
+                        player.setScale(2, 2);
+                    } else if (character.constructor.name === 'NPC') {
+                        const mob = scene.add.sprite(i * tileWidth + xOff, j * tileWidth + yOff - mobYOff, 'mob');
+                        mob.setScale(2, 2);
                         mob.anims.play('mob_idle');
                         mob.flipX = true;
                         npcs.add(mob);
@@ -352,10 +241,28 @@ var createLabel = function (scene, text) {
                 }
             }
         }
+<<<<<<< HEAD
         healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
         goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
         damageText = game.add.text(200, 16, 'Damage: ' + playerState.damage, { fontSize: '20px' });
         experienceText = game.add.text(200, 45, 'Experience: ' + playerState.experience, { fontSize: '20px' });
+=======
+        healthText = scene.add.text(16, 16,
+            'Health: '
+            + playerState.health
+            + '/' + playerState.maxHealth,
+            { fontSize: '20px' });
+
+        goldText = scene.add.text(16, 45,
+            'Gold: '
+            + playerState.gold,
+            { fontSize: '20px' });
+
+        experienceText = scene.add.text(16, 74,
+            'Experience: '
+            + playerState.experience,
+            { fontSize: '20px' });
+>>>>>>> master
 
         player.anims.play('knight_idle');
     }

@@ -13,8 +13,14 @@
     "baseUrl": ".",
     "types": [
       "webpack-env",
-      "ts-jest"
+      "ts-jest",
+      "Phaser",
+      "jest"
     ],
+    "typeRoots": [
+    "./node_modules/phaser/types",
+    "./node_modules/@types"
+	],
     "paths": {
       "@/*": [
         "src/*"
