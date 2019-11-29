@@ -50,9 +50,4 @@ namespace ServerApp.TurnExec
             return state;
         }
     }
-
-    public interface IInteractionHandler
-    {
-        GameStateClass Interact(GameStateClass state);
-    }
 }

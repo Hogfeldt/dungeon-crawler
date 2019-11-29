@@ -43,8 +43,8 @@ namespace ServerApp.Controllers
                 ICharacterFormatter characterFormatter = new CharacterFormatter();
                 ITurnScheduler turnScheduler = new TurnScheduler();
                 IMoveExecutioner moveExecutioner = new MoveExecutioner(new CombatHandler());
-                IInteractionHandler interactionHandler = 
-                ITurnExecutioner turnExecutioner = new ConcreteTurnExecutioner(validator, characterFormatter, turnScheduler, moveExecutioner);
+                IInteractionHandler interactionHandler = new InteractionHandler();
+                ITurnExecutioner turnExecutioner = new ConcreteTurnExecutioner(validator, characterFormatter, turnScheduler, moveExecutioner, interactionHandler);
 
                 gameState = turnExecutioner.ExecuteTurn(gameState);
 

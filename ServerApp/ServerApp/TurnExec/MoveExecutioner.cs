@@ -8,7 +8,7 @@ namespace ServerApp.TurnExec
 {
     public class MoveExecutioner : IMoveExecutioner
     {
-        private ICombatHandler _combatHandler;
+        private readonly ICombatHandler _combatHandler;
         public MoveExecutioner(ICombatHandler combatHandler)
         {
             _combatHandler = combatHandler;
