@@ -1,5 +1,5 @@
 export default {
     get: jest.fn(() => Promise.resolve({
-        data: "123"
-    }))
+        data: '123',
+    })),
 };

@@ -52,19 +52,28 @@ namespace ServerApp.Controllers
 
         // PUT: api/UserInfo/Glenn
         [HttpPut("{username}")]
-        public async Task<IActionResult> PutUserInfoModel([FromRoute] string username, [FromBody] UserInfoModel userInfoModel)
+        public async Task<IActionResult> PutUserInfoModel([FromBody] UserInfoModel userInfoModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (username != userInfoModel.UserName)
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
+
+            if (userFromDb == null)
             {
-                return BadRequest();
+                return NotFound();
             }
 
-            _context.Entry(userInfoModel).State = EntityState.Modified;
+            if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
+            {
+                _context.Entry(userInfoModel).State = EntityState.Modified;
+            }
+            else
+            {
+                return Unauthorized();
+            }
 
             try
             {
@@ -72,7 +81,7 @@ namespace ServerApp.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserInfoModelExists(username))
+                if (!UserInfoModelExists(userInfoModel.UserName))
                 {
                     return NotFound();
                 }
@@ -107,23 +116,31 @@ namespace ServerApp.Controllers
 
         // DELETE: api/UserInfo/Glenn
         [HttpDelete("{username}")]
-        public async Task<IActionResult> DeleteUserInfoModel([FromRoute] string username)
+        public async Task<IActionResult> DeleteUserInfoModel([FromBody] UserInfoModel userInfoModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userInfoModel = await _context.UserInfoModel.FindAsync(username);
-            if (userInfoModel == null)
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
+            if (userFromDb == null)
             {
                 return NotFound();
             }
 
-            _context.UserInfoModel.Remove(userInfoModel);
+            if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
+            {
+                _context.UserInfoModel.Remove(userFromDb);
+            }
+            else
+            {
+                return Unauthorized();
+            }
+
             await _context.SaveChangesAsync();
 
-            return Ok(userInfoModel);
+            return Ok(userFromDb);
         }
 
         private bool UserInfoModelExists(string username)

@@ -1,4 +1,4 @@
-import { IPosition } from "./IPosition";
+import { IPosition } from './IPosition';
 
 export class Position implements IPosition {
     public x: number;
@@ -9,7 +9,7 @@ export class Position implements IPosition {
         this.y = y;
     }
 
-    getX(): number { return this.x }
+    public getX(): number { return this.x; }
 
-    getY(): number { return this.y }
+    public getY(): number { return this.y; }
 }
