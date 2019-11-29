@@ -42,12 +42,7 @@ namespace ServerApp.TurnExec
 
                 ICharacter[, ] characterLayer = new ICharacter[10, 10];
 
-                foreach (var character in characters)
-                {
-                    characterLayer[character.Position.X, character.Position.Y] = character;
-                }
-
-                state.Map.GetCurrentLayer().Characters = characterLayer;
+                state.Map.GetCurrentLayer().Characters = _formatter.ToGrid(characters);
             }
 
             return state;

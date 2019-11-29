@@ -21,5 +21,16 @@ namespace ServerApp.TurnExec
 
             return characters;
         }
+
+        public ICharacter[,] ToGrid(List<ICharacter> characterList)
+        {
+            ICharacter[, ] characterGrid = new ICharacter[10, 10];
+            foreach (var character in characterList)
+            {
+                characterGrid[character.Position.X, character.Position.Y] = character;
+            }
+
+            return characterGrid;
+        }
     }
 }
