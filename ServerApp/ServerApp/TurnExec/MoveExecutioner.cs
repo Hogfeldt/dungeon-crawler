@@ -39,13 +39,16 @@ namespace ServerApp.TurnExec
                         targetPosition = new Position(character.Position.X + 1, character.Position.Y);
                         break;
                     case Character.Direction.None:
-                        // No action
-                        continue;
+                        targetPosition = null;
+                        break;
                     default:
                         throw new NotImplementedException("Reached code path that should be unreachable - Character.Direction enum has changed");
                 }
 
-                MoveCharacter(character, targetPosition, layer);
+                if (targetPosition != null)
+                {
+                    MoveCharacter(character, targetPosition, layer);
+                }
 
                 // Only surviving ones gets passed on
                 characters.Add(character);

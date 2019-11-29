@@ -13,6 +13,12 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         private IMoveExecutioner _uut;
         private ICombatHandler _combatHandler;
         private ITile[, ] _tiles;
+        private Queue<ICharacter> _turns;
+
+        private Player _player;
+        private ICharacter _npc1;
+        private ICharacter _npc2;
+        private ILayer _layer;
 
         [SetUp]
         public void Setup()
@@ -29,39 +35,77 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
                     _tiles[x, y] = new Tile(true);
                 }
             }
+
+            _turns = new Queue<ICharacter>();
+            var characters = new ICharacter[10, 10];
+
+            _npc1 = new HostileNPC(new Position(1, 1), new Stats(), new StandStillMovementStrategy(), "bad boi 1");
+            _npc2 = new HostileNPC(new Position(2, 2), new Stats(), new StandStillMovementStrategy(), "bad boi 2");
+            _player = new Player(new Position(5, 5), new Stats(100, 10, 1), "player boi", 0, 0);
+
+            _turns.Enqueue(_npc1);
+            _turns.Enqueue(_npc2);
+            _turns.Enqueue(_player);
+
+            characters[_npc1.Position.X, _npc1.Position.Y] = _npc1;
+            characters[_npc2.Position.X, _npc2.Position.Y] = _npc2;
+            characters[_player.Position.X, _player.Position.Y] = _player;
+
+            _layer = new Layer(
+                _tiles,
+                characters,
+                new Position(0, 0), new Position(9, 9),
+                new IInteractiveObject[10, 10]);
         }
 
         [Test]
         public void MoveExecutioner_PlayerMovesDown_PlayerHasMoved()
         {
-            var turns = new Queue<ICharacter>();
-            var characters = new Character[10, 10];
-
-            var npc1 = new HostileNPC(new Position(1, 1), new Stats(), new StandStillMovementStrategy(), "bad boi 1");
-            var npc2 = new HostileNPC(new Position(2, 2), new Stats(), new StandStillMovementStrategy(), "bad boi 2");
-            var player = new Player(new Position(5, 5), new Stats(), "player boi", 0, 0);
-
-            player.SetNextMove(Character.Direction.Down);
-            turns.Enqueue(npc1);
-            turns.Enqueue(npc2);
-            turns.Enqueue(player);
-
-            characters[npc1.Position.X, npc1.Position.Y] = npc1;
-            characters[npc2.Position.X, npc2.Position.Y] = npc2;
-            characters[player.Position.X, player.Position.Y] = player;
-
-            var layer = new Layer(
-                _tiles, 
-                characters, 
-                new Position(0, 0), new Position(9, 9), 
-                new IInteractiveObject[10, 10]);
-
-            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(turns, layer);
-
+            _player.SetNextMove(Character.Direction.Down);
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
 
             // Player moves down, should increment Y position
-            Assert.AreEqual(5, player.Position.X);
-            Assert.AreEqual(6, player.Position.Y);
+            Assert.AreEqual(5, _player.Position.X);
+            Assert.AreEqual(6, _player.Position.Y);
+        }
+
+        [Test]
+        public void MoveExecutioner_PlayerDoesNotMove_PlayerHasNotMoved()
+        {
+            _player.SetNextMove(Character.Direction.None);
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // Player moves down, should increment Y position
+            Assert.AreEqual(5, _player.Position.X);
+            Assert.AreEqual(5, _player.Position.Y);
+        }
+
+        [Test]
+        public void MoveExecutioner_PlayerMoves_NPCsHasNotMoved()
+        {
+            _player.SetNextMove(Character.Direction.Down);
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // Player moves down, should increment Y position
+            Assert.AreEqual(1, _npc1.Position.X);
+            Assert.AreEqual(1, _npc1.Position.Y);
+
+            Assert.AreEqual(2, _npc2.Position.X);
+            Assert.AreEqual(2, _npc2.Position.Y);
+        }
+
+        [Test]
+        public void MoveExecutioner_PlayerFightsNPC_NpcDies()
+        {
+            // Player walks into NPC
+            _player.Position = new Position(2, 3);
+            _player.SetNextMove(Character.Direction.Up);
+
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // npc2 is dead and removed from list
+            Assert.IsFalse(charactersAfterTurn.Contains(_npc2));
+            Assert.IsFalse(_npc2.Alive);
         }
     }
 }

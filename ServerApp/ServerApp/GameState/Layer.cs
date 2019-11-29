@@ -16,7 +16,7 @@ namespace ServerApp.GameState
         public IPosition ExitPosition { private set; get; }
 
         [JsonConstructor]
-        public Layer(ITile[,] tiles, Character[,] characters, IPosition initialPlayerPosition, IPosition exitPosition, IInteractiveObject[,] interactiveObjects)
+        public Layer(ITile[,] tiles, ICharacter[,] characters, IPosition initialPlayerPosition, IPosition exitPosition, IInteractiveObject[,] interactiveObjects)
         {
             Tiles = tiles;
             Characters = characters;
