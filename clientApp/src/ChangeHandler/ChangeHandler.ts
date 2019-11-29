@@ -105,7 +105,15 @@ export class ChangeHandler {
         const experience: number = data.Player.Experience;
         const damage: number = data.Player.Stats.Damage;
 
-        const player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold, experience, damage);
+        const player: ICharacter = new Character(
+            name,
+            xPosition,
+            yPosition,
+            health,
+            maxHealth,
+            gold,
+            experience,
+            damage);
 
         const characters: any[][] = new Array();
         for (let l = 0; l < data.Characters.length; l++) {
