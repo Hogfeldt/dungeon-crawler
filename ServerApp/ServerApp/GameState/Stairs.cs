@@ -19,11 +19,11 @@ namespace ServerApp.GameState
 
             if (_descending)
             {
-                level = -1;
+                level = 1;
             }
             else
             {
-                level = 1;
+                level = -1;
             }
 
             gameState.Map.MovePlayerToNewLayer(gameState.Map.CurrentLayerNumber - level, _descending);
