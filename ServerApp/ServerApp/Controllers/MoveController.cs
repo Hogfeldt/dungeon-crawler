@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using ServerApp.GameState;
 using ServerApp.RequestHandler;
 using ServerApp.TurnExec;
-using ServerApp.TurnExecute;
 
 namespace ServerApp.Controllers
 {
@@ -34,7 +33,7 @@ namespace ServerApp.Controllers
             try
             {
                 var direction = StringToDirection(value);
-                var gameState = SessionManager.GetGameState(HttpContext);
+                IGameState gameState = SessionManager.GetGameState(HttpContext);
                 gameState.Player.SetNextMove(direction);
                 gameState.Map.GetPlayer().SetNextMove(direction);
 
@@ -48,7 +47,9 @@ namespace ServerApp.Controllers
 
                 gameState = turnExecutioner.ExecuteTurn(gameState);
 
-                SessionManager.SetGameState(HttpContext, gameState);
+                // GameState is casted since we only have one valid implementation of gamestate
+                // Interface is for testability (interface needed for mocking)
+                SessionManager.SetGameState(HttpContext, (GameStateClass)gameState);
 
                 return JsonConvert.SerializeObject(new ClientGameState(SessionManager.GetGameState(HttpContext)));
             }

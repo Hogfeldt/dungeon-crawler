@@ -8,7 +8,7 @@ namespace ServerApp.TurnExec
 {
     public class InteractionHandler : IInteractionHandler
     {
-        public GameStateClass Interact(GameStateClass state)
+        public IGameState Interact(IGameState state)
         {
             Player player = state.Player;
             IInteractiveObject[,] interactiveObjects = state.Map.GetCurrentLayer().InteractiveObjects;
