@@ -146,7 +146,9 @@ var createLabel = function (scene, text) {
         }, Demo],
         "render.transparent": true
     };    
-    var api: IApi = new Api("http://178.62.43.127:5000");
+    //var api: IApi = new Api("http://178.62.43.127:5000");
+    var api: IApi = new Api("http://127.0.0.1:5000");
+
 
     var handler: ChangeHandler = new ChangeHandler(api);
     var player;
@@ -159,6 +161,7 @@ var createLabel = function (scene, text) {
     var healthText;
     var goldText;
     var experienceText;
+    var damageText;
     var game = new Phaser.Game(config);
 
     var up;
@@ -275,6 +278,7 @@ var createLabel = function (scene, text) {
         tiles.clear();
         goldText.destroy();
         experienceText.destroy();
+        damageText.destroy();
         healthText.destroy();
         interactiveObjects.clear();
         destroySprite(player);
@@ -350,7 +354,8 @@ var createLabel = function (scene, text) {
         }
         healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
         goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
-        experienceText = game.add.text(16, 74, 'Experience: ' + playerState.experience, { fontSize: '20px' });
+        damageText = game.add.text(200, 16, 'Damage: ' + playerState.damage, { fontSize: '20px' });
+        experienceText = game.add.text(200, 45, 'Experience: ' + playerState.experience, { fontSize: '20px' });
 
         player.anims.play('knight_idle');
     }
