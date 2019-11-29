@@ -13,7 +13,7 @@ namespace ServerApp.TurnExec
             Player player = state.Player;
             IInteractiveObject[,] interactiveObjects = state.Map.GetCurrentLayer().InteractiveObjects;
 
-            interactiveObjects[player.Position.X, player.Position.Y].interact(state);
+            interactiveObjects[player.Position.X, player.Position.Y]?.interact(state);
 
             return state;
         }
