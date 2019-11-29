@@ -1,37 +1,36 @@
-import { Api } from '../src/ChangeHandler/Api'
+import { Api } from '../src/ChangeHandler/Api';
 
 
-import mockAxios from "../src/__mocks__/axios";
+import mockAxios from '../src/__mocks__/axios';
 
-//This only works in js :(
-//mockAxios.get.mock
+// This only works in js :(
+// mockAxios.get.mock
 
-
-var api: Api;
+let api: Api;
 
 
 describe('Api', () => {
     beforeEach(() => {
-        var address: string = "1234";
+        const address: string = '1234';
         api = new Api(address);
     });
 
-    it("gets GameState", () => {
+    it('gets GameState', () => {
 
-        //Arrange
+        // Arrange
         mockAxios.get.mockImplementationOnce(() => Promise.resolve({
-            data: "okok"
+            data: 'okok',
         }));
 
-        //Act
+        // Act
 
-        var res: any;
+        let res: any;
         api.gameState().then((result) => {
-            console.log("data is " + result.data);
+            console.log('data is ' + result.data);
             res = result.data;
 
-            //Assert
-            expect(res).toEqual("okok");
+            // Assert
+            expect(res).toEqual('okok');
         });
     });
 });

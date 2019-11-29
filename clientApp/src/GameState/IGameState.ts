@@ -1,12 +1,11 @@
-import { INPC } from "./INPC";
-import { ICharacter } from "./ICharacter";
-import { ILayer } from "./ILayer";
+import { INPC } from './INPC';
+import { ICharacter } from './ICharacter';
+import { ILayer } from './ILayer';
 
 export interface IGameState {
-    _NPCState:       INPC[][];
-    _CharacterState: ICharacter;
-    _LayerState:     ILayer;
-    
+    NPCState: INPC[][];
+    characterState: ICharacter;
+    layerState: ILayer;
 
     changeState(gameState: IGameState): void;
 }

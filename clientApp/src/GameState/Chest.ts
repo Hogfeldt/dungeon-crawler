@@ -1,12 +1,11 @@
 import { IInteractiveObject } from './IInteractiveObject';
 
 export class Chest implements IInteractiveObject {
-    _name: string;
-    goldContent: number;
+    public name: string;
+    public goldContent: number;
 
-    constructor(name: string, goldContent: number)
-    {
-        this._name  = name;
+    constructor(name: string, goldContent: number) {
+        this.name  = name;
         this.goldContent = goldContent;
     }
 }
