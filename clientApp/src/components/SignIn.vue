@@ -47,22 +47,22 @@
                 signUp: false,
                 username: '',
                 password: '',
-                email: ''
-            }
+                email: '',
+            };
         },
         methods: {
             login() {
-                if (this.username || this.password != '') {
+                if (this.username || this.password !== '') {
                     handler.getUserInfo(this.username, this.password);
                 }
             },
             newUser() {
-                if (this.username || this.password != '') {
+                if (this.username || this.password !== '') {
                     handler.postUserInfo(this.username, this.password, this.email);
                 }
-            }
-        }
-    }
+            },
+        },
+    };
 </script>
 
 <style lang="scss" scoped>

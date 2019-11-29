@@ -8,6 +8,7 @@ export class Character implements ICharacter {
     public maxHealth: number;
     public gold: number;
     public experience: number;
+    public damage: number;
 
     constructor(name: string,
                 xpos: number,
@@ -15,7 +16,8 @@ export class Character implements ICharacter {
                 health: number,
                 maxHealth: number,
                 gold: number,
-                experience: number) {
+                experience: number,
+                damage: number) {
         this.name   = name;
         this.xPos   = xpos;
         this.yPos   = ypos;
@@ -23,6 +25,7 @@ export class Character implements ICharacter {
         this.maxHealth = maxHealth;
         this.gold = gold;
         this.experience = experience;
+        this.damage = damage;
     }
 
     public inventoryList(): any { throw new Error('Not implemented'); }
