@@ -22,8 +22,10 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             _tiles[0, 1] = new Tile(true);
             _tiles[1, 1] = new Tile(true);
 
-            /*      true   false
-             /      true   false
+
+            /*      Grid should be as follows
+            /      true   false
+            /      true   false
             */
         }
 

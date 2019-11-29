@@ -64,6 +64,7 @@ namespace ServerApp.TurnExec
 
         private void MoveCharacter(ICharacter character, IPosition targetPosition, ILayer layer)
         {
+            // TODO: move funcionality out of layer. Layer should only be model
             //Attempt to move character, will return false if tile is not walkable or is already occupied
             if (!layer.MoveCharacter(character.Position, targetPosition))
             {
