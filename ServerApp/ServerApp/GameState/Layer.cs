@@ -33,30 +33,7 @@ namespace ServerApp.GameState
             if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height) return false;
             return true;
         }
-
-        //Moves a character in the layer from oldPosition to newPosition
-        //If either position is invalid or newPosition is already occupied returns false
-        //If successful returns true
-        public bool MoveCharacter(IPosition oldPosition, IPosition newPosition)
-        {
-            if(!PositionIsValid(oldPosition) || !PositionIsValid(newPosition))
-            {
-                return false;
-            }
-
-            if(GetCharacter(newPosition) != null || !GetTile(newPosition).Walkable)
-            {
-                return false;
-            }
-
-            ICharacter toMove = GetCharacter(oldPosition);
-            toMove.Position = newPosition;
-            AddCharacter(toMove);
-            RemoveCharacterFromPosition(oldPosition);
-
-            return true;
-        }
-
+        
         public void AddCharacter(ICharacter character)
         {
             if (!PositionIsValid(character.Position))
@@ -66,6 +43,7 @@ namespace ServerApp.GameState
 
             Characters[character.Position.X, character.Position.Y] = character;
         }
+        
 
         public void RemoveCharacterFromPosition(IPosition position)
         {
@@ -76,6 +54,7 @@ namespace ServerApp.GameState
 
             Characters[position.X, position.Y] = null;
         }
+        
 
         public ICharacter GetCharacter(IPosition position)
         {
@@ -85,6 +64,7 @@ namespace ServerApp.GameState
             }
             return Characters[position.X, position.Y];
         }
+        
 
         public ICharacter GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff)
         {
@@ -92,6 +72,7 @@ namespace ServerApp.GameState
 
             return GetCharacter(offsetPosition);
         }
+        
 
         public ITile GetTile(IPosition position)
         {

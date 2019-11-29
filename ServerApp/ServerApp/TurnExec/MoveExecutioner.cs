@@ -9,8 +9,10 @@ namespace ServerApp.TurnExec
     public class MoveExecutioner : IMoveExecutioner
     {
         private readonly ICombatHandler _combatHandler;
+        private IMovement _movement;
         public MoveExecutioner(ICombatHandler combatHandler)
         {
+            _movement = new Movement();
             _combatHandler = combatHandler;
         }
         public List<ICharacter> ExecuteMoves(Queue<ICharacter> turns, ILayer layer)
@@ -67,9 +69,8 @@ namespace ServerApp.TurnExec
 
         private void MoveCharacter(ICharacter character, IPosition targetPosition, ILayer layer)
         {
-            // TODO: move funcionality out of layer. Layer should only be model
             //Attempt to move character, will return false if tile is not walkable or is already occupied
-            if (!layer.MoveCharacter(character.Position, targetPosition))
+            if (!_movement.MoveCharacter(character.Position, targetPosition, layer))
             {
                 ICharacter characterOnTile = layer.GetCharacter(targetPosition);
                 //Moving didn't work, find out if failure was because it was occupied

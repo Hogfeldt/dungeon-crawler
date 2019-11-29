@@ -10,8 +10,11 @@ namespace ServerApp.TurnExecute
         private GameStateClass _gameState;
         private IPosition _deadMobPosition = null;
 
+        private IMovement _movement;
+
         public TurnExecutioner(GameStateClass gameState)
         {
+            _movement = new Movement();
             this._gameState = gameState;
         }
 
@@ -86,7 +89,8 @@ namespace ServerApp.TurnExecute
 
         private void MovePlayerToDeadMobPosition()
         {
-            _gameState.Map.GetCurrentLayer().MoveCharacter(_gameState.Player.Position, _deadMobPosition);
+            _movement.MoveCharacter(_gameState.Player.Position, _deadMobPosition, _gameState.Map.GetCurrentLayer());
+            //_gameState.Map.GetCurrentLayer().MoveCharacter(_gameState.Player.Position, _deadMobPosition);
         }
 
         private void ExecuteCharacterMove(ICharacter character)
@@ -102,7 +106,7 @@ namespace ServerApp.TurnExecute
 
 
             //Attempt to move character, will return false if tile is not walkable or is already occupied
-            if (!layer.MoveCharacter(character.Position, moveTo))
+            if (!_movement.MoveCharacter(character.Position, moveTo, layer))
             {
                 ICharacter characterOnTile = layer.GetCharacter(moveTo);
                 //Moving didn't work, find out if failure was because it was occupied

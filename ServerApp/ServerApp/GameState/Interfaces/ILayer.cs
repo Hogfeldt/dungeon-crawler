@@ -10,11 +10,18 @@ namespace ServerApp.GameState
         IPosition ExitPosition { get; }
         IInteractiveObject[,] InteractiveObjects {get;}
 
+        int Height { get; }
+        int Width { get; }
+
         void AddCharacter(ICharacter character);
         void RemoveCharacterFromPosition(IPosition position);
-        bool MoveCharacter(IPosition oldPos, IPosition newPos);
         ICharacter GetCharacter(IPosition position);
         ICharacter GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff);
+
+        /*
+        bool MoveCharacter(IPosition oldPos, IPosition newPos);
+        */
+
         ITile GetTile(IPosition position);
         ITile GetTileWithOffset(IPosition position, int xOff, int yOff);
         List<ICharacter> CharactersAsList();
