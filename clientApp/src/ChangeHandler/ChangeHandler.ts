@@ -43,18 +43,6 @@ export class ChangeHandler {
         });
     }
 
-    public postUserInfo(username: string, password: string, email: string) {
-        return this.api.postUserInfo(username, password, email).then((r) => {
-            return r.data;
-        });
-    }
-
-    public getUserInfo(username: string, password: string) {
-        return this.api.getUserInfo(username, password).then((r) => {
-            return r.data;
-        });
-    }
-
     private gameStateFromData(data: any): GameState {
         const tiles: any[][] = new Array();
 

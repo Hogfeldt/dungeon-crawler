@@ -35,11 +35,11 @@
 </template>
 
 <script>
-    import { ChangeHandler } from '@/ChangeHandler/ChangeHandler';
-    import { IApi } from '@/ChangeHandler/IApi';
-    import { Api } from '@/ChangeHandler/API';
+    import { LoginHandler } from '@/UserCreation/LoginHandler';
+    import { IApi } from '@/UserCreation/IApi';
+    import { Api } from '@/UserCreation/API';
     const Api: IApi = new Api('http://178.62.43.127:5000/');
-    const handler: ChangeHandler = new ChangeHandler(Api);
+    const handler: LoginHandler = new LoginHandler(Api);
 
     export default {
         data: () => {
