@@ -103,7 +103,7 @@ export class ChangeHandler {
         const maxHealth: number = data.Player.Stats.MaxHealth;
         const gold: number = data.Player.Gold;
         const experience: number = data.Player.Experience;
-        const damage: number = data.Player.Stats.damage;
+        const damage: number = data.Player.Stats.Damage;
 
         const player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold, experience, damage);
 

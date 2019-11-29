@@ -60,6 +60,7 @@
     let healthText: Phaser.GameObjects.Text;
     let goldText: Phaser.GameObjects.Text;
     let experienceText: Phaser.GameObjects.Text;
+    let damageText: Phaser.GameObjects.Text;
     const game: Phaser.Game = new Phaser.Game(config);
 
     let up: boolean;
@@ -241,12 +242,7 @@
                 }
             }
         }
-<<<<<<< HEAD
-        healthText = game.add.text(16, 16, 'Health: ' + playerState.health + '/' + playerState.maxHealth, { fontSize: '20px' });
-        goldText = game.add.text(16, 45, 'Gold: ' + playerState.gold, { fontSize: '20px' });
-        damageText = game.add.text(200, 16, 'Damage: ' + playerState.damage, { fontSize: '20px' });
-        experienceText = game.add.text(200, 45, 'Experience: ' + playerState.experience, { fontSize: '20px' });
-=======
+
         healthText = scene.add.text(16, 16,
             'Health: '
             + playerState.health
@@ -258,11 +254,15 @@
             + playerState.gold,
             { fontSize: '20px' });
 
-        experienceText = scene.add.text(16, 74,
+        damageText = scene.add.text(200, 16,
+            'Damage: '
+            + playerState.damage,
+            { fontSize: '20px' });
+
+        experienceText = scene.add.text(200, 45,
             'Experience: '
             + playerState.experience,
             { fontSize: '20px' });
->>>>>>> master
 
         player.anims.play('knight_idle');
     }
