@@ -1,5 +1,8 @@
 <template>
     <article>
+        <p>email: {{ email }}</p>
+        <p>Username: {{ username }}</p>
+        <p>Password: {{ password }}</p>
         <div class="container" :class="{'select-character-active' : changeCharacter}">
             <div class="overlay-container">
                 <div class="overlay">
@@ -28,20 +31,28 @@
 </template>
 
 <script>
-    
+
     export default {
+
         data: () => {
             return {
                 changeCharacter: true,
             };
         },
+
+        props: {
+            username: String,
+            email: String,
+            password: String,
+        },
+
         methods: {
             create(myColor) {
                 // TODO: Send to server
                 // handler.getUserInfo(this.username, this.password);
                 if (myColor === 'red' || myColor === 'blue') {
-                    alert(myColor);
-
+                    //do stuff with color
+                    this.$emit('CharacterCreated');
                 }
             },
         },
