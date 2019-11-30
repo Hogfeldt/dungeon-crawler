@@ -46,46 +46,51 @@ namespace Test.UnitTests.GameStateUnitTest
         }
 
         // Testing PositionIsValid method
+        private IPosition mockPosition(int x, int y)
+        {
+            IPosition position = Substitute.For<IPosition>();
+            position.X.Returns(x);
+            position.Y.Returns(y);
+            return position;
+        }
+
         [Test]
         public void positionIsValidGivenNegativeX()
         {
-            Assert.False(_uut.PositionIsValid(new Position(-1,1)));
+            Assert.False(_uut.PositionIsValid(mockPosition(-1,1)));
         }
 
         [Test]
         public void positionIsValidGivenNegativeY()
         {
-            Assert.False(_uut.PositionIsValid(new Position(1, -1)));
+            Assert.False(_uut.PositionIsValid(mockPosition(1,-1)));
         }
 
         [Test]
         public void positionIsValidGivenXBeyondMaxWidth()
         {
-            Assert.False(_uut.PositionIsValid(new Position(maxWidth+1, 3)));
+            Assert.False(_uut.PositionIsValid(mockPosition(maxWidth+1, 3)));
         }
 
         [Test]
         public void positionIsValidGivenYBeyondMaxHeight()
         {
-            Assert.False(_uut.PositionIsValid(new Position(3, maxHeight+1)));
+            Assert.False(_uut.PositionIsValid(mockPosition(3, maxHeight+1)));
         }
 
         [Test]
         public void positionIsValidReturnsTrue()
         {
-            Assert.True(_uut.PositionIsValid(new Position(3, 3)));
+            Assert.True(_uut.PositionIsValid(mockPosition(3, 3)));
         }
 
         // Testing GetCharacter method
         [Test]
         public void addCharacterGetsCharacterWithInvalidPosition()
         {
-            ICharacter character = new HostileNPC(
-                new Position(maxHeight+5, 3), 
-                new Stats(),
-                new StandStillMovementStrategy(),
-                "TestBoi",
-                42);
+            ICharacter character = Substitute.For<ICharacter>();
+            IPosition position = mockPosition(maxHeight+5,3);
+            character.Position.Returns(position);
             _uut.AddCharacter(character);
             CollectionAssert.DoesNotContain(_uut.Characters, character);
         }
@@ -93,14 +98,11 @@ namespace Test.UnitTests.GameStateUnitTest
         [Test]
         public void addCharacterGetsCharacterWithValidPosition()
         {
-            ICharacter character = new ConcretePlayer(
-                new Position(5, 3), 
-                new Stats(),
-                "Uncle Bob",
-                42);
+            ICharacter character = Substitute.For<ICharacter>();
+            IPosition position = mockPosition(5,3);
+            character.Position.Returns(position);
             _uut.AddCharacter(character);
             CollectionAssert.Contains(_uut.Characters, character);
         }
-
     }
 }
