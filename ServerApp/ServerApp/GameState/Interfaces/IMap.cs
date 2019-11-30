@@ -5,9 +5,10 @@ namespace ServerApp.GameState
     public interface IMap
     {
         int CurrentLayerNumber { get; }
-        ILayer GetLayer(int layer);
-        ILayer GetCurrentLayer();
+        Layer GetCurrentLayer();
         Player GetPlayer();
+        Layer getLayerBelowOrNull();
+        Layer getLayerAboveOrNull();
         bool MovePlayerToNewLayer(int layer, bool descending);
     }
 }

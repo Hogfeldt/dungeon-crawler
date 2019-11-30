@@ -15,7 +15,7 @@
             Tiles = gameState.Map.GetCurrentLayer().Tiles;
             Characters = gameState.Map.GetCurrentLayer().Characters;
             InitialPlayerPosition = gameState.Map.GetCurrentLayer().InitialPlayerPosition;
-            ExitPosition = gameState.Map.GetCurrentLayer().ExitPosition;
+            ExitPosition = gameState.Map.GetCurrentLayer().getEnteringPositionOrNull();
             InteractiveObjects = gameState.Map.GetCurrentLayer().InteractiveObjects;
         }
     }

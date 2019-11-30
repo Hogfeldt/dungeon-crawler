@@ -65,22 +65,22 @@ namespace ServerApp.GameState
 
             if (layerNumber == 2)
             {
-                objects[2, 0] = new Stairs(false);
-                objects[8, 6] = new Stairs(true);
+                objects[2, 0] = new AccendingStair();
+                objects[8, 6] = new DecendingStair();
                 return new Layer(tiles, characters, new Position(2,0), new Position(8,6), objects);
             }
 
             if (layerNumber == 3)
             {
-                objects[9, 4] = new Stairs(false);
-                objects[0, 1] = new Stairs(true);
+                objects[9, 4] = new AccendingStair();
+                objects[0, 1] = new DecendingStair();
                 characters[1, 1] = new HostileNPC(new Position(1,1), new Stats(35, 5, 4), new StandStillMovementStrategy(), "TankyFar", 200);
 
                 return new Layer(tiles, characters, new Position(9,4),new Position(0,1), objects);
             }
 
-            objects[0, 0] = new Stairs(false);
-            objects[8, 5] = new Stairs(true);
+            objects[0, 0] = new AccendingStair();
+            objects[8, 5] = new DecendingStair();
             return new Layer(tiles, characters, new Position(0,0), new Position(8,5), objects);
         }
     }

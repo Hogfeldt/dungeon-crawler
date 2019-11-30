@@ -2,7 +2,7 @@
 {
     public class DefaultLayerGenerator : ILayerGenerator
     {
-        public ILayer GenerateLayer(int layerNumber)
+        public Layer GenerateLayer(int layerNumber)
         {
             uint width = 10;
             uint height = 10;
@@ -21,7 +21,7 @@
                 }
             }
 
-            return new Layer(tiles, npcs, new Position(0,0), new Position(9,9), objects);
+            return new MiddelLayer(tiles, npcs, new Position(0,0), new Position(9,9), objects);
         }
     }
 }

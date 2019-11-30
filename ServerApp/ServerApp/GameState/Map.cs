@@ -7,7 +7,7 @@ namespace ServerApp.GameState
     public class Map: IMap
     {
         public int CurrentLayerNumber { get; private set; } = 0;
-        public List<ILayer> Layers { get; private set; } = new List<ILayer>();
+        public List<Layer> Layers { get; private set; } = new List<Layer>();
 
         public Map(ILayerGenerator layerGenerator, int layerCount, Player player)
         {
@@ -16,7 +16,7 @@ namespace ServerApp.GameState
         }
         
         [JsonConstructor]
-        public Map(List<ILayer> layers, int currentLayerNumber)
+        public Map(List<Layer> layers, int currentLayerNumber)
         {
             Layers = layers;
             CurrentLayerNumber = currentLayerNumber;
@@ -32,11 +32,11 @@ namespace ServerApp.GameState
 
         private void SpawnPlayer(Player player)
         {
-            player.Position = GetLayer(CurrentLayerNumber).InitialPlayerPosition;
+            player.Position = GetLayer(CurrentLayerNumber).getEnteringPositionOrNull();
             GetLayer(CurrentLayerNumber).AddCharacter(player);
         }
 
-        public ILayer GetLayer(int layer)
+        private Layer GetLayer(int layer)
         {
             if (Layers.Count > layer && layer >= 0)
             {
@@ -47,7 +47,17 @@ namespace ServerApp.GameState
             }
         }
 
-        public ILayer GetCurrentLayer()
+        public Layer getLayerBelowOrNull() 
+        {
+            return GetLayer(CurrentLayerNumber + 1);
+        }
+
+        public Layer getLayerAboveOrNull()
+        {
+            return GetLayer(CurrentLayerNumber - 1);
+        }
+
+        public Layer GetCurrentLayer()
         {
             return Layers[CurrentLayerNumber];
         }
@@ -68,16 +78,17 @@ namespace ServerApp.GameState
         {
             Player player = GetPlayer();
             Position previousPosition = new Position(player.Position);
-            ILayer layer = GetLayer(layerNumber);
+            Layer layer = GetLayer(layerNumber);
             if (layer == null)
                 return false;
             if (descending)
             {
-                player.Position = layer.InitialPlayerPosition;
+                player.Position = layer.getEnteringPositionOrNull();
             }
             else
             {
-                player.Position = layer.ExitPosition;
+                // TODO: Handle null 
+                player.Position = layer.getEnteringPositionOrNull();
             }
             layer.AddCharacter(player);
             GetLayer(CurrentLayerNumber).RemoveCharacterFromPosition(player.Position);

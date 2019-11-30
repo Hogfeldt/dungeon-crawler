@@ -3,35 +3,47 @@ using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
-    public class Layer: ILayer
+    public abstract class Layer
     {
-        public int Height { private set; get; }
-        public int Width { private set; get; }
-        public ITile[,] Tiles { private set; get; }
+        public int Height { protected set; get; }
+        public int Width { protected set; get; }
+        public ITile[,] Tiles { protected set; get; }
         public ICharacter[,] Characters { set; get; }
-        public IInteractiveObject[,] InteractiveObjects {private set; get;}
+        public IInteractiveObject[,] InteractiveObjects {protected set; get;}
+        protected IPosition EnteringPosition;
+        protected IPosition ExitingPosition;
 
-        public IPosition InitialPlayerPosition { private set; get; }
-
-        public IPosition ExitPosition { private set; get; }
-
-        [JsonConstructor]
-        public Layer(ITile[,] tiles, ICharacter[,] characters, IPosition initialPlayerPosition, IPosition exitPosition, IInteractiveObject[,] interactiveObjects)
+        /*[JsonConstructor]
+        protected Layer(ITile[,] tiles, ICharacter[,] characters, IPosition initialPlayerPosition, IPosition EnteringPosition, IPosition ExitingPosition, IInteractiveObject[,] interactiveObjects)
         {
             Tiles = tiles;
             Characters = characters;
             Width = Tiles.GetLength(0);
             Height = Tiles.GetLength(1);
-            InitialPlayerPosition = initialPlayerPosition;
-            ExitPosition = exitPosition;
             InteractiveObjects = interactiveObjects;
-        }
+            this.EnteringPosition = EnteringPosition;
+            this.ExitingPosition = ExitingPosition;
+        }*/
+
+        public abstract IPosition getExitingPositionOrNull();
+
+        public abstract IPosition getEnteringPositionOrNull();
 
         //Validates a position in the layer, returns true if position is within bounds of layer.
         private bool PositionIsValid(IPosition position)
         {
             if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height) return false;
             return true;
+        }
+
+        protected void initializeAccendigStair() 
+        {
+            InteractiveObjects[EnteringPosition.X, EnteringPosition.Y] = new AccendingStair();
+        }
+
+        protected void initializeDecendingStair() 
+        {
+            InteractiveObjects[EnteringPosition.X, EnteringPosition.Y] = new DecendingStair();
         }
 
         //Moves a character in the layer from oldPosition to newPosition
