@@ -1,7 +1,6 @@
 import Phaser from 'phaser';
-import { MainGame } from './MainGame';
 import { ILayer } from '../GameState/ILayer';
-import { Character } from '../GameState/Character';
+import { ICharacter } from '../GameState/ICharacter';
 import { IInteractiveObject } from '../GameState/IInteractiveObject';
 import { Chest } from '../GameState/Chest';
 import { ChestMimic } from '../GameState/ChestMimic';
@@ -48,8 +47,8 @@ export class GameRenderer {
         }
 
         // Find spawn and exit
-        const spawn: IPosition = layer.getSpawn();
-        const exit: IPosition = layer.getExit();
+        const spawn: IPosition | null = layer.getSpawn();
+        const exit: IPosition | null = layer.getExit();
 
         // If spawn and exit exist, create them.
         if (spawn != null) {
@@ -115,7 +114,7 @@ export class GameRenderer {
         }
     }
 
-    public renderCharacters(characters: any[][]): Phaser.GameObjects.Group {
+    public renderCharacters(characters: (ICharacter | null)[][]): Phaser.GameObjects.Group {
         const npcs = new Phaser.GameObjects.Group(this.scene);
 
         // Iterate through character array to find any characters to render
@@ -135,9 +134,9 @@ export class GameRenderer {
         return npcs;
     }
 
-    public renderCharacter(character: any, x: number, y: number): Phaser.GameObjects.Sprite {
+    public renderCharacter(character: ICharacter, x: number, y: number): Phaser.GameObjects.Sprite {
         switch (character.constructor.name) {
-        case 'Character':
+        case 'Player':
             return this.renderPlayer(x, y + this.playerYOff);
         case 'NPC':
             return this.renderNPC(x, y + this.mobYOff);

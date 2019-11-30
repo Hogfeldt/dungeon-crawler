@@ -1,9 +1,10 @@
-import { ICharacter } from './ICharacter';
+import { IPlayer } from './IPlayer';
+import { IPosition } from './IPosition';
+import { Position } from './Position';
 
-export class Character implements ICharacter {
+export class Player implements IPlayer {
     public name: string;
-    public xPos: number;
-    public yPos: number;
+    public position: IPosition;
     public health: number;
     public maxHealth: number;
     public gold: number;
@@ -11,26 +12,19 @@ export class Character implements ICharacter {
     public damage: number;
 
     constructor(name: string,
-                xpos: number,
-                ypos: number,
+                xPos: number,
+                yPos: number,
                 health: number,
                 maxHealth: number,
                 gold: number,
                 experience: number,
                 damage: number) {
-        this.name   = name;
-        this.xPos   = xpos;
-        this.yPos   = ypos;
+        this.name = name;
+        this.position = new Position(xPos, yPos);
         this.health = health;
         this.maxHealth = maxHealth;
         this.gold = gold;
         this.experience = experience;
         this.damage = damage;
     }
-
-    public inventoryList(): any { throw new Error('Not implemented'); }
-
-    public item(): any { throw new Error('Not implemented'); }
-
-    public printChar(): any { throw new Error('Not implemented'); }
 }
