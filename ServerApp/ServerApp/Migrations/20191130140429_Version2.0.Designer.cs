@@ -9,8 +9,8 @@ using ServerApp.Data;
 namespace ServerApp.Migrations
 {
     [DbContext(typeof(ServerAppContext))]
-    [Migration("20191130104315_Initial")]
-    partial class Initial
+    [Migration("20191130140429_Version2.0")]
+    partial class Version20
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -30,25 +30,25 @@ namespace ServerApp.Migrations
 
                     b.Property<string>("Sprite");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("Username");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserName");
+                    b.HasIndex("Username");
 
                     b.ToTable("CharacterModel");
                 });
 
             modelBuilder.Entity("ServerApp.Database.Models.UserInfoModel", b =>
                 {
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email");
 
                     b.Property<string>("Password");
 
-                    b.HasKey("UserName");
+                    b.HasKey("Username");
 
                     b.ToTable("UserInfoModel");
                 });
@@ -57,7 +57,7 @@ namespace ServerApp.Migrations
                 {
                     b.HasOne("ServerApp.Database.Models.UserInfoModel", "UserInfoModel")
                         .WithMany("CharacterModels")
-                        .HasForeignKey("UserName")
+                        .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618

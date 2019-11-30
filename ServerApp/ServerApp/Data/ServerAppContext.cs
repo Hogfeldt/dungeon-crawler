@@ -19,7 +19,7 @@ namespace ServerApp.Data
             modelBuilder.Entity<CharacterModel>()
                 .HasOne(c => c.UserInfoModel)
                 .WithMany(u => u.CharacterModels)
-                .HasForeignKey(c => c.UserName)
+                .HasForeignKey(c => c.Username)
                 .OnDelete(DeleteBehavior.Cascade);
         }
     }

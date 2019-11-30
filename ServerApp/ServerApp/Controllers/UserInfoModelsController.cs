@@ -35,7 +35,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.Username);
 
             if (userFromDb == null)
             {
@@ -45,7 +45,7 @@ namespace ServerApp.Controllers
             if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
             {
                 var query = _context.UserInfoModel.Include(c => c.CharacterModels)
-                    .Where(u => u.UserName.Equals(userInfoModel.UserName));
+                    .Where(u => u.Username.Equals(userInfoModel.Username));
                 return Ok(query);
             }
 
@@ -61,12 +61,12 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (id != userInfoModel.UserName)
+            if (id != userInfoModel.Username)
             {
                 return BadRequest();
             }
 
-            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.Username);
 
             if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
             {
@@ -108,7 +108,7 @@ namespace ServerApp.Controllers
             _context.UserInfoModel.Add(userInfoModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserInfoModel", new { id = userInfoModel.UserName }, userInfoModel);
+            return CreatedAtAction("GetUserInfoModel", new { id = userInfoModel.Username }, userInfoModel);
         }
 
         // DELETE: api/UserInfoModels/
@@ -120,7 +120,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.Username);
             if (userFromDb == null)
             {
                 return NotFound();
@@ -139,7 +139,7 @@ namespace ServerApp.Controllers
 
         private bool UserInfoModelExists(string id)
         {
-            return _context.UserInfoModel.Any(e => e.UserName == id);
+            return _context.UserInfoModel.Any(e => e.Username == id);
         }
     }
 }
