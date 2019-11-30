@@ -1,5 +1,5 @@
 import { IApi } from './IApi';
-import { User } from './User'
+import { User } from './User';
 
 export class LoginHandler {
     public api: IApi;
