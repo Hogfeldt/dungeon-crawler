@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
-    public class Player: Character
+    public class Player: Character, IPlayer
     {
         public int Gold { get; private set; }
         public int Experience { get; private set; } = 0;
@@ -58,5 +58,13 @@ namespace ServerApp.GameState
         {
             NextMove = direction;
         }
+    }
+
+    public interface IPlayer
+    {
+        int AddExperience(int xp);
+        bool AddGold(int gold);
+        bool RemoveGold(int gold);
+        void SetNextMove(Character.Direction direction);
     }
 }
