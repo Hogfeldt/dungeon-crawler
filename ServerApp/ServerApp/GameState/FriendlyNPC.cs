@@ -19,6 +19,11 @@ namespace ServerApp.GameState
         public bool Alive { get; }
         public IMovementStrategy MovementStrategy { get; }
 
+        public void AddGold(int gold)
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int DropLoot()
         {
             throw new System.NotImplementedException();

@@ -16,9 +16,8 @@ namespace ServerApp.TurnExec
             _combatHandler = combatHandler;
         }
 
-        public List<ICharacter> ExecuteMoves(Queue<ICharacter> turns, ILayer layer)
+        public void ExecuteMoves(Queue<ICharacter> turns, ILayer layer)
         {
-            List<ICharacter> characters = new List<ICharacter>();
             foreach (var character in turns)
             {
                 if (character.Alive)
@@ -48,31 +47,22 @@ namespace ServerApp.TurnExec
                     {
                         MoveCharacter(character, targetPosition, layer);
                     }
-                    characters.Add(character);
                 }
             }
-            List<ICharacter> survivors = new List<ICharacter>();
-            foreach (var character in characters)
-            {
-                if (character.Alive)
-                {
-                    survivors.Add(character);
-                }
-            }
-            return survivors;
         }
 
-        private void MoveCharacter(ICharacter character, IPosition targetPosition, ILayer layer)
+        private void MoveCharacter(ICharacter movingCharacter, IPosition targetPosition, ILayer layer)
         {
             //Attempt to move character, will return false if tile is not walkable or is already occupied
-            if (!_movement.MoveCharacter(character.Position, targetPosition, layer))
+            if (!_movement.MoveCharacter(movingCharacter.Position, targetPosition, layer))
             {
                 //Moving didn't work, find out if failure was because it was occupied
                 ICharacter characterOnTile = layer.GetCharacter(targetPosition);
                 if (characterOnTile != null)
                 {
-                    _combatHandler.Fight(character, characterOnTile);
-                    // TODO move or what??
+                    _combatHandler.Fight(movingCharacter, characterOnTile, layer);
+                    // Try to move again will succed if opponent is dead
+                    _movement.MoveCharacter(movingCharacter.Position, targetPosition, layer);
                 }
             }
         }
