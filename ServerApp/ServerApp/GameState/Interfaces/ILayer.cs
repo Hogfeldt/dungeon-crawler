@@ -15,6 +15,7 @@ namespace ServerApp.GameState
         IInteractiveObject[,] InteractiveObjects { get; }
         IPosition getExitingPositionOrNull();
         IPosition getEnteringPositionOrNull();
+        bool PositionIsValid(IPosition position);
         void AddCharacter(ICharacter character);
         void RemoveCharacter(ICharacter character);
         ICharacter GetCharacter(IPosition position);
