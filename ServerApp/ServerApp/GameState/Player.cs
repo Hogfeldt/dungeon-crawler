@@ -4,29 +4,28 @@ using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
-    public abstract class Player: IPlayer
+    public class Player: IPlayer
     {
-     
+        public string Name { get; }
+        public IPosition Position { get; set; }
+        public IStats Stats { get; set; }
+        public Character.Direction NextMove { get; set; }
+        public bool Alive { get; private set; } = true;
+        public int TakeDamage(int damage)
+        {
+            throw new NotImplementedException();
+        }
         public int Gold { get; set; }
         public int Experience { get; set; } = 0;
 
-        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) 
+        [JsonConstructor]
+        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) 
         {
             this.Position = position;
             this.Stats = stats;
             this.Name = name;
             Gold = gold;
         }
-
-        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0, int experience = 0) 
-        {
-            this.Position = position;
-            this.Stats = stats;
-            this.Name = name;
-            Experience = experience;
-            Gold = gold;
-        }
-
 
         public void AddExperience(int xp)
         {
@@ -64,25 +63,5 @@ namespace ServerApp.GameState
         {
             NextMove = direction;
         }
-
-        public string Name { get; }
-        public IPosition Position { get; set; }
-        public IStats Stats { get; set; }
-        public Character.Direction NextMove { get; set; }
-        public bool Alive { get; private set; } = true; //ELIAS WHAT HAVE YOU DONE
-        public int TakeDamage(int damage)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-    public interface IPlayer : ICharacter
-    {
-        int Gold { get; set; }
-        int Experience { get; set; }
-        void SetNextMove(Character.Direction direction);
-        bool AddGold(int gold);
-
-
     }
 }

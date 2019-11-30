@@ -18,7 +18,7 @@ namespace Test.UnitTests.GameStateUnitTest
         {
             position = Substitute.For<IPosition>();
             stats = Substitute.For<IStats>();
-            uut = new ConcretePlayer(position, stats, "Karl", 20);
+            uut = new Player(position, stats, "Karl", 20);
             uut.AddExperience(20);
         }
 
