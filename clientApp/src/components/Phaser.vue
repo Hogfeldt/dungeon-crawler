@@ -1,7 +1,4 @@
 <template>
-    <div>
-        <p>Phaser</p>
-    </div>
 </template>
 
 
@@ -34,9 +31,10 @@
                 debug: false,
             },
         },
+        scale: {
+            autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+        },
     };
-
-
 
     export default {
         props: {
