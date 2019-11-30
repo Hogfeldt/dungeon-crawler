@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 
 namespace ServerApp.GameState
@@ -10,10 +11,13 @@ namespace ServerApp.GameState
         public IPosition Position { get; set; }
         public IStats Stats { get; set; }
         public Character.Direction NextMove { get; set; }
-        public bool Alive { get; private set; } = true;
+
+        public bool Alive => this.Stats.CurrentHealth <= 0;
+
         public int TakeDamage(int damage)
         {
-            throw new NotImplementedException();
+            Stats.TakeDamage(damage);
+            return damage;
         }
         public int Gold { get; set; }
         public int Experience { get; set; } = 0;
@@ -21,9 +25,9 @@ namespace ServerApp.GameState
         [JsonConstructor]
         public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) 
         {
-            this.Position = position;
-            this.Stats = stats;
-            this.Name = name;
+            Position = position;
+            Stats = stats;
+            Name = name;
             Gold = gold;
         }
 
