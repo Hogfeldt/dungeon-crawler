@@ -1,4 +1,6 @@
-﻿namespace ServerApp.GameState
+﻿using ServerApp.GameState.Interfaces;
+
+namespace ServerApp.GameState
 {
     public class DefaultLayerGenerator : ILayerGenerator
     {
@@ -7,8 +9,7 @@
             uint width = 10;
             uint height = 10;
 
-
-            NPC[,] npcs = new NPC[width, height];
+            INpc[,] npcs = new INpc[width, height];
             ITile[,] tiles = new ITile[width, height];
             IInteractiveObject[,] objects = new IInteractiveObject[width, height];
 
