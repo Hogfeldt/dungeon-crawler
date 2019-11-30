@@ -37,15 +37,12 @@ namespace ServerApp.GameState
             }
         }
 
-        public bool AddGold(int gold)
+        public void AddGold(int gold)
         {
             if (gold > 0)
             {
                 Gold += gold;
-                return true;
             }
-
-            return false;
         }
 
         public bool RemoveGold(int gold)

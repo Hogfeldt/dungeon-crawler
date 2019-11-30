@@ -5,6 +5,6 @@ namespace ServerApp.TurnExec
 {
     public interface IMoveExecutioner
     {
-        List<ICharacter> ExecuteMoves(Queue<ICharacter> turns, ILayer layer);
+        void ExecuteMoves(Queue<ICharacter> turns, ILayer layer);
     }
 }

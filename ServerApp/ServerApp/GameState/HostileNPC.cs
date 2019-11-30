@@ -33,5 +33,10 @@ namespace ServerApp.GameState
         {
             return DroppedGold;
         }
+
+        public void AddGold(int gold) 
+        {
+            DroppedGold += gold;
+        }
     }
 }

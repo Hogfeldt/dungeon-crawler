@@ -4,6 +4,6 @@ namespace ServerApp.TurnExec
 {
     public interface ICombatHandler
     {
-        void Fight(ICharacter attacker, ICharacter defender);
+        void Fight(ICharacter attacker, ICharacter defender, ILayer layer);
     }
 }

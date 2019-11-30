@@ -4,12 +4,14 @@ namespace ServerApp.TurnExec
 {
     public class CombatHandler : ICombatHandler
     {
-        public void Fight(ICharacter attacker, ICharacter defender)
+        public void Fight(ICharacter attacker, ICharacter defender, ILayer layer)
         {
             defender.TakeDamage(attacker.Stats.Damage);
             if (!defender.Alive)
             {
-                defender.DropLoot();
+                int goldToLoot = defender.DropLoot();
+                attacker.AddGold(goldToLoot);
+                layer.RemoveCharacter(defender);
             }
         }
     }

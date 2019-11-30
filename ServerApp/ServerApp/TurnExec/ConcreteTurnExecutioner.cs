@@ -41,9 +41,7 @@ namespace ServerApp.TurnExec
                 List<ICharacter> characters = _formatter.ToList(layer.Characters);
                 Queue<ICharacter> characterTurns = _turnScheduler.Schedule(characters);
 
-                characters = _moveExecutioner.ExecuteMoves(characterTurns, layer);
-                state.Map.GetCurrentLayer().Characters = _formatter.ToGrid(characters);
-
+                _moveExecutioner.ExecuteMoves(characterTurns, layer);
                 state = _interactionHandler.Interact(state);
             }
 
