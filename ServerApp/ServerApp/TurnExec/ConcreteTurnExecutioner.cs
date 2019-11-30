@@ -30,7 +30,7 @@ namespace ServerApp.TurnExec
             _interactionHandler = interactionHandler;
         }
 
-        public GameStateClass ExecuteTurn(GameStateClass state)
+        public IGameState ExecuteTurn(IGameState state)
         {
             Player player = state.Player;
             ITile[,] tiles = state.Map.GetCurrentLayer().Tiles;

@@ -10,6 +10,7 @@ namespace ServerApp.GameState
             Height = Tiles.GetLength(1);
             InteractiveObjects = interactiveObjects;
             this.ExitingPosition = ExitingPosition;
+            initializeDecendingStair();
         }
 
         public override IPosition getEnteringPositionOrNull()

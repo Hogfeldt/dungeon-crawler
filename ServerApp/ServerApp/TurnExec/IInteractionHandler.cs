@@ -4,6 +4,6 @@ namespace ServerApp.TurnExec
 {
     public interface IInteractionHandler
     {
-        GameStateClass Interact(GameStateClass state);
+        IGameState Interact(IGameState state);
     }
 }

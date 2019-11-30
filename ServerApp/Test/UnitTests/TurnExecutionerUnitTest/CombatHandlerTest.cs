@@ -20,7 +20,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         [Test]
         public void CombatHandler_PlayerFightNpc_NpcDies()
         {
-            var player = new Player(new Position(), new Stats(100, 10, 1), "player", 0, 0);
+            var player = new ConcretePlayer(new Position(), new Stats(100, 10, 1), "player", 0, 0);
             var npc = new HostileNPC(new Position(), new Stats(1, 1, 1), new StandStillMovementStrategy(), "enemy", 0);
 
             _combatHandler.Fight(player, npc);
@@ -31,7 +31,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         [Test]
         public void CombatHandler_PlayerFightNpc_PlayerDies()
         {
-            var player = new Player(new Position(), new Stats(10, 10, 1), "player", 0, 0);
+            var player = new ConcretePlayer(new Position(), new Stats(10, 10, 1), "player", 0, 0);
             var npc = new HostileNPC(new Position(), new Stats(100, 10, 1), new StandStillMovementStrategy(), "enemy", 0);
 
             _combatHandler.Fight(player, npc);
@@ -43,7 +43,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         public void CombatHandler_PlayerFightNpc_SlowNpcDies()
         {
             // Both can kill each other, First strike wins
-            var player = new Player(new Position(), new Stats(10, 10, 2), "player", 0, 0);
+            var player = new ConcretePlayer(new Position(), new Stats(10, 10, 2), "player", 0, 0);
             var npc = new HostileNPC(new Position(), new Stats(100, 10, 1), new StandStillMovementStrategy(), "enemy", 0);
 
             _combatHandler.Fight(player, npc);
@@ -56,7 +56,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         public void CombatHandler_PlayerFightNpc_SlowPlayerDies()
         {
             // Both can kill each other, First strike wins
-            var player = new Player(new Position(), new Stats(10, 10, 1), "player", 0, 0);
+            var player = new ConcretePlayer(new Position(), new Stats(10, 10, 1), "player", 0, 0);
             var npc = new HostileNPC(new Position(), new Stats(10, 10, 2), new StandStillMovementStrategy(), "enemy", 0);
 
             _combatHandler.Fight(player, npc);

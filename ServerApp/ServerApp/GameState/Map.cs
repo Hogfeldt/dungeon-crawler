@@ -66,7 +66,7 @@ namespace ServerApp.GameState
         {
             foreach (var character in GetLayer(CurrentLayerNumber).Characters)
             {
-                if (character != null && character.GetType() == typeof(Player))
+                if (character != null && character.GetType() == typeof(ConcretePlayer))
                 {
                     return (Player) character;
                 }
