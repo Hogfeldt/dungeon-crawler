@@ -15,10 +15,9 @@ namespace ServerApp.GameState
         public ITile[,] Tiles { protected set; get; }
         public ICharacter[,] Characters { set; get; }
         public IInteractiveObject[,] InteractiveObjects {protected set; get;}
-        protected IPosition EnteringPosition;
-        protected IPosition ExitingPosition;
+        public IPosition EnteringPosition;
+        public IPosition ExitingPosition;
 
-        [JsonConstructor]
         protected Layer(ITile[,] tiles, ICharacter[,] characters, IInteractiveObject[,] interactiveObjects)
         {
             Tiles = tiles;
