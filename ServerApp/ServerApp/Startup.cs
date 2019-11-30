@@ -31,7 +31,8 @@ namespace ServerApp
                     builder.AllowCredentials();
                 });
             });
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
+                .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
             
 
             services.AddDistributedMemoryCache();
@@ -46,8 +47,9 @@ namespace ServerApp
                 options.Cookie.IsEssential = true;
             });
 
+
             services.AddDbContext<ServerAppContext>(options =>
-                    options.UseSqlite(Configuration.GetConnectionString("ServerAppContext")));
+                    options.UseSqlServer(Configuration.GetConnectionString("ServerAppContext")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
