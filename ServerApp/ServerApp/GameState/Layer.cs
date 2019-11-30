@@ -46,7 +46,7 @@ namespace ServerApp.GameState
 
         protected void initializeDecendingStair() 
         {
-            InteractiveObjects[EnteringPosition.X, EnteringPosition.Y] = new DecendingStair();
+            InteractiveObjects[ExitingPosition.X, ExitingPosition.Y] = new DecendingStair();
         }
 
         public void AddCharacter(ICharacter character)
