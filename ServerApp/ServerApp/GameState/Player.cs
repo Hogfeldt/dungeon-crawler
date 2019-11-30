@@ -6,6 +6,11 @@ namespace ServerApp.GameState
 {
     public abstract class Player: Character
     {
+        protected Player() : base()
+        {
+            
+        }
+
         public int Gold { get; private set; }
         public int Experience { get; private set; } = 0;
 

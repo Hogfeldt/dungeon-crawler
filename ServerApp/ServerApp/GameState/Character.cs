@@ -2,6 +2,12 @@
 {
     public abstract class Character : ICharacter
     {
+        protected Character()
+        {
+
+        }
+
+
         public string Name { protected set; get; }
         public IPosition Position { set; get; }
         public IStats Stats { set; get; }
