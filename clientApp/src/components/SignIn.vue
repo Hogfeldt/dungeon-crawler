@@ -58,7 +58,7 @@
             },
             newUser() {
                 if (this.username || this.password !== '') {
-                    handler.postUserInfo(this.username, this.password, this.email);
+                    this.$emit('CreateNewUser', this.email, this.username, this.password);
                 }
             },
         },

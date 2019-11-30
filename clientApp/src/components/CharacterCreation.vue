@@ -9,12 +9,12 @@
                     <div class="overlay-left">
                         <h2>You have chosen the Blue Knight</h2>
                         <p>You have chosen wisely</p>
-                        <button class="invert" id="createBlue" @click="create('blue')">Start Game</button>
+                        <button class="invert" id="createBlue" @click="create('blue', 'knight')">Start Game</button>
                     </div>
                     <div class="overlay-right">
                         <h2>You have chosen the Red BooBoo</h2>
                         <p>You have chosen poorly</p>
-                        <button class="invert" id="createRed" @click="create('red')">Start Game</button>
+                        <button class="invert" id="createRed" @click="create('red', 'booboo')">Start Game</button>
                     </div>
                 </div>
             </div>
@@ -47,11 +47,12 @@
         },
 
         methods: {
-            create(myColor) {
+            create(myColor, sprite) {
                 // TODO: Send to server
                 // handler.getUserInfo(this.username, this.password);
                 if (myColor === 'red' || myColor === 'blue') {
                     //do stuff with color
+                    handler.postUserInfo(this.username, this.password, this.email, myColor, sprite);
                     this.$emit('CharacterCreated');
                 }
             },

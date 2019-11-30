@@ -7,8 +7,8 @@ export class LoginHandler {
         this.api = api;
     }
 
-    public postUserInfo(username: string, password: string, email: string) {
-        return this.api.postUserInfo(username, password, email).then((r) => {
+    public postUserInfo(username: string, password: string, email: string, color: string, sprite: string) {
+        return this.api.postUserInfo(username, password, email, color, sprite).then((r) => {
             return r.data;
         });
     }

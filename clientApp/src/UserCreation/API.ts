@@ -9,8 +9,8 @@ export class Api implements IApi {
         this.address = address;
     }
 
-    public postUserInfo(username: string, password: string, email: string): Promise<any> {
-        return axios.post(this.address + '/api/UserInfo', { UserName: username, Password: password, Email: email });
+    public postUserInfo(username: string, password: string, email: string, color: string, sprite: string): Promise<any> {
+        return axios.post(this.address + '/api/UserInfo', { UserName: username, Password: password, Email: email, Color: color, Sprite: sprite});
     }
 
     public getUserInfo(username: string, password: string): Promise<any> {
