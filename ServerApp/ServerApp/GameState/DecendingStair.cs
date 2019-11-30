@@ -4,8 +4,8 @@ namespace ServerApp.GameState
     {
         public void interact(IGameState gameState)
         {
-            Layer currentLayer = gameState.Map.GetCurrentLayer();
-            Layer layerToDecent = gameState.Map.getLayerBelowOrNull();
+            ILayer currentLayer = gameState.Map.GetCurrentLayer();
+            ILayer layerToDecent = gameState.Map.getLayerBelowOrNull();
             if (layerToDecent != null)
             {
                 IPosition enteringPostion = layerToDecent.getEnteringPositionOrNull();

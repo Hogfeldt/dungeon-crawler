@@ -80,6 +80,8 @@ namespace ServerApp.GameState
     {
         int Gold { get; set; }
         int Experience { get; set; }
+        void SetNextMove(Character.Direction direction);
+        bool AddGold(int gold);
 
 
     }

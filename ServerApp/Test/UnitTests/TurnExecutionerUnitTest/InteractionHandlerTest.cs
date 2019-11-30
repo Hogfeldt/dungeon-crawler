@@ -15,15 +15,18 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         [SetUp]
         public void Setup()
         {
+            _uut = new InteractionHandler();
+
             _state = Substitute.For<IGameState>();
             _player = Substitute.For<ICharacter>();
 
             _player.Position.X.Returns(5);
             _player.Position.X.Returns(5);
 
-            _state.Map.GetCurrentLayer().InteractiveObjects.Returns(_interactiveObjects);
+            _interactiveObjects = new IInteractiveObject[10, 10];
+
+            _state.Map.GetCurrentLayer().Returns(Substitute.For<ILayer>());
             _state.Player.Returns(_player);
-            _uut = new InteractionHandler();
         }
 
         [Test]

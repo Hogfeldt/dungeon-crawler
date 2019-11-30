@@ -2,7 +2,7 @@
 {
     public class ClientGameState
     {
-        public Player Player = null;
+        public IPlayer Player = null;
         public ITile[,] Tiles = null;
         public ICharacter[,] Characters = null;
         public IPosition InitialPlayerPosition = null;

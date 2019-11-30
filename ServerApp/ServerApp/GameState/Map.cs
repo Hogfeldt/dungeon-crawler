@@ -7,16 +7,16 @@ namespace ServerApp.GameState
     public class Map: IMap
     {
         public int CurrentLayerNumber { get; private set; } = 0;
-        public List<Layer> Layers { get; private set; } = new List<Layer>();
+        public List<ILayer> Layers { get; private set; } = new List<ILayer>();
 
-        public Map(ILayerGenerator layerGenerator, int layerCount, Player player)
+        public Map(ILayerGenerator layerGenerator, int layerCount, IPlayer player)
         {
             GenerateLayers(layerGenerator, layerCount);
             SpawnPlayer(player, (TopLayer) Layers[0]);
         }
         
         [JsonConstructor]
-        public Map(List<Layer> layers, int currentLayerNumber)
+        public Map(List<ILayer> layers, int currentLayerNumber)
         {
             Layers = layers;
             CurrentLayerNumber = currentLayerNumber;
@@ -30,13 +30,13 @@ namespace ServerApp.GameState
             }
         }
 
-        private void SpawnPlayer(Player player, TopLayer layer)
+        private void SpawnPlayer(IPlayer player, TopLayer layer)
         {
             player.Position = layer.spawnPosition;
             layer.AddCharacter(player);
         }
 
-        private Layer GetLayer(int layer)
+        private ILayer GetLayer(int layer)
         {
             if (Layers.Count > layer && layer >= 0)
             {
@@ -47,22 +47,22 @@ namespace ServerApp.GameState
             }
         }
 
-        public Layer getLayerBelowOrNull() 
+        public ILayer getLayerBelowOrNull() 
         {
             return GetLayer(CurrentLayerNumber + 1);
         }
 
-        public Layer getLayerAboveOrNull()
+        public ILayer getLayerAboveOrNull()
         {
             return GetLayer(CurrentLayerNumber - 1);
         }
 
-        public Layer GetCurrentLayer()
+        public ILayer GetCurrentLayer()
         {
             return Layers[CurrentLayerNumber];
         }
 
-        public Player GetPlayer()
+        public IPlayer GetPlayer()
         {
             foreach (var character in GetLayer(CurrentLayerNumber).Characters)
             {

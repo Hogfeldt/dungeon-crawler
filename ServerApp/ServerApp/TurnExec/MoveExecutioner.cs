@@ -15,7 +15,7 @@ namespace ServerApp.TurnExec
             _movement = new Movement();
             _combatHandler = combatHandler;
         }
-        public List<ICharacter> ExecuteMoves(Queue<ICharacter> turns, Layer layer)
+        public List<ICharacter> ExecuteMoves(Queue<ICharacter> turns, ILayer layer)
         {
             List<ICharacter> characters = new List<ICharacter>();
             foreach (var character in turns)
@@ -67,7 +67,7 @@ namespace ServerApp.TurnExec
 
         }
 
-        private void MoveCharacter(ICharacter character, IPosition targetPosition, Layer layer)
+        private void MoveCharacter(ICharacter character, IPosition targetPosition, ILayer layer)
         {
             //Attempt to move character, will return false if tile is not walkable or is already occupied
             if (!_movement.MoveCharacter(character.Position, targetPosition, layer))

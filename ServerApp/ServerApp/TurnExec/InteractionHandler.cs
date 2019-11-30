@@ -10,7 +10,7 @@ namespace ServerApp.TurnExec
     {
         public IGameState Interact(IGameState state)
         {
-            Player player = state.Player;
+            IPlayer player = state.Player;
             IInteractiveObject[,] interactiveObjects = state.Map.GetCurrentLayer().InteractiveObjects;
 
             interactiveObjects[player.Position.X, player.Position.Y]?.interact(state);
