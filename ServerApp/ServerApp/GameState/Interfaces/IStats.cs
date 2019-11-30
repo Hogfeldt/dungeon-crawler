@@ -6,7 +6,7 @@
         int CurrentHealth { get; }
         int Damage { get; set; }
         int Speed { get; set; }
-        void TakeDamage(int damage);
+        void ReduceHealt(int damage);
         void GainHealth(int health);
     }
 }

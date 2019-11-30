@@ -8,5 +8,6 @@
         Character.Direction NextMove { get; }
         bool Alive { get; }
         int TakeDamage(int damage);
+        void DropLoot();
     }
 }

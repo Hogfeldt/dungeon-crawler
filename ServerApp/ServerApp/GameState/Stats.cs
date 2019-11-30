@@ -11,7 +11,7 @@ namespace ServerApp.GameState
 
 
 
-        public void TakeDamage(int damage)
+        public void ReduceHealt(int damage)
         {
             CurrentHealth -= damage;
             if (CurrentHealth < 0)
