@@ -57,9 +57,15 @@ export class ChangeHandler {
                 }
             }
         }
+        let spawnPos: Position | null = null;
+        if (data.InitalPlayerPosition !== undefined) {
+            spawnPos = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
+        }
 
-        const spawnPos: Position = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
-        const exitPos: Position = new Position(data.ExitPosition.X, data.ExitPosition.Y);
+        let exitPos: Position | null = null;
+        if (data.ExitPosition !== undefined) {
+            exitPos = new Position(data.ExitPosition.X, data.ExitPosition.Y);
+        }
 
         const interactiveObjects: any[][] = new Array();
         for (let i = 0; i < data.InteractiveObjects.length; i++) {

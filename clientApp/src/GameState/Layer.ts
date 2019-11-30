@@ -6,14 +6,14 @@ import { IInteractiveObject } from './IInteractiveObject';
 export class Layer implements ILayer {
 
     private tiles: ITile[][];
-    private spawnPos: IPosition;
-    private exitPos: IPosition;
+    private spawnPos: IPosition | null;
+    private exitPos: IPosition| null;
     private interactiveObjects: (IInteractiveObject | null)[][];
 
 
     constructor(tiles: ITile[][],
-                spawnPos: IPosition,
-                exitPos: IPosition,
+                spawnPos: IPosition | null,
+                exitPos: IPosition | null,
                 interactiveObjects: (IInteractiveObject | null)[][]) {
         this.tiles = tiles;
         this.spawnPos = spawnPos;
@@ -32,11 +32,11 @@ export class Layer implements ILayer {
         return this.tiles.length;
     }
 
-    public getSpawn(): IPosition {
+    public getSpawn(): IPosition | null {
         return this.spawnPos;
     }
 
-    public getExit(): IPosition {
+    public getExit(): IPosition | null {
         return this.exitPos;
     }
 
