@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ServerApp.Data;
@@ -29,7 +30,8 @@ namespace ServerApp
                 try
                 {
                     var context = services.GetRequiredService<ServerAppContext>();
-                    context.Database.EnsureCreated();
+                    //context.Database.EnsureCreated();
+                    context.Database.Migrate();
                 }
                 catch (Exception ex)
                 {
