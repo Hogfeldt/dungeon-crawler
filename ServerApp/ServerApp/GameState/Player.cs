@@ -4,23 +4,25 @@ using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
-    public abstract class Player: Character
+    public abstract class Player: IPlayer
     {
-        protected Player() : base()
-        {
-            
-        }
+     
+        public int Gold { get; set; }
+        public int Experience { get; set; } = 0;
 
-        public int Gold { get; private set; }
-        public int Experience { get; private set; } = 0;
-
-        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) : base(position, stats, name)
+        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) 
         {
+            this.Position = position;
+            this.Stats = stats;
+            this.Name = name;
             Gold = gold;
         }
 
-        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0, int experience = 0) : base(position, stats, name)
+        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0, int experience = 0) 
         {
+            this.Position = position;
+            this.Stats = stats;
+            this.Name = name;
             Experience = experience;
             Gold = gold;
         }
@@ -62,5 +64,23 @@ namespace ServerApp.GameState
         {
             NextMove = direction;
         }
+
+        public string Name { get; }
+        public IPosition Position { get; set; }
+        public IStats Stats { get; set; }
+        public Character.Direction NextMove { get; set; }
+        public bool Alive { get; }
+        public int TakeDamage(int damage)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public interface IPlayer : ICharacter
+    {
+        int Gold { get; set; }
+        int Experience { get; set; }
+
+
     }
 }
