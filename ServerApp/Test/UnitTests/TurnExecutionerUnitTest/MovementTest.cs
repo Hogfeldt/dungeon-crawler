@@ -15,11 +15,14 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         private IPosition _currentPosition;
         private IPosition _targetPosition;
 
+        private ICharacter _character;
+
         [SetUp]
         public void Setup()
         {
             _uut = new Movement();
             _layer = Substitute.For<ILayer>();
+            _character = Substitute.For<ICharacter>();
         }
 
         [Test]
@@ -33,7 +36,11 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             _targetPosition.X.Returns(5);
             _targetPosition.X.Returns(5);
 
+            _character.Position.X.Returns(3);
+            _character.Position.X.Returns(3);
+
             _uut.MoveCharacter(_currentPosition, _targetPosition, _layer);
+
         }
     }
 }
