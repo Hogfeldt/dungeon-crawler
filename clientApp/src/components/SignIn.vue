@@ -38,6 +38,8 @@
     import { LoginHandler } from '@/UserCreation/LoginHandler';
     import { IApi } from '@/UserCreation/IApi';
     import { Api } from '@/UserCreation/API';
+    import { User } from '@/UserCreation/User';
+    
     const Api: IApi = new Api('http://178.62.43.127:5000/');
     const handler: LoginHandler = new LoginHandler(Api);
 
@@ -52,16 +54,18 @@
         },
         methods: {
             login() {
-                if (this.username || this.password !== '') {
-                    handler.getUserInfo(this.username, this.password);
+                if (this.username || this.password != '') {
+                    user = new User(this.username, this.password);
+                    handler.getUserInfo(user);
                 }
             },
             newUser() {
-                if (this.username || this.password !== '') {
-                    handler.postUserInfo(this.username, this.password, this.email);
+                if (this.username || this.password != '') {
+                    user = new User(this.username, this.password, this.email)
+                    handler.postUserInfo(user);
                 }
             },
-        },
+        }
     };
 </script>
 
