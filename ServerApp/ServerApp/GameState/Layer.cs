@@ -29,7 +29,7 @@ namespace ServerApp.GameState
         public abstract IPosition getEnteringPositionOrNull();
 
         //Validates a position in the layer, returns true if position is within bounds of layer.
-        private bool PositionIsValid(IPosition position)
+        public bool PositionIsValid(IPosition position)
         {
             if (position.X < 0 || position.X >= Width || position.Y < 0 || position.Y >= Height) return false;
             return true;
