@@ -18,6 +18,12 @@ namespace ServerApp.GameState
         public Direction NextMove { get; }
         public bool Alive { get; }
         public IMovementStrategy MovementStrategy { get; }
+
+        public void DropLoot()
+        {
+            throw new System.NotImplementedException();
+        }
+
         public int TakeDamage(int damage)
         {
             throw new System.NotImplementedException();

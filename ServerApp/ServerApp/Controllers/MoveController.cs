@@ -36,7 +36,7 @@ namespace ServerApp.Controllers
                 IMoveValidator validator = new MoveValidator();
                 ICharacterFormatter characterFormatter = new CharacterFormatter();
                 ITurnScheduler turnScheduler = new TurnScheduler();
-                IMoveExecutioner moveExecutioner = new MoveExecutioner(new CombatHandler());
+                IMoveExecutioner moveExecutioner = new MoveExecutioner(new CombatHandler(), new Movement());
                 IInteractionHandler interactionHandler = new InteractionHandler();
                 ITurnExecutioner turnExecutioner = new ConcreteTurnExecutioner(validator, characterFormatter, turnScheduler, moveExecutioner, interactionHandler);
 

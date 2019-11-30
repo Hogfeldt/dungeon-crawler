@@ -22,17 +22,16 @@ namespace ServerApp.GameState
             this.DroppedGold = droppedGold;
             DroppedExperience = stats.MaxHealth * stats.Damage;
         }
-        public void DropToCharacter(Player player)
-        {
-            player.AddGold(DroppedGold);
-            player.AddExperience(DroppedExperience);
-        }
-
         
         public int TakeDamage(int damage)
         {
-            Stats.TakeDamage(damage);
+            Stats.ReduceHealt(damage);
             return damage;
+        }
+
+        public void DropLoot()
+        {
+            
         }
     }
 }
