@@ -4,7 +4,7 @@
     {
         int Gold { get; set; }
         int Experience { get; set; }
-        void SetNextMove(Character.Direction direction);
+        void SetNextMove(Direction direction);
         bool AddGold(int gold);
 
 

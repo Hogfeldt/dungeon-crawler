@@ -10,7 +10,7 @@ namespace ServerApp.GameState
         public string Name { get; }
         public IPosition Position { get; set; }
         public IStats Stats { get; set; }
-        public Character.Direction NextMove { get; set; }
+        public Direction NextMove { get; set; }
 
         public bool Alive => this.Stats.CurrentHealth <= 0;
 
@@ -63,7 +63,7 @@ namespace ServerApp.GameState
             return true;
         }
 
-        public void SetNextMove(Character.Direction direction)
+        public void SetNextMove(Direction direction)
         {
             NextMove = direction;
         }

@@ -5,8 +5,18 @@
         string Name { get; }
         IPosition Position { set; get; }
         IStats Stats { set; get; }
-        Character.Direction NextMove { get; }
+        Direction NextMove { get; }
+
         bool Alive { get; }
         int TakeDamage(int damage);
+    }
+
+    public enum Direction
+    {
+        None,
+        Up,
+        Down,
+        Left,
+        Right
     }
 }

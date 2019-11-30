@@ -2,6 +2,6 @@
 {
     public interface IMovementStrategy
     {
-        Character.Direction GenerateMove();
+        Direction GenerateMove();
     }
 }

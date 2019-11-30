@@ -2,9 +2,9 @@
 {
     public class Movement: IMovement
     {
-        private bool checkIfValidMove(IPosition oldPosition, IPosition newPosition, ILayer layer)
+        private bool checkIfValidMove(IPosition currentPosition, IPosition newPosition, ILayer layer)
         {
-            bool characterDoesNotExsist = layer.GetCharacter(oldPosition) == null;
+            bool characterDoesNotExsist = layer.GetCharacter(currentPosition) == null;
             if(characterDoesNotExsist) return false;
             bool newPositionIsNotValid = layer.PositionIsValid(newPosition);
             if(newPositionIsNotValid) return false;
@@ -18,10 +18,10 @@
         //Moves a character in the layer from oldPosition to newPosition
         //If move is invalid return false
         //If successful returns true
-        public bool MoveCharacter(IPosition oldPosition, IPosition newPosition, ILayer layer)
+        public bool MoveCharacter(IPosition currentPosition, IPosition newPosition, ILayer layer)
         {
-            if(checkIfValidMove(oldPosition, newPosition, layer)){
-                ICharacter characterToMove = layer.GetCharacter(oldPosition);
+            if(checkIfValidMove(currentPosition, newPosition, layer)){
+                ICharacter characterToMove = layer.GetCharacter(currentPosition);
                 layer.RemoveCharacter(characterToMove);
                 characterToMove.Position = newPosition;
                 layer.AddCharacter(characterToMove);
