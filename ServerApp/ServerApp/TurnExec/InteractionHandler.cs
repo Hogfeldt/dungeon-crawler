@@ -10,13 +10,12 @@ namespace ServerApp.TurnExec
 {
     public class InteractionHandler : IInteractionHandler
     {
-        public IGameState Interact(IGameState state)
+        public void Interact(IGameState state)
         {
             IPlayer player = state.Player;
             IInteractiveObject[,] interactiveObjects = state.Map.GetCurrentLayer().InteractiveObjects;
 
             interactiveObjects[player.Position.X, player.Position.Y]?.interact(state);
-            return state;
         }
     }
 }
