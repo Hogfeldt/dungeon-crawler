@@ -4,12 +4,16 @@
     {
         private bool checkIfValidMove(IPosition currentPosition, IPosition newPosition, ILayer layer)
         {
-            bool characterDoesNotExsist = layer.GetCharacter(currentPosition) == null;
-            if(characterDoesNotExsist) return false;
-            bool newPositionIsNotValid = layer.PositionIsValid(newPosition);
+            bool characterDoesNotExist = layer.GetCharacter(currentPosition) == null;
+            if(characterDoesNotExist) return false;
+
+            bool newPositionIsNotValid = layer.PositionIsValid(newPosition) == false;
             if(newPositionIsNotValid) return false;
-            bool newPositionIsNotFree = layer.GetCharacter(newPosition) != null;
+
+            ICharacter characterOnNewPos = layer.GetCharacter(newPosition);
+            bool newPositionIsNotFree = characterOnNewPos != null;
             if(newPositionIsNotFree) return false;
+
             bool newPositionIsNotWalkable = layer.GetTile(newPosition).Walkable == false;
             if(newPositionIsNotWalkable) return false;
             return true;
