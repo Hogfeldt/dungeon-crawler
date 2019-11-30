@@ -1,13 +1,11 @@
-import Phaser from 'phaser';
 import { ChangeHandler } from '../ChangeHandler/ChangeHandler';
 import { GameRenderer } from './GameRenderer';
-import { ILayer } from '../GameState/ILayer';
 import { GameState } from '../GameState/GameState';
-import { Character } from '../GameState/Character';
+import { ILayer } from '../GameState/ILayer';
 import { IInteractiveObject } from '../GameState/IInteractiveObject';
-import { Chest } from '../GameState/Chest';
-import { ChestMimic } from '../GameState/ChestMimic';
-import { IPosition } from '../GameState/IPosition';
+import { ICharacter } from '../GameState/ICharacter';
+import { IPlayer } from '../GameState/IPlayer';
+import Phaser from 'phaser';
 
 const xOff = 150;
 const yOff = 150;
@@ -150,8 +148,8 @@ export class MainGame extends Phaser.Scene {
     private drawFromState(state: GameState) {
         // Get objects from state
         const layer: ILayer = state.layerState;
-        const characters: any[][] = state.NPCState;
-        const playerState: Character = state.characterState;
+        const playerState: IPlayer = state.playerState;
+        const characters: (ICharacter | null)[][] = layer.getCharacters();
         const interObjects: (IInteractiveObject | null)[][] = layer.getInteractiveObjects();
 
         // Use objects to render state with gameRenderer.
