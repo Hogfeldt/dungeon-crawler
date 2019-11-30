@@ -90,5 +90,17 @@ namespace Test.UnitTests.GameStateUnitTest
             CollectionAssert.DoesNotContain(_uut.Characters, character);
         }
 
+        [Test]
+        public void addCharacterGetsCharacterWithValidPosition()
+        {
+            ICharacter character = new ConcretePlayer(
+                new Position(5, 3), 
+                new Stats(),
+                "Uncle Bob",
+                42);
+            _uut.AddCharacter(character);
+            CollectionAssert.Contains(_uut.Characters, character);
+        }
+
     }
 }
