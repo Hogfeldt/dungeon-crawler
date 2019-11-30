@@ -36,12 +36,18 @@
         },
     };
 
-    const mainGameScene: MainGame = new MainGame(handler);
-    
-    const game: Phaser.Game = new Phaser.Game(config);
-    game.scene.add('MainGame', mainGameScene, true);
 
-    @Component
-    export default class PhaserGame extends Vue {
+
+    export default {
+        props: {
+            here: Boolean,
+        },
+
+        mounted() {
+            const mainGameScene: MainGame = new MainGame(handler);
+
+            const game: Phaser.Game = new Phaser.Game(config);
+            game.scene.add('MainGame', mainGameScene, true);
+        }
     }
 </script>

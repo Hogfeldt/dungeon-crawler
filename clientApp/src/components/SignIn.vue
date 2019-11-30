@@ -60,7 +60,7 @@
 
             newUser(myUsername, myEmail, myPassword) {
                 if (myUsername !== '' && myPassword !== '') {
-                    user = new User(this.username, this.password, this.email);
+                    const user = new User(this.username, this.password, this.email);
                     //handler.postUserInfo(user);
                     this.$router.push({ name: 'character', params: { email: myEmail, username: myUsername, password: myPassword, } });
                 }
