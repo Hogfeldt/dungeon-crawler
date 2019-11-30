@@ -9,13 +9,12 @@ namespace ServerApp.GameState
         public int Gold { get; private set; }
         public int Experience { get; private set; } = 0;
 
-        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) : base(position, stats, name)
+        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) : base(position, stats, name)
         {
             Gold = gold;
         }
 
-        [JsonConstructor]
-        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0, int experience = 0) : base(position, stats, name)
+        protected Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0, int experience = 0) : base(position, stats, name)
         {
             Experience = experience;
             Gold = gold;
