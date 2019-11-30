@@ -14,9 +14,6 @@ namespace ServerApp.GameState
         void AddCharacter(ICharacter character);
         void RemoveCharacterFromPosition(IPosition position);
         ICharacter GetCharacter(IPosition position);
-        ICharacter GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff);
         ITile GetTile(IPosition position);
-        ITile GetTileWithOffset(IPosition position, int xOff, int yOff);
-        List<ICharacter> CharactersAsList();
     }
 }

@@ -5,10 +5,7 @@ namespace ServerApp.GameState
 {
     public abstract class Layer : ILayer
     {
-        protected Layer()
-        {
-
-        }
+        protected Layer() {}
 
         public int Height { protected set; get; }
         public int Width { protected set; get; }
@@ -80,14 +77,6 @@ namespace ServerApp.GameState
         }
         
 
-        public ICharacter GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff)
-        {
-            IPosition offsetPosition = new Position(position, xOff, yOff);
-
-            return GetCharacter(offsetPosition);
-        }
-        
-
         public ITile GetTile(IPosition position)
         {
             if (!PositionIsValid(position))
@@ -95,28 +84,6 @@ namespace ServerApp.GameState
                 return new Tile(false);
             }
             return Tiles[position.X, position.Y];
-        }
-
-        public ITile GetTileWithOffset(IPosition position, int xOff, int yOff)
-        {
-            IPosition offSetPosition = new Position(position, xOff, yOff);
-
-            return GetTile(offSetPosition);
-        }
-
-        public List<ICharacter> CharactersAsList()
-        {
-            List<ICharacter> characterList = new List<ICharacter>();
-
-            foreach (var character in Characters)
-            {
-                if (character != null)
-                {
-                    characterList.Add(character);
-                }
-            }
-
-            return characterList;
         }
     }
 }
