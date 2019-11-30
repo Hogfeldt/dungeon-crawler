@@ -54,11 +54,11 @@ namespace ServerApp.GameState
         }
         
 
-        public void RemoveCharacterFromPosition(IPosition position)
+        public void RemoveCharacter(ICharacter character)
         {
-            if (PositionIsValid(position))
+            if (PositionIsValid(character.Position))
             {
-                Characters[position.X, position.Y] = null;
+                Characters[character.Position.X, character.Position.Y] = null;
             }
         }
         

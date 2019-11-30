@@ -12,7 +12,7 @@ namespace ServerApp.GameState
         IPosition getExitingPositionOrNull();
         IPosition getEnteringPositionOrNull();
         void AddCharacter(ICharacter character);
-        void RemoveCharacterFromPosition(IPosition position);
+        void RemoveCharacter(ICharacter character);
         ICharacter GetCharacter(IPosition position);
         ITile GetTile(IPosition position);
     }

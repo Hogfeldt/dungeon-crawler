@@ -10,7 +10,7 @@
             {
                 IPosition enteringPostion = layerToAccend.getEnteringPositionOrNull();
                 if (enteringPostion != null) {
-                    currentLayer.RemoveCharacterFromPosition(gameState.Player.Position);
+                    currentLayer.RemoveCharacter(gameState.Player);
                     gameState.Player.Position = enteringPostion;
                     layerToAccend.AddCharacter(gameState.Player);
                 } 

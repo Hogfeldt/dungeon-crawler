@@ -27,12 +27,10 @@ namespace ServerApp.GameState
             {
                 return false;
             }
-
-            ICharacter toMove = layer.GetCharacter(oldPosition);
-            toMove.Position = newPosition;
-            layer.AddCharacter(toMove);
-            layer.RemoveCharacterFromPosition(oldPosition);
-
+            ICharacter characterToMove = layer.GetCharacter(oldPosition);
+            layer.RemoveCharacter(characterToMove);
+            characterToMove.Position = newPosition;
+            layer.AddCharacter(characterToMove);
             return true;
         }
     }

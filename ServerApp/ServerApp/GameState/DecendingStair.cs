@@ -10,7 +10,7 @@ namespace ServerApp.GameState
             {
                 IPosition enteringPostion = layerToDecent.getEnteringPositionOrNull();
                 if (enteringPostion != null) {
-                    currentLayer.RemoveCharacterFromPosition(gameState.Player.Position);
+                    currentLayer.RemoveCharacter(gameState.Player);
                     gameState.Player.Position = enteringPostion;
                     layerToDecent.AddCharacter(gameState.Player);
                 } 
