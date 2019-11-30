@@ -79,13 +79,13 @@ namespace Test.UnitTests.GameStateUnitTest
             Assert.AreEqual("Karl", uut.Name);
         }
 
-        [TestCase(Character.Direction.None)]
-        [TestCase(Character.Direction.Up)]
-        [TestCase(Character.Direction.Down)]
-        [TestCase(Character.Direction.Left)]
-        [TestCase(Character.Direction.Right)]
+        [TestCase(Direction.None)]
+        [TestCase(Direction.Up)]
+        [TestCase(Direction.Down)]
+        [TestCase(Direction.Left)]
+        [TestCase(Direction.Right)]
         [Test]
-        public void TestSetNextMove(Character.Direction direction)
+        public void TestSetNextMove(Direction direction)
         {
             uut.SetNextMove(direction);
             Assert.AreEqual(direction, uut.NextMove);

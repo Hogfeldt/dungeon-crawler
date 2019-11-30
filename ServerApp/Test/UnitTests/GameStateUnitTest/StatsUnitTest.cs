@@ -42,14 +42,14 @@ namespace Test.UnitTests.GameStateUnitTest
         [Test]
         public void TestTakeDamage()
         {
-            uut.TakeDamage(2);
+            uut.ReduceHealt(2);
             Assert.AreEqual(3, uut.CurrentHealth);
         }
 
         [Test]
         public void TestGainHealth()
         { 
-            uut.TakeDamage(4);
+            uut.ReduceHealt(4);
             uut.GainHealth(3);
             Assert.AreEqual(4, uut.CurrentHealth);
         }

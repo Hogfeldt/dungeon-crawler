@@ -9,7 +9,7 @@ namespace Test.UnitTests.GameStateUnitTest
     [TestFixture]
     class CharacterUnitTest //todo: Hpw test dis? Abstract klasse med interface??
     {
-        private Character uut;
+        private ICharacter uut;
         [SetUp]
         public void setup()
         {

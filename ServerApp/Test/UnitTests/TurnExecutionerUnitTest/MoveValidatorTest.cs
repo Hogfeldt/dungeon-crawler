@@ -33,7 +33,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         public void MoveValidator_ValidMoveUp_ReturnsTrue()
         {
             IPosition position = new Position(0, 1);
-            Character.Direction direction = Character.Direction.Up;
+            Direction direction = Direction.Up;
 
             bool result = _uut.Validate(position, direction, _tiles);
 
@@ -44,7 +44,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         public void MoveValidator_InvalidMoveOutOfMap_ReturnsFalse()
         {
             IPosition position = new Position(1, 1);
-            Character.Direction direction = Character.Direction.Down;
+            Direction direction = Direction.Down;
 
             bool result = _uut.Validate(position, direction, _tiles);
 
@@ -55,7 +55,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         public void MoveValidator_ValidMoveLeft_ReturnsTrue()
         {
             IPosition position = new Position(1, 1);
-            Character.Direction direction = Character.Direction.Left;
+            Direction direction = Direction.Left;
 
             bool result = _uut.Validate(position, direction, _tiles);
 
@@ -66,7 +66,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         public void MoveValidator_InvalidMoveUp_ReturnsFalse()
         {
             IPosition position = new Position(1, 0);
-            Character.Direction direction = Character.Direction.Up;
+            Direction direction = Direction.Up;
 
             bool result = _uut.Validate(position, direction, _tiles);
 
