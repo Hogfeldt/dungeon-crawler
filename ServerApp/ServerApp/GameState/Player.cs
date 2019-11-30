@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
-    public class Player: Character
+    public abstract class Player: Character
     {
         public int Gold { get; private set; }
         public int Experience { get; private set; } = 0;
