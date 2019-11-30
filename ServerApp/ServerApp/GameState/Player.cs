@@ -1,6 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Newtonsoft.Json;
 
 namespace ServerApp.GameState
@@ -16,7 +14,7 @@ namespace ServerApp.GameState
 
         public int TakeDamage(int damage)
         {
-            Stats.TakeDamage(damage);
+            Stats.ReduceHealt(damage);
             return damage;
         }
         public int Gold { get; set; }
@@ -66,6 +64,11 @@ namespace ServerApp.GameState
         public void SetNextMove(Direction direction)
         {
             NextMove = direction;
+        }
+
+        public int DropLoot()
+        {
+            throw new NotImplementedException();
         }
     }
 }

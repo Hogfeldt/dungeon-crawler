@@ -29,9 +29,9 @@ namespace ServerApp.GameState
             return damage;
         }
 
-        public void DropLoot()
+        public int DropLoot()
         {
-            
+            return DroppedGold;
         }
     }
 }

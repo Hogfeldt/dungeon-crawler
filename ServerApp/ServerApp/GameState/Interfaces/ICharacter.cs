@@ -9,7 +9,7 @@
 
         bool Alive { get; }
         int TakeDamage(int damage);
-        void DropLoot();
+        int DropLoot();
     }
 
     public enum Direction
