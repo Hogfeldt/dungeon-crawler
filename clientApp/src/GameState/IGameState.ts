@@ -1,10 +1,8 @@
-import { INPC } from './INPC';
-import { ICharacter } from './ICharacter';
+import { IPlayer } from './IPlayer';
 import { ILayer } from './ILayer';
 
 export interface IGameState {
-    NPCState: INPC[][];
-    characterState: ICharacter;
+    playerState: IPlayer;
     layerState: ILayer;
 
     changeState(gameState: IGameState): void;

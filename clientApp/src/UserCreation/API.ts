@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { IApiUser } from './IApi';
+
 import { User } from './User';
 
 export class ApiUser implements IApiUser {
