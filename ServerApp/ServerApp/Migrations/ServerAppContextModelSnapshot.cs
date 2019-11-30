@@ -28,25 +28,25 @@ namespace ServerApp.Migrations
 
                     b.Property<string>("Sprite");
 
-                    b.Property<string>("UserName");
+                    b.Property<string>("Username");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserName");
+                    b.HasIndex("Username");
 
                     b.ToTable("CharacterModel");
                 });
 
             modelBuilder.Entity("ServerApp.Database.Models.UserInfoModel", b =>
                 {
-                    b.Property<string>("UserName")
+                    b.Property<string>("Username")
                         .ValueGeneratedOnAdd();
 
                     b.Property<string>("Email");
 
                     b.Property<string>("Password");
 
-                    b.HasKey("UserName");
+                    b.HasKey("Username");
 
                     b.ToTable("UserInfoModel");
                 });
@@ -55,7 +55,7 @@ namespace ServerApp.Migrations
                 {
                     b.HasOne("ServerApp.Database.Models.UserInfoModel", "UserInfoModel")
                         .WithMany("CharacterModels")
-                        .HasForeignKey("UserName")
+                        .HasForeignKey("Username")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
