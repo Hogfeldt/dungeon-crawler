@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 import { IApi } from './IApi';
-import { User } from './User'
+import { User } from './User';
 
 export class Api implements IApi {
     private address: string;

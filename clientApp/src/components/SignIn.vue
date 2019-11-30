@@ -54,18 +54,18 @@
         },
         methods: {
             login() {
-                if (this.username || this.password != '') {
+                if (this.username || this.password !== '') {
                     user = new User(this.username, this.password);
                     handler.getUserInfo(user);
                 }
             },
             newUser() {
-                if (this.username || this.password != '') {
-                    user = new User(this.username, this.password, this.email)
+                if (this.username || this.password !== '') {
+                    user = new User(this.username, this.password, this.email);
                     handler.postUserInfo(user);
                 }
             },
-        }
+        },
     };
 </script>
 
