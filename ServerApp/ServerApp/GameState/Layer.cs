@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
-    public abstract class Layer
+    public abstract class Layer : ILayer
     {
         protected Layer()
         {
