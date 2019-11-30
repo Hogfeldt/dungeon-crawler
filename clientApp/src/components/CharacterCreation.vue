@@ -3,6 +3,7 @@
         <p>email: {{ email }}</p>
         <p>Username: {{ username }}</p>
         <p>Password: {{ password }}</p>
+        <p>Handler: {{ loginHandler }}</p>
         <div class="container" :class="{'select-character-active' : changeCharacter}">
             <div class="overlay-container">
                 <div class="overlay">
@@ -34,9 +35,6 @@
     import { User } from '@/UserCreation/User';
     import { Character } from '@/UserCreation/Character';
 
-
-
-
     export default {
         data: () => {
             return {
@@ -48,7 +46,6 @@
             username: String,
             email: String,
             password: String,
-            loginHandler: Object,
         },
 
         methods: {
@@ -56,10 +53,11 @@
                 if (myColor === 'red' || myColor === 'blue') {
                     const character = new Character(mySprite, myColor, this.username);
                     const user = new User(this.username, this.password, this.email, character);
-                    this.loginHandler.postUserInfo(user);
-                    this.$emit('CharacterCreated');
+                    //this.loginHandler.postUserInfo(user);
+
+                    this.$router.push({ name: 'phaser' });
                 }
-            },
+            }
         },
     };
 </script>

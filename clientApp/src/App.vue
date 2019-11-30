@@ -1,19 +1,18 @@
 <template>
     <div id="app">
-        <component v-on:CharacterCreated="handleCharacterCreation"
-                   v-on:CreateNewUser="CreateNewUser"
-                   v-bind="currentProperties"
-                   v-bind:is="CurrentComponent" />
-
+        <h1>Welcome to DungeonDash</h1>
+        <router-view></router-view>
     </div>
 </template>
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import CharacterSelection from './components/CharacterCreation.vue';
-    import PhaserGame from './components/Phaser.vue';
-    import SignIn from './components/SignIn.vue';
+    import VueRouter from 'vue-router'
+    Vue.use(VueRouter)
 
+    import SignIn from './components/SignIn.vue';
+    import CharacterSelection from './components/CharacterCreation.vue';
+    import Phaser from './components/Phaser.vue';
 
     import { LoginHandler } from '@/UserCreation/LoginHandler';
     import { IApiUser } from '@/UserCreation/IApi';
@@ -23,57 +22,38 @@
     const userApi: IApiUser = new ApiUser('http://178.62.43.127:5000/');
     const loginHandler: LoginHandler = new LoginHandler(userApi);
 
+    const routes = [
+        {
+            name: 'login',
+            path: '/',
+            component: SignIn,
+            props: true,
+        },
+        {
+            name: 'character',
+            path: '/CharacterSelection/:email/:username/:password',
+            component: CharacterSelection,
+            props: true,
+        },
+        {
+            name: 'phaser',
+            path: '/phaser',
+            component: Phaser,
+        },
+    ]
+
+    const router = new VueRouter({
+        routes,
+        mode: 'abstract'
+    })
+
 
     export default {
         name: 'App',
-
-        components: {
-            CharacterSelection,
-            PhaserGame,
-            SignIn,
-        },
-        data() {
-            return {
-                CurrentComponent: 'SignIn',
-                email: 'asd',
-                username: 'das',
-                password: 'asd',
-            };
-        },
-
-
-        methods: {
-            handleCharacterCreation() {
-                // Do stuff with my color
-                this.CurrentComponent = PhaserGame;
-            },
-
-            CreateNewUser(newEmail: string, newUsername: string, newPassword: string) {
-                this.email = newEmail;
-                this.password = newPassword;
-                this.username = newUsername;
-
-                this.CurrentComponent = CharacterSelection;
-            },
-        },
-
-
-        computed: {
-            currentProperties(): any {
-                if (this.CurrentComponent === 'CharacterSelection') {
-                    return {
-                        username: this.username,
-                        password: this.password,
-                        email: this.email,
-                        loginHandler,
-                    };
-                }
-                if (this.CurrentComponent === 'SignIn') {
-                    return { loginHandler };
-                }
-            },
-        },
+        router,
     };
+
+    router.replace('/')
 </script>
 
 <style>

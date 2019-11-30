@@ -21,14 +21,14 @@
                 <input v-model="username" type="text" placeholder="Name" />
                 <input v-model="email" type="email" placeholder="Email" />
                 <input v-model="password" type="password" placeholder="Password" />
-                <button v-on:click="newUser">Sign Up</button>
+                <button v-on:click="newUser(username, email, password)">Sign Up</button>
             </form>
             <form class="sign-in" action="#">
                 <h2>Sign In</h2>
                 <div>Use your account</div>
                 <input v-model="username" type="text" placeholder="Username" />
                 <input v-model="password" type="password" placeholder="Password" />
-                <button v-on:click="login">Sign In</button>
+                <button v-on:click="login(username, password)">Sign In</button>
             </form>
         </div>
     </article>
@@ -36,6 +36,7 @@
 
 <script>
     import { User } from '@/UserCreation/User';
+
 
     export default {
         data: () => {
@@ -47,21 +48,18 @@
             };
         },
 
-        props: {
-            loginHandler: Object,
-        },
-
 
         methods: {
-            login() {
-                if (this.username !== '' || this.password !== '') {
-                    user = new User(this.username, this.password);
+            login(myUsername, myPassword) {
+                if (myUsername !== '' || myPassword !== '') {
+                    user = new User(myUsername, myPassword);
                     this.loginHandler.getUserInfo(user);
                 }
             },
-            newUser() {
-                if (this.username !== '' || this.password !== '') {
-                    this.$emit('CreateNewUser', this.email, this.username, this.password);
+
+            newUser(myUsername, myEmail, myPassword) {
+                if (myUsername !== '' && myPassword !== '') {
+                    this.$router.push({ name: 'character', params: { email: myEmail, username: myUsername, password: myPassword, } });
                 }
             },
         },
