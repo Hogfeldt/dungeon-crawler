@@ -15,7 +15,7 @@ namespace ServerApp.GameState
 
         public HostileNPC(IPosition position, IStats stats, IMovementStrategy movementStrategy, string name = "Hostile McGuy", int droppedGold = 0)
         {
-            this.Position = Position;
+            this.Position = position;
             this.Stats = stats;
             this.MoveStrategy = movementStrategy;
             this.Name = name;
