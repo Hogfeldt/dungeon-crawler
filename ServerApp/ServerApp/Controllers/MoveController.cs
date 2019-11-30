@@ -54,18 +54,18 @@ namespace ServerApp.Controllers
             }
         }
 
-        public Character.Direction StringToDirection(string value)
+        public Direction StringToDirection(string value)
         {
             switch (value)
             {
                 case "Up":
-                    return Character.Direction.Up;
+                    return Direction.Up;
                 case "Down": 
-                    return Character.Direction.Down;
+                    return Direction.Down;
                 case "Left":
-                    return Character.Direction.Left;
+                    return Direction.Left;
                 case "Right":
-                    return Character.Direction.Right;
+                    return Direction.Right;
                 default:
                     throw new FormatException("Value was " + value + " but should be a direction");
             }

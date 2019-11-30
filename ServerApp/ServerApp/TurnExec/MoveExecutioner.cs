@@ -26,19 +26,19 @@ namespace ServerApp.TurnExec
                     IPosition targetPosition;
                     switch (character.NextMove)
                     {
-                        case Character.Direction.Up:
+                        case Direction.Up:
                             targetPosition = new Position(character.Position.X, character.Position.Y - 1);
                             break;
-                        case Character.Direction.Down:
+                        case Direction.Down:
                             targetPosition = new Position(character.Position.X, character.Position.Y + 1);
                             break;
-                        case Character.Direction.Left:
+                        case Direction.Left:
                             targetPosition = new Position(character.Position.X - 1, character.Position.Y);
                             break;
-                        case Character.Direction.Right:
+                        case Direction.Right:
                             targetPosition = new Position(character.Position.X + 1, character.Position.Y);
                             break;
-                        case Character.Direction.None:
+                        case Direction.None:
                             targetPosition = null;
                             break;
                         default:

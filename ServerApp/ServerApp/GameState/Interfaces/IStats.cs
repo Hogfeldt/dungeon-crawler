@@ -3,7 +3,7 @@
     public interface IStats
     {
         int MaxHealth { get; set; }
-        int CurrentHealth { get; }
+        int CurrentHealth { get; set; }
         int Damage { get; set; }
         int Speed { get; set; }
         void ReduceHealt(int damage);

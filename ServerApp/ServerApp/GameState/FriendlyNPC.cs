@@ -15,7 +15,7 @@ namespace ServerApp.GameState
         public string Name { get; }
         public IPosition Position { get; set; }
         public IStats Stats { get; set; }
-        public Character.Direction NextMove { get; }
+        public Direction NextMove { get; }
         public bool Alive { get; }
         public IMovementStrategy MovementStrategy { get; }
 

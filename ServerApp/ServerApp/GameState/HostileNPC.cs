@@ -10,8 +10,8 @@ namespace ServerApp.GameState
         public IMovementStrategy MoveStrategy { get; }
         public IPosition Position { get; set; }
         public IStats Stats { get; set; }
-        public Character.Direction NextMove { get; }
-        public bool Alive { get; private set;}
+        public Direction NextMove { get; }
+        public bool Alive => Stats.CurrentHealth <= 0;
 
         public HostileNPC(IPosition position, IStats stats, IMovementStrategy movementStrategy, string name = "Hostile McGuy", int droppedGold = 0)
         {
@@ -26,16 +26,12 @@ namespace ServerApp.GameState
         public int TakeDamage(int damage)
         {
             Stats.ReduceHealt(damage);
-            if (Stats.CurrentHealth <= 0)
-            {
-                Alive = false;
-            }
             return damage;
         }
 
         public void DropLoot()
         {
-            throw new System.NotImplementedException();
+            
         }
     }
 }

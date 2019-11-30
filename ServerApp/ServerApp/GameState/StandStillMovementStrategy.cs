@@ -2,9 +2,9 @@
 {
     public class StandStillMovementStrategy: IMovementStrategy
     {
-        public Character.Direction GenerateMove()
+        public Direction GenerateMove()
         {
-            return Character.Direction.None;
+            return Direction.None;
         }
     }
 }
