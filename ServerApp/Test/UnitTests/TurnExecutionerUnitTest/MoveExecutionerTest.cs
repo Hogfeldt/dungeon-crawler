@@ -41,7 +41,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
 
             _npc1 = new HostileNPC(new Position(1, 1), new Stats(), new StandStillMovementStrategy(), "bad boi 1");
             _npc2 = new HostileNPC(new Position(2, 2), new Stats(), new StandStillMovementStrategy(), "bad boi 2");
-            _player = new ConcretePlayer(new Position(5, 5), new Stats(100, 10, 1), "player boi", 0, 0);
+            _player = new Player(new Position(5, 5), new Stats(100, 10, 1), "player boi", 0, 0);
 
             _turns.Enqueue(_npc1);
             _turns.Enqueue(_npc2);
