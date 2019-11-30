@@ -4,8 +4,8 @@
     {
         public void interact(IGameState gameState)
         {
-            Layer currentLayer = gameState.Map.GetCurrentLayer();
-            Layer layerToAccend = gameState.Map.getLayerAboveOrNull();
+            ILayer currentLayer = gameState.Map.GetCurrentLayer();
+            ILayer layerToAccend = gameState.Map.getLayerAboveOrNull();
             if (layerToAccend != null)
             {
                 IPosition enteringPostion = layerToAccend.getEnteringPositionOrNull();

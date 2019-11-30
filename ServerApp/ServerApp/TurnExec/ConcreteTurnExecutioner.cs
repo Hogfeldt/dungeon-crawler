@@ -32,9 +32,9 @@ namespace ServerApp.TurnExec
 
         public IGameState ExecuteTurn(IGameState state)
         {
-            Player player = state.Player;
+            IPlayer player = state.Player;
             ITile[,] tiles = state.Map.GetCurrentLayer().Tiles;
-            var layer = state.Map.GetCurrentLayer();
+            ILayer layer = state.Map.GetCurrentLayer();
 
             if (_validator.Validate(player.Position, player.NextMove, tiles))
             {

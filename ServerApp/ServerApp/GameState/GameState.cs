@@ -2,7 +2,7 @@
 {
     public class GameStateClass : IGameState
     {
-        public Player Player => Map.GetPlayer();
+        public IPlayer Player => Map.GetPlayer();
         public IMap Map { get; private set; }
 
         public GameStateClass(IMap map)

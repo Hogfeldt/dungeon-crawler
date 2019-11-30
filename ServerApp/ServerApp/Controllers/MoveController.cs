@@ -13,11 +13,6 @@ namespace ServerApp.Controllers
     [ApiController]
     public class MoveController : ControllerBase
     {
-        [HttpGet]
-        public string Get()
-        {
-            return JsonConvert.SerializeObject(Player.Direction.Up);
-        }
 
         // POST: api/Move
         [HttpPost]

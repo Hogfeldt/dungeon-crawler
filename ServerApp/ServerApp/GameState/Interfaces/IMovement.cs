@@ -4,6 +4,6 @@ namespace ServerApp.GameState
 {
     public interface IMovement
     {
-        bool MoveCharacter(IPosition oldPos, IPosition newPos, Layer layer);
+        bool MoveCharacter(IPosition oldPos, IPosition newPos, ILayer layer);
     }
 }
