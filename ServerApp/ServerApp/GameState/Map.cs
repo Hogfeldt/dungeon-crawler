@@ -12,7 +12,7 @@ namespace ServerApp.GameState
         public Map(ILayerGenerator layerGenerator, int layerCount, Player player)
         {
             GenerateLayers(layerGenerator, layerCount);
-            SpawnPlayer(player);
+            SpawnPlayer(player, (TopLayer) Layers[0]);
         }
         
         [JsonConstructor]
@@ -30,10 +30,10 @@ namespace ServerApp.GameState
             }
         }
 
-        private void SpawnPlayer(Player player)
+        private void SpawnPlayer(Player player, TopLayer layer)
         {
-            player.Position = GetLayer(CurrentLayerNumber).getEnteringPositionOrNull();
-            GetLayer(CurrentLayerNumber).AddCharacter(player);
+            player.Position = layer.spawnPosition;
+            layer.AddCharacter(player);
         }
 
         private Layer GetLayer(int layer)

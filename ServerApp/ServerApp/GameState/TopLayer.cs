@@ -1,14 +1,16 @@
+using Newtonsoft.Json;
+
 namespace ServerApp.GameState
 {
     public class TopLayer : Layer
     {
-        public TopLayer(ITile[,] tiles, ICharacter[,] characters, IPosition ExitingPosition, IInteractiveObject[,] interactiveObjects)
+        public IPosition spawnPosition {get;}
+
+        [JsonConstructor]
+        public TopLayer(ITile[,] tiles, ICharacter[,] characters, IPosition ExitingPosition, IPosition spawnPosition, IInteractiveObject[,] interactiveObjects)
+        : base(tiles, characters, interactiveObjects)
         {
-            Tiles = tiles;
-            Characters = characters;
-            Width = Tiles.GetLength(0);
-            Height = Tiles.GetLength(1);
-            InteractiveObjects = interactiveObjects;
+            this.spawnPosition = spawnPosition;
             this.ExitingPosition = ExitingPosition;
             initializeDecendingStair();
         }

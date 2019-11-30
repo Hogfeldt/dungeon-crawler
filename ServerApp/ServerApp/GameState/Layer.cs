@@ -13,17 +13,15 @@ namespace ServerApp.GameState
         protected IPosition EnteringPosition;
         protected IPosition ExitingPosition;
 
-        /*[JsonConstructor]
-        protected Layer(ITile[,] tiles, ICharacter[,] characters, IPosition initialPlayerPosition, IPosition EnteringPosition, IPosition ExitingPosition, IInteractiveObject[,] interactiveObjects)
+        [JsonConstructor]
+        protected Layer(ITile[,] tiles, ICharacter[,] characters, IInteractiveObject[,] interactiveObjects)
         {
             Tiles = tiles;
             Characters = characters;
             Width = Tiles.GetLength(0);
             Height = Tiles.GetLength(1);
             InteractiveObjects = interactiveObjects;
-            this.EnteringPosition = EnteringPosition;
-            this.ExitingPosition = ExitingPosition;
-        }*/
+        }
 
         public abstract IPosition getExitingPositionOrNull();
 

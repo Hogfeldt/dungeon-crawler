@@ -65,7 +65,7 @@ namespace ServerApp.GameState
             
             switch(layerNumber) {
                 case 0:
-                    layer = new TopLayer(tiles, characters, new Position(8,5), objects);
+                    layer = new TopLayer(tiles, characters, new Position(8,5), new Position(0,0), objects);
                     break;
                 case 2: 
                     layer = new MiddelLayer(tiles, characters, new Position(2,0), new Position(8,6), objects);  

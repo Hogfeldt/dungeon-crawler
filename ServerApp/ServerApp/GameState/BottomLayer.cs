@@ -1,14 +1,13 @@
+using Newtonsoft.Json;
+
 namespace ServerApp.GameState
 {
     public class BottomLayer : Layer
     {
+        [JsonConstructor]
         public BottomLayer(ITile[,] tiles, ICharacter[,] characters, IPosition EnteringPosition, IInteractiveObject[,] interactiveObjects)
+        : base(tiles, characters, interactiveObjects)
         {
-            Tiles = tiles;
-            Characters = characters;
-            Width = Tiles.GetLength(0);
-            Height = Tiles.GetLength(1);
-            InteractiveObjects = interactiveObjects;
             this.EnteringPosition = EnteringPosition;
             initializeAccendigStair();
         }
