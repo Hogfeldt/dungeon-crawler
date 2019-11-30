@@ -1,5 +1,5 @@
 import { IApi } from './IApi';
-
+import { User } from './User';
 
 export class LoginHandler {
     public api: IApi;
@@ -7,14 +7,14 @@ export class LoginHandler {
         this.api = api;
     }
 
-    public postUserInfo(username: string, password: string, email: string) {
-        return this.api.postUserInfo(username, password, email).then((r) => {
+    public postUserInfo(user: User) {
+        return this.api.postUserInfo(user).then((r) => {
             return r.data;
         });
     }
 
-    public getUserInfo(username: string, password: string) {
-        return this.api.getUserInfo(username, password).then((r) => {
+    public getUserInfo(user: User) {
+        return this.api.getUserInfo(user).then((r) => {
             return r.data;
         });
     }

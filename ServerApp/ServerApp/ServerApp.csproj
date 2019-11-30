@@ -16,6 +16,17 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20191130091933_Initial.cs" />
+    <Compile Remove="Migrations\20191130091933_Initial.Designer.cs" />
+    <Compile Remove="Migrations\20191130102945_2nd.cs" />
+    <Compile Remove="Migrations\20191130102945_2nd.Designer.cs" />
+    <Compile Remove="Migrations\20191130103916_3rd.cs" />
+    <Compile Remove="Migrations\20191130103916_3rd.Designer.cs" />
+    <Compile Remove="Migrations\20191130104315_Initial.cs" />
+    <Compile Remove="Migrations\20191130104315_Initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="3.2.1" />
     <PackageReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />

@@ -40,5 +40,16 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
 
             interactiveMock.Received().interact(Arg.Any<IGameState>());
         }
+
+        [Test]
+        public void InteractionHandler_GameStateWithOneInteractive_InteractIsNotCalled()
+        {
+            IInteractiveObject interactiveMock = Substitute.For<IInteractiveObject>();
+            _interactiveObjects[5, 1] = interactiveMock;
+
+            _state = _uut.Interact(_state);
+
+            interactiveMock.DidNotReceive().interact(Arg.Any<IGameState>());
+        }
     }
 }

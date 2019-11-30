@@ -3,6 +3,9 @@ using Newtonsoft.Json;
 
 namespace ServerApp.RequestHandler
 {
+    // These extensions are based on the ASP.net core documentation provided at:
+    // https://docs.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-3.0#session-state
+
     public static class SessionExtensions
     {
         private static JsonSerializerSettings settings = new JsonSerializerSettings()

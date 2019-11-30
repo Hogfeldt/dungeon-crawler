@@ -10,23 +10,23 @@ namespace ServerApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserInfoController : ControllerBase
+    public class UserInfoModelsController : ControllerBase
     {
         private readonly ServerAppContext _context;
 
-        public UserInfoController(ServerAppContext context)
+        public UserInfoModelsController(ServerAppContext context)
         {
             _context = context;
         }
 
-        // GET: api/UserInfo
+        // GET: api/UserInfoModels
         [HttpGet("all")]
         public IEnumerable<UserInfoModel> GetUserInfoModel()
         {
-            return _context.UserInfoModel;
+            return _context.UserInfoModel.Include(c => c.CharacterModels);
         }
 
-        // GET: api/UserInfo
+        // GET: api/UserInfoModels/
         [HttpGet]
         public async Task<IActionResult> GetUserInfoModel([FromBody] UserInfoModel userInfoModel)
         {
@@ -35,7 +35,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.Username);
 
             if (userFromDb == null)
             {
@@ -44,27 +44,29 @@ namespace ServerApp.Controllers
 
             if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
             {
-                return Ok(userInfoModel);
+                var query = _context.UserInfoModel.Include(c => c.CharacterModels)
+                    .Where(u => u.Username.Equals(userInfoModel.Username));
+                return Ok(query);
             }
 
             return Unauthorized();
         }
 
-        // PUT: api/UserInfo/Glenn
-        [HttpPut("{username}")]
-        public async Task<IActionResult> PutUserInfoModel([FromBody] UserInfoModel userInfoModel)
+        // PUT: api/UserInfoModels/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutUserInfoModel([FromRoute] string id, [FromBody] UserInfoModel userInfoModel)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
-
-            if (userFromDb == null)
+            if (id != userInfoModel.Username)
             {
-                return NotFound();
+                return BadRequest();
             }
+
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.Username);
 
             if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
             {
@@ -74,14 +76,13 @@ namespace ServerApp.Controllers
             {
                 return Unauthorized();
             }
-
             try
             {
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserInfoModelExists(userInfoModel.UserName))
+                if (!UserInfoModelExists(id))
                 {
                     return NotFound();
                 }
@@ -94,7 +95,7 @@ namespace ServerApp.Controllers
             return NoContent();
         }
 
-        // POST: api/UserInfo
+        // POST: api/UserInfoModels
         [HttpPost]
         public async Task<IActionResult> PostUserInfoModel([FromBody] UserInfoModel userInfoModel)
         {
@@ -103,19 +104,15 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            if (UserInfoModelExists(userInfoModel.UserName))
-            {
-                return BadRequest(ModelState);
-            }
             userInfoModel.Password = BCrypt.Net.BCrypt.EnhancedHashPassword(userInfoModel.Password);
             _context.UserInfoModel.Add(userInfoModel);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetUserInfoModel", new { id = userInfoModel.Id }, userInfoModel);
+            return CreatedAtAction("GetUserInfoModel", new { id = userInfoModel.Username }, userInfoModel);
         }
 
-        // DELETE: api/UserInfo/Glenn
-        [HttpDelete("{username}")]
+        // DELETE: api/UserInfoModels/
+        [HttpDelete]
         public async Task<IActionResult> DeleteUserInfoModel([FromBody] UserInfoModel userInfoModel)
         {
             if (!ModelState.IsValid)
@@ -123,7 +120,7 @@ namespace ServerApp.Controllers
                 return BadRequest(ModelState);
             }
 
-            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.UserName);
+            var userFromDb = await _context.UserInfoModel.FindAsync(userInfoModel.Username);
             if (userFromDb == null)
             {
                 return NotFound();
@@ -132,20 +129,17 @@ namespace ServerApp.Controllers
             if (BCrypt.Net.BCrypt.EnhancedVerify(userInfoModel.Password, userFromDb.Password))
             {
                 _context.UserInfoModel.Remove(userFromDb);
-            }
-            else
-            {
-                return Unauthorized();
+                await _context.SaveChangesAsync();
+
+                return Ok(userInfoModel);
             }
 
-            await _context.SaveChangesAsync();
-
-            return Ok(userFromDb);
+            return Unauthorized();
         }
 
-        private bool UserInfoModelExists(string username)
+        private bool UserInfoModelExists(string id)
         {
-            return _context.UserInfoModel.Any(e => e.UserName == username);
+            return _context.UserInfoModel.Any(e => e.Username == id);
         }
     }
 }
