@@ -69,7 +69,7 @@ namespace ServerApp.GameState
         public IPosition Position { get; set; }
         public IStats Stats { get; set; }
         public Character.Direction NextMove { get; set; }
-        public bool Alive { get; }
+        public bool Alive { get; private set; } = true; //ELIAS WHAT HAVE YOU DONE
         public int TakeDamage(int damage)
         {
             throw new NotImplementedException();

@@ -12,8 +12,8 @@ namespace ServerApp.GameState
         public ITile[,] Tiles { protected set; get; }
         public ICharacter[,] Characters { set; get; }
         public IInteractiveObject[,] InteractiveObjects {protected set; get;}
-        public IPosition EnteringPosition;
-        public IPosition ExitingPosition;
+        public IPosition EnteringPosition { get; set; }
+        public IPosition ExitingPosition { get; set; }
 
         protected Layer(ITile[,] tiles, ICharacter[,] characters, IInteractiveObject[,] interactiveObjects)
         {

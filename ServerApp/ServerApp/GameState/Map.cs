@@ -68,7 +68,7 @@ namespace ServerApp.GameState
             {
                 if (character != null && character.GetType() == typeof(ConcretePlayer))
                 {
-                    return (Player) character;
+                    return (ConcretePlayer) character;
                 }
             }
             return null;

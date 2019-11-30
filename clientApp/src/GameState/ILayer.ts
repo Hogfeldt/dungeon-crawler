@@ -7,8 +7,8 @@ export interface ILayer {
     getTile(x: number, y: number): ITile;
     getWidth(): number;
     getHeight(): number;
-    getSpawn(): IPosition;
-    getExit(): IPosition;
+    getSpawn(): IPosition | null;
+    getExit(): IPosition | null;
     getInteractiveObjects(): (IInteractiveObject | null)[][];
 }
 

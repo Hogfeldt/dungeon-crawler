@@ -8,6 +8,10 @@ namespace ServerApp.GameState
         int Width { get; }
         ITile[,] Tiles { get; }
         ICharacter[,] Characters { set; get; }
+
+        IPosition EnteringPosition { set; get; }
+        IPosition ExitingPosition { set; get; }
+
         IInteractiveObject[,] InteractiveObjects { get; }
         IPosition getExitingPositionOrNull();
         IPosition getEnteringPositionOrNull();
