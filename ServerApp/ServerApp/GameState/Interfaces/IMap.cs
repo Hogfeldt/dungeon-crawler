@@ -9,6 +9,5 @@ namespace ServerApp.GameState
         Player GetPlayer();
         Layer getLayerBelowOrNull();
         Layer getLayerAboveOrNull();
-        bool MovePlayerToNewLayer(int layer, bool descending);
     }
 }

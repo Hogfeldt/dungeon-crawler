@@ -73,27 +73,5 @@ namespace ServerApp.GameState
             }
             return null;
         }
-
-        public bool MovePlayerToNewLayer(int layerNumber, bool descending)
-        {
-            Player player = GetPlayer();
-            Position previousPosition = new Position(player.Position);
-            Layer layer = GetLayer(layerNumber);
-            if (layer == null)
-                return false;
-            if (descending)
-            {
-                player.Position = layer.getEnteringPositionOrNull();
-            }
-            else
-            {
-                // TODO: Handle null 
-                player.Position = layer.getEnteringPositionOrNull();
-            }
-            layer.AddCharacter(player);
-            GetLayer(CurrentLayerNumber).RemoveCharacterFromPosition(player.Position);
-            CurrentLayerNumber = layerNumber;
-            return true;
-        }
     }
 }

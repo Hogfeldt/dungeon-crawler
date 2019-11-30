@@ -47,33 +47,29 @@ namespace ServerApp.GameState
 
         public void AddCharacter(ICharacter character)
         {
-            if (!PositionIsValid(character.Position))
+            if (PositionIsValid(character.Position))
             {
-                return;
+                Characters[character.Position.X, character.Position.Y] = character;
             }
-
-            Characters[character.Position.X, character.Position.Y] = character;
         }
         
 
         public void RemoveCharacterFromPosition(IPosition position)
         {
-            if (!PositionIsValid(position))
+            if (PositionIsValid(position))
             {
-                return;
+                Characters[position.X, position.Y] = null;
             }
-
-            Characters[position.X, position.Y] = null;
         }
         
 
         public ICharacter GetCharacter(IPosition position)
         {
-            if (!PositionIsValid(position))
+            if (PositionIsValid(position))
             {
-                return null;
+                return Characters[position.X, position.Y];
             }
-            return Characters[position.X, position.Y];
+            return null;
         }
         
 
@@ -81,7 +77,8 @@ namespace ServerApp.GameState
         {
             if (!PositionIsValid(position))
             {
-                return new Tile(false);
+                bool isWalkable = false;
+                return new Tile(isWalkable);
             }
             return Tiles[position.X, position.Y];
         }
