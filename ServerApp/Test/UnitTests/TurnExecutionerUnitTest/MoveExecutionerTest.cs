@@ -35,6 +35,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         public void Setup()
         {
             _player = Substitute.For<Player>();
+            _layer = Substitute.For<Layer>();
 
             //_combatHandler = new CombatHandler();
             //_tiles = new ITile[10, 10];
@@ -79,15 +80,13 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
                 new Position(0, 0), new Position(9, 9),
                 new IInteractiveObject[10, 10]);
             */
-            _layer = Substitute.For<Layer>();
-            
-            //_player = Substitute.For<Player>();
         }
 
         [Test]
         public void MoveExecutioner_PlayerMovesDown_PlayerHasMoved()
         {
-           // _player.Received().AddGold(10);
+            
+           //_player.Received().AddGold(10);
 
            //_player.Received().AddGold(10);
             //int test = _layer.Height;

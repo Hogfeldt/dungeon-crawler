@@ -5,6 +5,11 @@ namespace ServerApp.GameState
 {
     public abstract class Layer
     {
+        protected Layer()
+        {
+
+        }
+
         public int Height { protected set; get; }
         public int Width { protected set; get; }
         public ITile[,] Tiles { protected set; get; }
