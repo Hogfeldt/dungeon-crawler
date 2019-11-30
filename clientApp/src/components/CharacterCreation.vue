@@ -1,71 +1,50 @@
 <template>
     <article>
-        <div class="container" :class="{'sign-up-active' : signUp}">
+        <div class="container" :class="{'select-character-active' : changeCharacter}">
             <div class="overlay-container">
                 <div class="overlay">
                     <div class="overlay-left">
-                        <h2>Welcome to Dungeon dash</h2>
-                        <p>Click here to Sign In</p>
-                        <button class="invert" id="signIn" @click="signUp = !signUp">Sign In</button>
+                        <h2>You have chosen the Blue Knight</h2>
+                        <p>You have chosen wisely</p>
+                        <button class="invert" id="createBlue" @click="create('blue')">Start Game</button>
                     </div>
                     <div class="overlay-right">
-                        <h2>Welcome to Dungeon dash!</h2>
-                        <p>Click here to Sign Up</p>
-                        <button class="invert" id="signUp" @click="signUp = !signUp">Sign Up</button>
+                        <h2>You have chosen the Red BooBoo</h2>
+                        <p>You have chosen poorly</p>
+                        <button class="invert" id="createRed" @click="create('red')">Start Game</button>
                     </div>
                 </div>
             </div>
-            <form class="sign-up" action="#">
-                <h2>Create login</h2>
-                <div>Use your email for registration</div>
-                <input v-model="username" type="text" placeholder="Name" />
-                <input v-model="email" type="email" placeholder="Email" />
-                <input v-model="password" type="password" placeholder="Password" />
-                <button v-on:click="newUser">Sign Up</button>
+            <form class="change-to-red" action="#">
+                <h2>To select the Red booboo click here</h2>
+                <button @click="changeCharacter = !changeCharacter">Change Charater</button>
             </form>
-            <form class="sign-in" action="#">
-                <h2>Sign In</h2>
-                <div>Use your account</div>
-                <input v-model="username" type="text" placeholder="Username" />
-                <input v-model="password" type="password" placeholder="Password" />
-                <button v-on:click="login">Sign In</button>
+            <form class="change-to-blue" action="#">
+                <h2>To select the blue knight click here</h2>
+                <button @click="changeCharacter = !changeCharacter">Change Charater</button>
             </form>
         </div>
     </article>
 </template>
 
 <script>
-    import { LoginHandler } from '@/UserCreation/LoginHandler';
-    import { IApi } from '@/UserCreation/IApi';
-    import { Api } from '@/UserCreation/API';
-    import { User } from '@/UserCreation/User';
     
-    const Api: IApi = new Api('http://178.62.43.127:5000/');
-    const handler: LoginHandler = new LoginHandler(Api);
-
     export default {
         data: () => {
             return {
-                signUp: false,
-                username: '',
-                password: '',
-                email: '',
+                changeCharacter: true,
             };
         },
         methods: {
-            login() {
-                if (this.username || this.password != '') {
-                    user = new User(this.username, this.password);
-                    handler.getUserInfo(user);
+            create(myColor) {
+                // TODO: Send to server
+                // handler.getUserInfo(this.username, this.password);
+                if (myColor === 'red' || myColor === 'blue') {
+                    alert(myColor);
+
                 }
             },
-            newUser() {
-                if (this.username || this.password != '') {
-                    user = new User(this.username, this.password, this.email)
-                    handler.postUserInfo(user);
-                }
-            },
-        }
+        },
     };
 </script>
 
@@ -96,7 +75,6 @@
         left: -100%;
         height: 100%;
         width: 200%;
-        background: linear-gradient(to bottom right, #7FD625, #009345);
         color: #fff;
         transform: translateX(0);
         transition: transform .5s ease-in-out;
@@ -119,11 +97,13 @@
 
     .overlay-left {
         @include overlays(-20%);
+        background: linear-gradient(to bottom right, #00e2ff, #000688);
     }
 
     .overlay-right {
         @include overlays(0);
         right: 0;
+        background: linear-gradient(to bottom right, #ff0000, #6d0000);
     }
 
     }
@@ -211,25 +191,14 @@
     }
     }
 
-    .sign-in {
-        left: 0;
-        z-index: 2;
-    }
-
-    .sign-up {
-        left: 0;
-        z-index: 1;
-        opacity: 0;
-    }
-
-    .sign-up-active {
-        .sign-in
+    .select-character-active {
+        .change-to-blue
 
     {
         transform: translateX(100%);
     }
 
-    .sign-up {
+    .change-to-red {
         transform: translateX(100%);
         opacity: 1;
         z-index: 5;

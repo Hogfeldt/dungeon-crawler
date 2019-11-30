@@ -6,6 +6,7 @@ export interface ICharacter {
     maxHealth: number;
     gold: number;
     experience: number;
+    damage: number;
 
     inventoryList(): any;
     item(): any;
