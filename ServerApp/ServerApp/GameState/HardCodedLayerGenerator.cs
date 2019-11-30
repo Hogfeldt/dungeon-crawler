@@ -10,7 +10,7 @@ namespace ServerApp.GameState
             uint height = 10;
 
 
-            Character[,] characters = new Character[width,height];
+            ICharacter[,] characters = new ICharacter[width,height];
             ITile[,] tiles = new ITile[width, height];
             IInteractiveObject[,] objects = new IInteractiveObject[width, height];
             Random rnd = new Random();
