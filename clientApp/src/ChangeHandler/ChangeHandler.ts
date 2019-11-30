@@ -43,18 +43,6 @@ export class ChangeHandler {
         });
     }
 
-    public postUserInfo(username: string, password: string, email: string) {
-        return this.api.postUserInfo(username, password, email).then((r) => {
-            return r.data;
-        });
-    }
-
-    public getUserInfo(username: string, password: string) {
-        return this.api.getUserInfo(username, password).then((r) => {
-            return r.data;
-        });
-    }
-
     private gameStateFromData(data: any): GameState {
         const tiles: any[][] = new Array();
 
@@ -103,8 +91,17 @@ export class ChangeHandler {
         const maxHealth: number = data.Player.Stats.MaxHealth;
         const gold: number = data.Player.Gold;
         const experience: number = data.Player.Experience;
+        const damage: number = data.Player.Stats.Damage;
 
-        const player: ICharacter = new Character(name, xPosition, yPosition, health, maxHealth, gold, experience);
+        const player: ICharacter = new Character(
+            name,
+            xPosition,
+            yPosition,
+            health,
+            maxHealth,
+            gold,
+            experience,
+            damage);
 
         const characters: any[][] = new Array();
         for (let l = 0; l < data.Characters.length; l++) {
