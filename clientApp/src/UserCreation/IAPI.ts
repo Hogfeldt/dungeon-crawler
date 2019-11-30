@@ -1,4 +1,6 @@
+import { User } from './User'
+
 export interface IApi {
-    postUserInfo(username: string, password: string, email: string): Promise<any>;
-    getUserInfo(username: string, password: string): Promise<any>;
+    postUserInfo(user: User): Promise<any>;
+    getUserInfo(user: User): Promise<any>;
 }
