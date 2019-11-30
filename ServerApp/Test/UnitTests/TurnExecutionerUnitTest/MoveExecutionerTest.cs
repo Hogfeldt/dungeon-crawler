@@ -15,40 +15,43 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
     {
         private IMoveExecutioner _uut;
         private ICombatHandler _combatHandler;
-        private ITile _tiles;
-        private Layer _layer;
-
-        //private Player _player;
-        private ICharacter _character;
-
-
-        public Player _player;
-
-        /*
+        private ITile[,] _tiles;
         private Queue<ICharacter> _turns;
+
+        private Player _player;
         private ICharacter _npc1;
         private ICharacter _npc2;
-        
-        */
+        private Layer _layer;
+
 
         [SetUp]
         public void Setup()
         {
+            /*
             _player = Substitute.For<Player>();
             _layer = Substitute.For<Layer>();
-
-            //_combatHandler = new CombatHandler();
-            //_tiles = new ITile[10, 10];
-
             _combatHandler = Substitute.For<ICombatHandler>();
             _tiles = Substitute.For<ITile>();
-            //_player = Substitute.For<Player>();
-
             _character = Substitute.For<ICharacter>();
-            //_player = Substitute.For<Player>();
+
+            _turns = new Queue<ICharacter>();
 
             _uut = new MoveExecutioner(_combatHandler);
+            */
+
+            _player = Substitute.For<Player>();
+
+            _player.Gold.Returns(10);
+
+            //_player.Position.X.Returns(1);
+
             /*
+
+            _combatHandler = new CombatHandler();
+            _uut = new MoveExecutioner(_combatHandler);
+
+            _tiles = new ITile[10, 10];
+
             for (int x = 0; x < 10; x++)
             {
                 for (int y = 0; y < 10; y++)
@@ -56,14 +59,12 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
                     _tiles[x, y] = new Tile(true);
                 }
             }
-            
 
             _turns = new Queue<ICharacter>();
             var characters = new ICharacter[10, 10];
 
             _npc1 = new HostileNPC(new Position(1, 1), new Stats(), new StandStillMovementStrategy(), "bad boi 1");
             _npc2 = new HostileNPC(new Position(2, 2), new Stats(), new StandStillMovementStrategy(), "bad boi 2");
-
             _player = new ConcretePlayer(new Position(5, 5), new Stats(100, 10, 1), "player boi", 0, 0);
 
             _turns.Enqueue(_npc1);
@@ -73,25 +74,34 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             characters[_npc1.Position.X, _npc1.Position.Y] = _npc1;
             characters[_npc2.Position.X, _npc2.Position.Y] = _npc2;
             characters[_player.Position.X, _player.Position.Y] = _player;
+            
+            IInteractiveObject[,] blabla = new IInteractiveObject[1,1];
 
-            _layer = new Layer(
+            _layer = new TopLayer(
                 _tiles,
                 characters,
                 new Position(0, 0), new Position(9, 9),
-                new IInteractiveObject[10, 10]);
+                new IInteractiveObject[1, 1]);
             */
         }
 
         [Test]
         public void MoveExecutioner_PlayerMovesDown_PlayerHasMoved()
         {
-            
-           //_player.Received().AddGold(10);
+           //_player = new ConcretePlayer(new Position(0,1), new Stats(1,1,1), "Name", 15);
+           /*
+            _player.Received().AddGold(10);
+           _player.Position.Y = 1;
+           _player.Received().SetNextMove(Character.Direction.Down);
+           */
+           
 
-           //_player.Received().AddGold(10);
-            //int test = _layer.Height;
-            //_player.AddGold(20);
-            Assert.True(1 + 1 == 2);
+          
+
+           //List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+           
+           //Assert.True(_player.Position.X == 1);
+           Assert.True(1 + 1 == 2);
         }
 
         /*
