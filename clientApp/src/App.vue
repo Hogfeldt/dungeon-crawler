@@ -12,20 +12,33 @@
     import { Component, Vue } from 'vue-property-decorator';
     import CharacterSelection from './components/CharacterCreation.vue';
     import PhaserGame from './components/Phaser.vue';
+    import SignIn from './components/SignIn.vue';
+
+
+    import { LoginHandler } from '@/UserCreation/LoginHandler';
+    import { IApiUser } from '@/UserCreation/IApi';
+    import { ApiUser } from '@/UserCreation/API';
+
+
+    const userApi: IApiUser = new ApiUser('http://178.62.43.127:5000/');
+    const loginHandler: LoginHandler = new LoginHandler(userApi);
+
+
     export default {
         name: 'App',
 
         components: {
             CharacterSelection,
             PhaserGame,
+            SignIn,
         },
         data() {
             return {
-                CurrentComponent: "CharacterSelection",
+                CurrentComponent: 'SignIn',
                 email: 'asd',
                 username: 'das',
                 password: 'asd',
-            }
+            };
         },
 
 
@@ -35,7 +48,7 @@
                 this.CurrentComponent = PhaserGame;
             },
 
-            CreateNewUser(newEmail, newUsername, newPassword) {
+            CreateNewUser(newEmail: string, newUsername: string, newPassword: string) {
                 this.email = newEmail;
                 this.password = newPassword;
                 this.username = newUsername;
@@ -46,15 +59,19 @@
 
 
         computed: {
-            currentProperties() {
+            currentProperties(): any {
                 if (this.CurrentComponent === 'CharacterSelection') {
                     return {
                         username: this.username,
                         password: this.password,
                         email: this.email,
-                    }
+                        loginHandler,
+                    };
                 }
-            }
+                if (this.CurrentComponent === 'SignIn') {
+                    return { loginHandler };
+                }
+            },
         },
     };
 </script>

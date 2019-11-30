@@ -1,4 +1,7 @@
-export interface IApi {
-    postUserInfo(username: string, password: string, email: string, color: string, sprite: string): Promise<any>;
-    getUserInfo(username: string, password: string): Promise<any>;
+import { User } from './User';
+
+export interface IApiUser {
+
+    postUserInfo(user: User): Promise<any>;
+    getUserInfo(user: User): Promise<any>;
 }

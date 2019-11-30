@@ -31,9 +31,13 @@
 </template>
 
 <script>
+    import { User } from '@/UserCreation/User';
+    import { Character } from '@/UserCreation/Character';
+
+
+
 
     export default {
-
         data: () => {
             return {
                 changeCharacter: true,
@@ -44,15 +48,15 @@
             username: String,
             email: String,
             password: String,
+            loginHandler: Object,
         },
 
         methods: {
-            create(myColor, sprite) {
-                // TODO: Send to server
-                // handler.getUserInfo(this.username, this.password);
+            create(myColor, mySprite) {
                 if (myColor === 'red' || myColor === 'blue') {
-                    //do stuff with color
-                    handler.postUserInfo(this.username, this.password, this.email, myColor, sprite);
+                    const character = new Character(mySprite, myColor, this.username);
+                    const user = new User(this.username, this.password, this.email, character);
+                    this.loginHandler.postUserInfo(user);
                     this.$emit('CharacterCreated');
                 }
             },
