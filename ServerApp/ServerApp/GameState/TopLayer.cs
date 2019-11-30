@@ -4,10 +4,13 @@ namespace ServerApp.GameState
 {
     public class TopLayer : Layer
     {
+        public IPosition spawnPosition {get;}
+
         [JsonConstructor]
-        public TopLayer(ITile[,] tiles, ICharacter[,] characters, IPosition ExitingPosition, IInteractiveObject[,] interactiveObjects)
+        public TopLayer(ITile[,] tiles, ICharacter[,] characters, IPosition ExitingPosition, IPosition spawnPosition, IInteractiveObject[,] interactiveObjects)
         : base(tiles, characters, interactiveObjects)
         {
+            this.spawnPosition = spawnPosition;
             this.ExitingPosition = ExitingPosition;
             initializeDecendingStair();
         }
