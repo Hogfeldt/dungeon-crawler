@@ -18,23 +18,23 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             _uut = new InteractionHandler();
 
             _state = Substitute.For<IGameState>();
-            _player = Substitute.For<ICharacter>();
+            _player = Substitute.For<IPlayer>();
 
             _player.Position.X.Returns(5);
-            _player.Position.X.Returns(5);
+            _player.Position.Y.Returns(5);
 
             _interactiveObjects = new IInteractiveObject[10, 10];
 
-            _state.Map.GetCurrentLayer().Returns(Substitute.For<ILayer>());
             _state.Player.Returns(_player);
+
+            _state.Map.GetCurrentLayer().InteractiveObjects.Returns(_interactiveObjects);
         }
 
         [Test]
         public void InteractionHandler_GameStateWithOneInteractive_InteractIsCalled()
         {
-            _interactiveObjects = new IInteractiveObject[10, 10];
             IInteractiveObject interactiveMock = Substitute.For<IInteractiveObject>();
-            _interactiveObjects[5, 5] = Substitute.For<IInteractiveObject>();
+            _interactiveObjects[5, 5] = interactiveMock;
 
             _state = _uut.Interact(_state);
 
