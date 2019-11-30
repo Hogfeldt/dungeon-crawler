@@ -18,7 +18,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         private Player _player;
         private ICharacter _npc1;
         private ICharacter _npc2;
-        private ILayer _layer;
+        private Layer _layer;
 
         [SetUp]
         public void Setup()
@@ -51,7 +51,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             characters[_npc2.Position.X, _npc2.Position.Y] = _npc2;
             characters[_player.Position.X, _player.Position.Y] = _player;
 
-            _layer = new Layer(
+            _layer = new MiddelLayer(
                 _tiles,
                 characters,
                 new Position(0, 0), new Position(9, 9),
