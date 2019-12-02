@@ -7,12 +7,6 @@ import { ICharacter } from '../GameState/ICharacter';
 import { IPlayer } from '../GameState/IPlayer';
 import Phaser from 'phaser';
 
-const xOff = 150;
-const yOff = 150;
-const playerYOff = 20;
-const mobYOff = 12;
-const tileWidth = 32;
-
 const sceneConfig: Phaser.Types.Scenes.SettingsConfig = {
     active: false,
     visible: false,
@@ -40,7 +34,7 @@ export class MainGame extends Phaser.Scene {
     constructor(changeHandler: ChangeHandler) {
         super(sceneConfig);
         this.changeHandler = changeHandler;
-        this.gameRenderer = new GameRenderer(this);
+        this.gameRenderer = new GameRenderer(this, 3);
     }
 
     public preload() {

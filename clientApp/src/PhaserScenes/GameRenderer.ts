@@ -23,6 +23,8 @@ export class GameRenderer {
         if (scale !== undefined) {
             this.scale = scale;
             this.tileWidth = this.scale * GameRenderer.imgWidth;
+            this.playerYOff = this.scale * -10;
+            this.mobYOff = this.scale * -6;
         }
     }
 

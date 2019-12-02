@@ -21,27 +21,23 @@
                 <input v-model="username" type="text" placeholder="Name" />
                 <input v-model="email" type="email" placeholder="Email" />
                 <input v-model="password" type="password" placeholder="Password" />
-                <button v-on:click="newUser">Sign Up</button>
+                <button v-on:click="newUser(username, email, password)">Sign Up</button>
             </form>
             <form class="sign-in" action="#">
                 <h2>Sign In</h2>
                 <div>Use your account</div>
                 <input v-model="username" type="text" placeholder="Username" />
                 <input v-model="password" type="password" placeholder="Password" />
-                <button v-on:click="login">Sign In</button>
+                <button v-on:click="login(username, password)">Sign In</button>
             </form>
         </div>
     </article>
 </template>
 
 <script>
-    import { LoginHandler } from '@/UserCreation/LoginHandler';
-    import { IApi } from '@/UserCreation/IApi';
-    import { Api } from '@/UserCreation/API';
     import { User } from '@/UserCreation/User';
+
     
-    const Api: IApi = new Api('http://178.62.43.127:5000/');
-    const handler: LoginHandler = new LoginHandler(Api);
 
     export default {
         data: () => {
@@ -52,21 +48,32 @@
                 email: '',
             };
         },
+
         methods: {
-            login() {
-                if (this.username || this.password !== '') {
-                    user = new User(this.username, this.password);
-                    handler.getUserInfo(user);
+            login(myUsername, myPassword) {
+                if (myUsername !== '' || myPassword !== '') {
+                    user = new User(myUsername, myPassword);
+                    this.loginHandler.getUserInfo(user);
                 }
             },
-            newUser() {
-                if (this.username || this.password !== '') {
-                    user = new User(this.username, this.password, this.email);
-                    handler.postUserInfo(user);
+
+            newUser(myUsername, myEmail, myPassword) {
+                if (myUsername !== '' && myPassword !== '') {
+                    const user = new User(this.username, this.password, this.email);
+                    // handler.postUserInfo(user);
+                    this.$router.push({
+                        name: 'character',
+                        params: {
+                            email: myEmail,
+                            username: myUsername,
+                            password: myPassword,
+                        },
+                    });
                 }
             },
         },
     };
+
 </script>
 
 <style lang="scss" scoped>
@@ -74,9 +81,10 @@
         position: relative;
         width: 768px;
         height: 480px;
+        margin: 0 auto;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 5px 10px 20px #717171;
         background: linear-gradient(to bottom, #efefef, #ccc);
         .overlay-container
 

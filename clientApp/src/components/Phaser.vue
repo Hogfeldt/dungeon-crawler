@@ -1,7 +1,4 @@
 <template>
-    <div>
-        <p>Phaser</p>
-    </div>
 </template>
 
 
@@ -34,14 +31,21 @@
                 debug: false,
             },
         },
+        scale: {
+            autoCenter: Phaser.Scale.CENTER_HORIZONTALLY,
+        },
     };
 
-    const mainGameScene: MainGame = new MainGame(handler);
-    
-    const game: Phaser.Game = new Phaser.Game(config);
-    game.scene.add('MainGame', mainGameScene, true);
+    export default {
+        props: {
+            here: Boolean,
+        },
 
-    @Component
-    export default class PhaserGame extends Vue {
-    }
+        mounted() {
+            const mainGameScene: MainGame = new MainGame(handler);
+
+            const game: Phaser.Game = new Phaser.Game(config);
+            game.scene.add('MainGame', mainGameScene, true);
+        },
+    };
 </script>

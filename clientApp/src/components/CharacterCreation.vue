@@ -6,12 +6,12 @@
                     <div class="overlay-left">
                         <h2>You have chosen the Blue Knight</h2>
                         <p>You have chosen wisely</p>
-                        <button class="invert" id="createBlue" @click="create('blue')">Start Game</button>
+                        <button class="invert" id="createBlue" @click="create('blue', 'knight')">Start Game</button>
                     </div>
                     <div class="overlay-right">
                         <h2>You have chosen the Red BooBoo</h2>
                         <p>You have chosen poorly</p>
-                        <button class="invert" id="createRed" @click="create('red')">Start Game</button>
+                        <button class="invert" id="createRed" @click="create('red', 'booboo')">Start Game</button>
                     </div>
                 </div>
             </div>
@@ -28,20 +28,30 @@
 </template>
 
 <script>
-    
+    import { User } from '@/UserCreation/User';
+    import { Character } from '@/UserCreation/Character';
+
     export default {
         data: () => {
             return {
                 changeCharacter: true,
             };
         },
-        methods: {
-            create(myColor) {
-                // TODO: Send to server
-                // handler.getUserInfo(this.username, this.password);
-                if (myColor === 'red' || myColor === 'blue') {
-                    alert(myColor);
 
+        props: {
+            username: String,
+            email: String,
+            password: String,
+        },
+
+        methods: {
+            create(myColor, mySprite) {
+                if (myColor === 'red' || myColor === 'blue') {
+                    const character = new Character(mySprite, myColor, this.username);
+                    const user = new User(this.username, this.password, this.email, character);
+                    // this.loginHandler.postUserInfo(user);
+
+                    this.$router.push({ name: 'phaser' });
                 }
             },
         },
@@ -53,9 +63,10 @@
         position: relative;
         width: 768px;
         height: 480px;
+        margin: 0 auto;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 5px 10px 20px #717171;
         background: linear-gradient(to bottom, #efefef, #ccc);
         .overlay-container
 
