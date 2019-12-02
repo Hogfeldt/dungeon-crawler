@@ -11,9 +11,4 @@ export class GameState implements IGameState {
         this.playerState = playerState;
         this.layerState     = layerState;
     }
-
-    public changeState(gameState: IGameState) {
-        this.playerState = gameState.playerState;
-        this.layerState      = gameState.layerState;
-    }
 }

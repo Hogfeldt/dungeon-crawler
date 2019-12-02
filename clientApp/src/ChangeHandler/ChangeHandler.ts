@@ -95,14 +95,14 @@ export class ChangeHandler {
             for (let j = 0; j < data.InteractiveObjects[i].length; j++) {
                 if (data.InteractiveObjects[i][j] != null) {
                     const currentObject: any = data.InteractiveObjects[i][j];
-                    if (data.InteractiveObjects[i][j].Name === 'Chest') {
+                    if (currentObject.Name === 'Chest') {
                         interactiveObjects[i][j] = new Chest(
-                            data.InteractiveObjects[i][j].Name,
-                            data.InteractiveObjects[i][j].goldContent);
+                            currentObject.Name,
+                            currentObject.goldContent);
                     } else if (data.InteractiveObjects[i][j].Name === 'ChestMimic') {
                         interactiveObjects[i][j] = new ChestMimic(
-                            data.InteractiveObjects[i][j].Name,
-                            data.InteractiveObjects[i][j].discovered);
+                            currentObject.Name,
+                            currentObject.discovered);
                     }
                 } else {
                     interactiveObjects[i][j] = null;
