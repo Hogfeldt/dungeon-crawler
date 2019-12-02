@@ -46,6 +46,6 @@
 
             const game: Phaser.Game = new Phaser.Game(config);
             game.scene.add('MainGame', mainGameScene, true);
-        }
-    }
+        },
+    };
 </script>

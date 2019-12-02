@@ -37,6 +37,7 @@
 <script>
     import { User } from '@/UserCreation/User';
 
+    
 
     export default {
         data: () => {
@@ -48,9 +49,7 @@
             };
         },
 
-
         methods: {
-
             login(myUsername, myPassword) {
                 if (myUsername !== '' || myPassword !== '') {
                     user = new User(myUsername, myPassword);
@@ -61,12 +60,19 @@
             newUser(myUsername, myEmail, myPassword) {
                 if (myUsername !== '' && myPassword !== '') {
                     const user = new User(this.username, this.password, this.email);
-                    //handler.postUserInfo(user);
-                    this.$router.push({ name: 'character', params: { email: myEmail, username: myUsername, password: myPassword, } });
+                    // handler.postUserInfo(user);
+                    this.$router.push({
+                        name: 'character',
+                        params: {
+                            email: myEmail,
+                            username: myUsername,
+                            password: myPassword,
+                        },
+                    });
                 }
             },
         },
-    }
+    };
 
 </script>
 
@@ -78,7 +84,7 @@
         margin: 0 auto;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 5px 10px 20px #717171;
         background: linear-gradient(to bottom, #efefef, #ccc);
         .overlay-container
 

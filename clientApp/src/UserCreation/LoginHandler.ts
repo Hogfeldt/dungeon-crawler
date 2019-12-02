@@ -15,8 +15,8 @@ export class LoginHandler {
         });
     }
 
-    public getUserInfo(user: User) {
-        return this.api.getUserInfo(user).then((r) => {
+    public getUserInfo(username: string, password: string) {
+        return this.api.getUserInfo(username, password).then((r) => {
             return r.data;
         });
     }

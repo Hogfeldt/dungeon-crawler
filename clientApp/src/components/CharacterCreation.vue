@@ -1,9 +1,5 @@
 <template>
     <article>
-        <p>email: {{ email }}</p>
-        <p>Username: {{ username }}</p>
-        <p>Password: {{ password }}</p>
-        <p>Handler: {{ loginHandler }}</p>
         <div class="container" :class="{'select-character-active' : changeCharacter}">
             <div class="overlay-container">
                 <div class="overlay">
@@ -53,11 +49,11 @@
                 if (myColor === 'red' || myColor === 'blue') {
                     const character = new Character(mySprite, myColor, this.username);
                     const user = new User(this.username, this.password, this.email, character);
-                    //this.loginHandler.postUserInfo(user);
+                    // this.loginHandler.postUserInfo(user);
 
                     this.$router.push({ name: 'phaser' });
                 }
-            }
+            },
         },
     };
 </script>
@@ -70,7 +66,7 @@
         margin: 0 auto;
         border-radius: 10px;
         overflow: hidden;
-        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 0 10px 10px rgba(0, 0, 0, .2);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, .2), 5px 10px 20px #717171;
         background: linear-gradient(to bottom, #efefef, #ccc);
         .overlay-container
 

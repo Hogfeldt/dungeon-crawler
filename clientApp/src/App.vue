@@ -7,8 +7,8 @@
 
 <script lang="ts">
     import { Component, Vue } from 'vue-property-decorator';
-    import VueRouter from 'vue-router'
-    Vue.use(VueRouter)
+    import VueRouter from 'vue-router';
+    Vue.use(VueRouter);
 
     import SignIn from './components/SignIn.vue';
     import CharacterSelection from './components/CharacterCreation.vue';
@@ -18,9 +18,9 @@
     import { IApiUser } from '@/UserCreation/IApi';
     import { ApiUser } from '@/UserCreation/API';
 
-
     const userApi: IApiUser = new ApiUser('http://178.62.43.127:5000/');
     const loginHandler: LoginHandler = new LoginHandler(userApi);
+   
 
     const routes = [
         {
@@ -40,12 +40,12 @@
             path: '/phaser',
             component: Phaser,
         },
-    ]
+    ];
 
     const router = new VueRouter({
         routes,
-        mode: 'abstract'
-    })
+        mode: 'abstract',
+    });
 
 
     export default {
@@ -53,7 +53,7 @@
         router,
     };
 
-    router.replace('/')
+    router.replace('/');
 </script>
 
 <style>
@@ -62,7 +62,7 @@
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
-        color: #2c3e50;
+        color: #fff;
     }
 
     html, body {
