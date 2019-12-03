@@ -47,7 +47,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             IInteractiveObject interactiveMock = Substitute.For<IInteractiveObject>();
             _interactiveObjects[5, 1] = interactiveMock;
 
-            _state = _uut.Interact(_state);
+            //_state = _uut.Interact(_state);
 
             interactiveMock.DidNotReceive().interact(Arg.Any<IGameState>());
         }

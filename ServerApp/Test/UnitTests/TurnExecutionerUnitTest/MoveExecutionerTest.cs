@@ -18,7 +18,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         private ITile[,] _tiles;
         private Queue<ICharacter> _turns;
 
-        private Player _player;
+        private IPlayer _player;
         private ICharacter _npc1;
         private ICharacter _npc2;
         private Layer _layer;
@@ -39,7 +39,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             _uut = new MoveExecutioner(_combatHandler);
             */
 
-            _player = Substitute.For<Player>();
+            _player = Substitute.For<IPlayer>();
 
             _player.Gold.Returns(10);
 
@@ -94,6 +94,8 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
            _player.Position.Y = 1;
            _player.Received().SetNextMove(Character.Direction.Down);
            */
+           
+
            
 
           
