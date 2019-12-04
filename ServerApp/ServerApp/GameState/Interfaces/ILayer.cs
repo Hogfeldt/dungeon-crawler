@@ -4,19 +4,21 @@ namespace ServerApp.GameState
 {
     public interface ILayer
     {
+        int Height { get; }
+        int Width { get; }
         ITile[,] Tiles { get; }
-        Character[,] Characters { get; } 
-        IPosition InitialPlayerPosition { get; }
-        IPosition ExitPosition { get; }
-        IInteractiveObject[,] InteractiveObjects {get;}
+        ICharacter[,] Characters { set; get; }
 
-        void AddCharacter(Character character);
-        void RemoveCharacterFromPosition(IPosition position);
-        bool MoveCharacter(IPosition oldPos, IPosition newPos);
-        Character GetCharacter(IPosition position);
-        Character GetCharacterFromPositionWithOffset(IPosition position, int xOff, int yOff);
+        IPosition EnteringPosition { set; get; }
+        IPosition ExitingPosition { set; get; }
+
+        IInteractiveObject[,] InteractiveObjects { get; }
+        IPosition getExitingPositionOrNull();
+        IPosition getEnteringPositionOrNull();
+        bool PositionIsValid(IPosition position);
+        void AddCharacter(ICharacter character);
+        void RemoveCharacter(ICharacter character);
+        ICharacter GetCharacter(IPosition position);
         ITile GetTile(IPosition position);
-        ITile GetTileWithOffset(IPosition position, int xOff, int yOff);
-        List<Character> CharactersAsList();
     }
 }

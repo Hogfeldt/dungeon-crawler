@@ -2,7 +2,7 @@
 {
     public interface IGameState
     {
-        Player Player { get; }
+        IPlayer Player { get; }
         IMap Map { get; }
     }
 }

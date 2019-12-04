@@ -9,10 +9,10 @@ namespace ServerApp.GameState
         public int CurrentLayerNumber { get; private set; } = 0;
         public List<ILayer> Layers { get; private set; } = new List<ILayer>();
 
-        public Map(ILayerGenerator layerGenerator, int layerCount, Player player)
+        public Map(ILayerGenerator layerGenerator, int layerCount, IPlayer player)
         {
             GenerateLayers(layerGenerator, layerCount);
-            SpawnPlayer(player);
+            SpawnPlayer(player, (TopLayer) Layers[0]);
         }
         
         [JsonConstructor]
@@ -30,13 +30,13 @@ namespace ServerApp.GameState
             }
         }
 
-        private void SpawnPlayer(Player player)
+        private void SpawnPlayer(IPlayer player, TopLayer layer)
         {
-            player.Position = GetLayer(CurrentLayerNumber).InitialPlayerPosition;
-            GetLayer(CurrentLayerNumber).AddCharacter(player);
+            player.Position = layer.spawnPosition;
+            layer.AddCharacter(player);
         }
 
-        public ILayer GetLayer(int layer)
+        private ILayer GetLayer(int layer)
         {
             if (Layers.Count > layer && layer >= 0)
             {
@@ -47,12 +47,22 @@ namespace ServerApp.GameState
             }
         }
 
+        public ILayer getLayerBelowOrNull() 
+        {
+            return GetLayer(CurrentLayerNumber + 1);
+        }
+
+        public ILayer getLayerAboveOrNull()
+        {
+            return GetLayer(CurrentLayerNumber - 1);
+        }
+
         public ILayer GetCurrentLayer()
         {
             return Layers[CurrentLayerNumber];
         }
 
-        public Player GetPlayer()
+        public IPlayer GetPlayer()
         {
             foreach (var character in GetLayer(CurrentLayerNumber).Characters)
             {
@@ -64,25 +74,14 @@ namespace ServerApp.GameState
             return null;
         }
 
-        public bool MovePlayerToNewLayer(int layerNumber, bool descending)
+        public void setCurrentLayerToLayerBelow()
         {
-            Player player = GetPlayer();
-            Position previousPosition = new Position(player.Position);
-            ILayer layer = GetLayer(layerNumber);
-            if (layer == null)
-                return false;
-            if (descending)
-            {
-                player.Position = layer.InitialPlayerPosition;
-            }
-            else
-            {
-                player.Position = layer.ExitPosition;
-            }
-            layer.AddCharacter(player);
-            GetLayer(CurrentLayerNumber).RemoveCharacterFromPosition(player.Position);
-            CurrentLayerNumber = layerNumber;
-            return true;
+            CurrentLayerNumber += 1;
+        }
+
+        public void setCurrentLayerToLayerAbove()
+        {
+            CurrentLayerNumber -= 1;
         }
     }
 }

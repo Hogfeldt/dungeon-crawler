@@ -13,11 +13,6 @@ namespace ServerApp.Controllers
     [ApiController]
     public class MoveController : ControllerBase
     {
-        [HttpGet]
-        public string Get()
-        {
-            return JsonConvert.SerializeObject(Player.Direction.Up);
-        }
 
         // POST: api/Move
         [HttpPost]
@@ -33,11 +28,23 @@ namespace ServerApp.Controllers
             try
             {
                 var direction = StringToDirection(value);
-                var gameState = SessionManager.GetGameState(HttpContext);
+                IGameState gameState = SessionManager.GetGameState(HttpContext);
                 gameState.Player.SetNextMove(direction);
                 gameState.Map.GetPlayer().SetNextMove(direction);
-                TurnExecutioner turnExec = new TurnExecutioner(gameState);
-                SessionManager.SetGameState(HttpContext, turnExec.Execute());
+
+
+                IMoveValidator validator = new MoveValidator();
+                ICharacterFormatter characterFormatter = new CharacterFormatter();
+                ITurnScheduler turnScheduler = new TurnScheduler();
+                IMoveExecutioner moveExecutioner = new MoveExecutioner(new CombatHandler(), new Movement());
+                IInteractionHandler interactionHandler = new InteractionHandler();
+                ITurnExecutioner turnExecutioner = new ConcreteTurnExecutioner(validator, characterFormatter, turnScheduler, moveExecutioner, interactionHandler);
+
+                gameState = turnExecutioner.ExecuteTurn(gameState);
+
+                // GameState is casted since we only have one valid implementation of gamestate
+                // Interface is for testability (interface needed for mocking)
+                SessionManager.SetGameState(HttpContext, (GameStateClass)gameState);
 
                 return JsonConvert.SerializeObject(new ClientGameState(SessionManager.GetGameState(HttpContext)));
             }
@@ -47,18 +54,18 @@ namespace ServerApp.Controllers
             }
         }
 
-        public Character.Direction StringToDirection(string value)
+        public Direction StringToDirection(string value)
         {
             switch (value)
             {
                 case "Up":
-                    return Character.Direction.Up;
+                    return Direction.Up;
                 case "Down": 
-                    return Character.Direction.Down;
+                    return Direction.Down;
                 case "Left":
-                    return Character.Direction.Left;
+                    return Direction.Left;
                 case "Right":
-                    return Character.Direction.Right;
+                    return Direction.Right;
                 default:
                     throw new FormatException("Value was " + value + " but should be a direction");
             }

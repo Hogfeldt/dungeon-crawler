@@ -4,13 +4,13 @@ namespace ServerApp.GameState
 {
     public class HardCodedLayerGenerator: ILayerGenerator
     {
-        public ILayer GenerateLayer(int layerNumber)
+        public Layer GenerateLayer(int layerNumber)
         {
             uint width = 10;
             uint height = 10;
 
 
-            Character[,] characters = new Character[width,height];
+            ICharacter[,] characters = new ICharacter[width,height];
             ITile[,] tiles = new ITile[width, height];
             IInteractiveObject[,] objects = new IInteractiveObject[width, height];
             Random rnd = new Random();
@@ -61,19 +61,28 @@ namespace ServerApp.GameState
 
             tiles[layerNumber,9].Walkable = true;
 
-            if (layerNumber == 2)
-            {
-                return new Layer(tiles, characters, new Position(2,0), new Position(8,6), objects);
+            Layer layer;
+            
+            switch(layerNumber) {
+                case 0:
+                    layer = new TopLayer(tiles, characters, new Position(8,5), new Position(0,0), objects);
+                    break;
+                case 2: 
+                    layer = new MiddelLayer(tiles, characters, new Position(2,0), new Position(8,6), objects);  
+                    break;
+                case 3:              
+                    characters[1, 1] = new HostileNPC(new Position(1,1), new Stats(35, 5, 4), new StandStillMovementStrategy(), "TankyFar", 200);
+                    layer = new MiddelLayer(tiles, characters, new Position(9,4),new Position(0,1), objects);
+                    break;
+                case 4:
+                    layer = new BottomLayer(tiles, characters, new Position(8,5), objects);
+                    break;
+                default:
+                    layer = new MiddelLayer(tiles, characters, new Position(0,0), new Position(8,5), objects);
+                    break;
+
             }
-
-            if (layerNumber == 3)
-            {
-                characters[1, 1] = new HostileNPC(new Position(1,1), new Stats(35, 5, 4), new StandStillMovementStrategy(), "TankyFar", 200);
-
-            return new Layer(tiles, characters, new Position(9,4),new Position(0,1), objects);
-            }
-
-            return new Layer(tiles, characters, new Position(0,0), new Position(8,5), objects);
+            return layer;
         }
     }
 

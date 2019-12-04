@@ -32,7 +32,6 @@ namespace Test.UnitTests.GameStateUnitTest
         {
             Player player = Substitute.For<Player>(position, stats, "SomePLayer", 100);
             uut.DroppedGold = 200;
-            uut.DropToCharacter(player);
             Assert.AreEqual(300, player.Gold);
         }
 
@@ -47,7 +46,6 @@ namespace Test.UnitTests.GameStateUnitTest
             npcStats.MaxHealth.Returns(xp1);
             npcStats.Damage.Returns(xp2);
             uut = new HostileNPC(position, npcStats, movementStrategy, "HostileName");
-            uut.DropToCharacter(player);
             Assert.AreEqual(xp1 * xp2, player.Experience);
         }
 

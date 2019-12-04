@@ -1,26 +1,33 @@
 ﻿using System;
-using System.ComponentModel;
 using Newtonsoft.Json;
 
 namespace ServerApp.GameState
 {
-    public class Player: Character
+    public class Player: IPlayer
     {
-        public int Gold { get; private set; }
-        public int Experience { get; private set; } = 0;
+        public string Name { get; }
+        public IPosition Position { get; set; }
+        public IStats Stats { get; set; }
+        public Direction NextMove { get; set; }
 
-        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) : base(position, stats, name)
+        public bool Alive => this.Stats.CurrentHealth > 0;
+
+        public int TakeDamage(int damage)
         {
-            Gold = gold;
+            Stats.ReduceHealt(damage);
+            return damage;
         }
+        public int Gold { get; set; }
+        public int Experience { get; set; } = 0;
 
         [JsonConstructor]
-        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0, int experience = 0) : base(position, stats, name)
+        public Player(IPosition position, IStats stats, string name = "Player McName", int gold = 0) 
         {
-            Experience = experience;
+            Position = position;
+            Stats = stats;
+            Name = name;
             Gold = gold;
         }
-
 
         public void AddExperience(int xp)
         {
@@ -30,15 +37,12 @@ namespace ServerApp.GameState
             }
         }
 
-        public bool AddGold(int gold)
+        public void AddGold(int gold)
         {
             if (gold > 0)
             {
                 Gold += gold;
-                return true;
             }
-
-            return false;
         }
 
         public bool RemoveGold(int gold)
@@ -54,9 +58,14 @@ namespace ServerApp.GameState
             return true;
         }
 
-        public void SetNextMove(Character.Direction direction)
+        public void SetNextMove(Direction direction)
         {
             NextMove = direction;
+        }
+
+        public int DropLoot()
+        {
+            throw new NotImplementedException();
         }
     }
 }

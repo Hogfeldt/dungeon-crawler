@@ -12,7 +12,6 @@ export class Layer implements ILayer {
     private interactiveObjects: (IInteractiveObject | null)[][];
     private characters: (ICharacter | null)[][];
 
-
     constructor(
         tiles: ITile[][],
         spawnPos: IPosition | null,

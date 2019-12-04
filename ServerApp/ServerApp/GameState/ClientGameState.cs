@@ -2,7 +2,7 @@
 {
     public class ClientGameState
     {
-        public Player Player = null;
+        public IPlayer Player = null;
         public ITile[,] Tiles = null;
         public ICharacter[,] Characters = null;
         public IPosition InitialPlayerPosition = null;
@@ -14,8 +14,8 @@
             Player = gameState.Player;
             Tiles = gameState.Map.GetCurrentLayer().Tiles;
             Characters = gameState.Map.GetCurrentLayer().Characters;
-            InitialPlayerPosition = gameState.Map.GetCurrentLayer().InitialPlayerPosition;
-            ExitPosition = gameState.Map.GetCurrentLayer().ExitPosition;
+            InitialPlayerPosition = gameState.Map.GetCurrentLayer().getEnteringPositionOrNull();
+            ExitPosition = gameState.Map.GetCurrentLayer().getExitingPositionOrNull();
             InteractiveObjects = gameState.Map.GetCurrentLayer().InteractiveObjects;
         }
     }
