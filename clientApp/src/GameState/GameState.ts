@@ -1,23 +1,14 @@
 import { IGameState } from './IGameState';
-import { INPC } from './INPC';
-import { ICharacter } from './ICharacter';
+import { IPlayer } from './IPlayer';
 import { ILayer } from './ILayer';
 
 
 export class GameState implements IGameState {
-    public NPCState: INPC[][];
-    public characterState: ICharacter;
+    public playerState: IPlayer;
     public layerState: ILayer;
 
-    constructor(npcState: INPC[][], characterState: ICharacter, layerState: ILayer) {
-        this.NPCState       = npcState;
-        this.characterState = characterState;
+    constructor(playerState: IPlayer, layerState: ILayer) {
+        this.playerState = playerState;
         this.layerState     = layerState;
-    }
-
-    public changeState(gameState: IGameState) {
-        this.NPCState       = gameState.NPCState;
-        this.characterState = gameState.characterState;
-        this.layerState      = gameState.layerState;
     }
 }

@@ -1,22 +1,17 @@
 import { IApi } from './IApi';
-import { IGameState } from '../GameState/IGameState';
 import { GameState } from '../GameState/GameState';
-import { INPC } from '../GameState/INPC';
-import { NPC } from '../GameState/NPC';
 import { ICharacter } from '../GameState/ICharacter';
-import { Character } from '../GameState/Character';
+import { NPC } from '../GameState/NPC';
+import { IPlayer } from '../GameState/IPlayer';
+import { Player } from '../GameState/Player';
 import { ILayer } from '../GameState/ILayer';
 import { Layer } from '../GameState/Layer';
 import { ITile } from '../GameState/ITile';
 import { Tile } from '../GameState/Tile';
 import { Position } from '../GameState/Position';
-import { Chest } from '@/GameState/Chest';
-import { ChestMimic } from '@/GameState/ChestMimic';
-import { IInteractiveObject } from '@/GameState/IInteractiveObject';
-
-
-const mapSize = 10;
-
+import { Chest } from '../GameState/Chest';
+import { ChestMimic } from '../GameState/ChestMimic';
+import { IInteractiveObject } from '../GameState/IInteractiveObject';
 
 export class ChangeHandler {
     public api: IApi;
@@ -44,17 +39,12 @@ export class ChangeHandler {
     }
 
     private gameStateFromData(data: any): GameState {
-        const tiles: any[][] = new Array();
+        const tiles: ITile[][] = new Array();
 
         for (let j = 0; j < data.Tiles.length; j++) {
             tiles[j] = [];
             for (let k = 0; k < data.Tiles[j].length; k++) {
-
-                if (data.Tiles[j][k] != null) {
-                    tiles[j][k] = new Tile(data.Tiles[j][k].Walkable);
-                } else {
-                    tiles[j][k] = null;
-                }
+                tiles[j][k] = new Tile(data.Tiles[j][k].Walkable);
             }
         }
         let spawnPos: Position | null = null;
@@ -67,29 +57,6 @@ export class ChangeHandler {
             exitPos = new Position(data.ExitPosition.X, data.ExitPosition.Y);
         }
 
-        const interactiveObjects: any[][] = new Array();
-        for (let i = 0; i < data.InteractiveObjects.length; i++) {
-            interactiveObjects[i] = [];
-            for (let j = 0; j < data.InteractiveObjects[i].length; j++) {
-                if (data.InteractiveObjects[i][j] != null) {
-                    const currentObject: any = data.InteractiveObjects[i][j];
-                    if (data.InteractiveObjects[i][j].Name === 'Chest') {
-                        interactiveObjects[i][j] = new Chest(
-                            data.InteractiveObjects[i][j].Name,
-                            data.InteractiveObjects[i][j].goldContent);
-                    } else if (data.InteractiveObjects[i][j].Name === 'ChestMimic') {
-                        interactiveObjects[i][j] = new ChestMimic(
-                            data.InteractiveObjects[i][j].Name,
-                            data.InteractiveObjects[i][j].discovered);
-                    }
-                } else {
-                    interactiveObjects[i][j] = null;
-                }
-            }
-        }
-
-        const layer: ILayer = new Layer(tiles, spawnPos, exitPos, interactiveObjects);
-
         const name: string = data.Player.Name;
         const xPosition: number = data.Player.Position.X;
         const yPosition: number = data.Player.Position.Y;
@@ -99,7 +66,7 @@ export class ChangeHandler {
         const experience: number = data.Player.Experience;
         const damage: number = data.Player.Stats.Damage;
 
-        const player: ICharacter = new Character(
+        const player: IPlayer = new Player(
             name,
             xPosition,
             yPosition,
@@ -109,7 +76,7 @@ export class ChangeHandler {
             experience,
             damage);
 
-        const characters: any[][] = new Array();
+        const characters: (ICharacter | null)[][] = new Array();
         for (let l = 0; l < data.Characters.length; l++) {
             characters[l] = [];
             for (let m = 0; m < data.Characters[l].length; m++) {
@@ -128,8 +95,30 @@ export class ChangeHandler {
             }
         }
 
+        const interactiveObjects: (IInteractiveObject | null)[][] = new Array();
+        for (let i = 0; i < data.InteractiveObjects.length; i++) {
+            interactiveObjects[i] = [];
+            for (let j = 0; j < data.InteractiveObjects[i].length; j++) {
+                if (data.InteractiveObjects[i][j] != null) {
+                    const currentObject: any = data.InteractiveObjects[i][j];
+                    if (currentObject.Name === 'Chest') {
+                        interactiveObjects[i][j] = new Chest(
+                            currentObject.Name,
+                            currentObject.goldContent);
+                    } else if (data.InteractiveObjects[i][j].Name === 'ChestMimic') {
+                        interactiveObjects[i][j] = new ChestMimic(
+                            currentObject.Name,
+                            currentObject.discovered);
+                    }
+                } else {
+                    interactiveObjects[i][j] = null;
+                }
+            }
+        }
 
-        const state = new GameState(characters, player, layer);
+        const layer: ILayer = new Layer(tiles, spawnPos, exitPos, characters, interactiveObjects);
+
+        const state = new GameState(player, layer);
 
         return state;
     }

@@ -1,7 +1,7 @@
-import { INPC } from './INPC';
+import { ICharacter } from './ICharacter';
 import { IPosition } from './IPosition';
 
-export class NPC implements INPC {
+export class NPC implements ICharacter {
 
     public position: IPosition;
 

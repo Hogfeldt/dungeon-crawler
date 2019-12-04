@@ -1,5 +1,4 @@
-import { IPosition } from './IPosition';
+// import { ICharacter } from './ICharacter';
 
-export interface INPC {
-    position: IPosition;
-}
+// export interface INPC extends ICharacter {
+// }
