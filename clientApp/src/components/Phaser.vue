@@ -7,7 +7,7 @@
     import { Component, Prop, Vue } from 'vue-property-decorator';
     import { ChangeHandler } from '@/ChangeHandler/ChangeHandler';
     import { IApi } from '@/ChangeHandler/IApi';
-    import { Api } from '@/ChangeHandler/API';
+    import { Api } from '@/ChangeHandler/Api';
     import Phaser from 'phaser';
     import { MainGame } from '@/PhaserScenes/MainGame';
 
