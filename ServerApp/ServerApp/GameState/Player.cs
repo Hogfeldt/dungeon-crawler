@@ -10,7 +10,7 @@ namespace ServerApp.GameState
         public IStats Stats { get; set; }
         public Direction NextMove { get; set; }
 
-        public bool Alive => this.Stats.CurrentHealth <= 0;
+        public bool Alive => this.Stats.CurrentHealth > 0;
 
         public int TakeDamage(int damage)
         {
