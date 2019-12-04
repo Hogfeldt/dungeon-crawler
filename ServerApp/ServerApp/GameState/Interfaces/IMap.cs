@@ -9,5 +9,7 @@ namespace ServerApp.GameState
         IPlayer GetPlayer();
         ILayer getLayerBelowOrNull();
         ILayer getLayerAboveOrNull();
+        void setCurrentLayerToLayerBelow();
+        void setCurrentLayerToLayerAbove();
     }
 }

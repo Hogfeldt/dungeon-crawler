@@ -73,5 +73,15 @@ namespace ServerApp.GameState
             }
             return null;
         }
+
+        public void setCurrentLayerToLayerBelow()
+        {
+            CurrentLayerNumber += 1;
+        }
+
+        public void setCurrentLayerToLayerAbove()
+        {
+            CurrentLayerNumber -= 1;
+        }
     }
 }

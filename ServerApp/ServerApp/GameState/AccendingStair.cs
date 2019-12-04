@@ -8,11 +8,13 @@
             ILayer layerToAccend = gameState.Map.getLayerAboveOrNull();
             if (layerToAccend != null)
             {
-                IPosition enteringPostion = layerToAccend.getEnteringPositionOrNull();
+                IPosition enteringPostion = layerToAccend.getExitingPositionOrNull();
                 if (enteringPostion != null) {
-                    currentLayer.RemoveCharacter(gameState.Player);
-                    gameState.Player.Position = enteringPostion;
-                    layerToAccend.AddCharacter(gameState.Player);
+                    ICharacter player = gameState.Player;
+                    currentLayer.RemoveCharacter(player);
+                    player.Position = enteringPostion;
+                    layerToAccend.AddCharacter(player);
+                    gameState.Map.setCurrentLayerToLayerAbove();
                 } 
             }
         }
