@@ -47,6 +47,8 @@ export class ChangeHandler {
                 tiles[j][k] = new Tile(data.Tiles[j][k].Walkable);
             }
         }
+
+        // TODO: Is probably not undefined but can have the value "null" should be fixed 
         let spawnPos: Position | null = null;
         if (data.InitalPlayerPosition !== undefined) {
             spawnPos = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
