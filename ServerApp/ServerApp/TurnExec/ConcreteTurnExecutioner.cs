@@ -44,6 +44,11 @@ namespace ServerApp.TurnExec
                 _interactionHandler.Interact(state);
             }
 
+            if (!state.Player.Alive)
+            {
+                state = GameStateFactory.GenerateNewGameState();
+            }
+
             return state;
         }
     }

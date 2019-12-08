@@ -50,14 +50,17 @@ export class ChangeHandler {
 
         // TODO: Is probably not undefined but can have the value "null" should be fixed 
         let spawnPos: Position | null = null;
-        if (data.InitalPlayerPosition !== undefined) {
+        if (data.InitialPlayerPosition !== null) {
             spawnPos = new Position(data.InitialPlayerPosition.X, data.InitialPlayerPosition.Y);
         }
 
         let exitPos: Position | null = null;
-        if (data.ExitPosition !== undefined) {
+        if (data.ExitPosition !== null) {
             exitPos = new Position(data.ExitPosition.X, data.ExitPosition.Y);
         }
+
+        console.log(exitPos);
+        console.log(spawnPos);
 
         const name: string = data.Player.Name;
         const xPosition: number = data.Player.Position.X;
