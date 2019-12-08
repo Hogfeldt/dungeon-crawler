@@ -14,19 +14,34 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
     class MoveExecutionerTest
     {
         private IMoveExecutioner _uut;
+
+        private ICharacter _npc1;
+        private ICharacter _npc2;
+        private ICharacter _player;
+        private ILayer _layer;
+
+        //_____________
+
         private ICombatHandler _combatHandler;
         private ITile[,] _tiles;
         private Queue<ICharacter> _turns;
-
-        private IPlayer _player;
-        private ICharacter _npc1;
-        private ICharacter _npc2;
-        private Layer _layer;
 
 
         [SetUp]
         public void Setup()
         {
+            _player = Substitute.For<IPlayer>();
+            _player.Position.X.Returns(5);
+            _player.Position.Y.Returns(5);
+
+            _npc1 = Substitute.For<IPlayer>();
+            _npc1.Position.X.Returns(4);
+            _npc1.Position.Y.Returns(5);
+
+            _layer = Substitute.For<ILayer>();
+
+
+
             /*
             _player = Substitute.For<Player>();
             _layer = Substitute.For<Layer>();
@@ -38,10 +53,6 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
 
             _uut = new MoveExecutioner(_combatHandler);
             */
-
-            _player = Substitute.For<IPlayer>();
-
-            _player.Gold.Returns(10);
 
             //_player.Position.X.Returns(1);
 
@@ -88,22 +99,22 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         [Test]
         public void MoveExecutioner_PlayerMovesDown_PlayerHasMoved()
         {
-           //_player = new ConcretePlayer(new Position(0,1), new Stats(1,1,1), "Name", 15);
-           /*
-            _player.Received().AddGold(10);
-           _player.Position.Y = 1;
-           _player.Received().SetNextMove(Character.Direction.Down);
-           */
-           
+            //_player = new ConcretePlayer(new Position(0,1), new Stats(1,1,1), "Name", 15);
+            /*
+             _player.Received().AddGold(10);
+            _player.Position.Y = 1;
+            _player.Received().SetNextMove(Character.Direction.Down);
+            */
 
-           
 
-          
 
-           //List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
-           
-           //Assert.True(_player.Position.X == 1);
-           Assert.True(1 + 1 == 2);
+
+
+
+            //List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            //Assert.True(_player.Position.X == 1);
+            Assert.True(1 + 1 == 2);
         }
 
         /*
