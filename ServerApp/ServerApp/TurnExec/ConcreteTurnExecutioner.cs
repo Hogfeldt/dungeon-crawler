@@ -30,9 +30,11 @@ namespace ServerApp.TurnExec
             _interactionHandler = interactionHandler;
         }
 
-        public IGameState ExecuteTurn(IGameState state)
+        public IGameState ExecuteTurn(IGameState state, GameState.Direction direction)
         {
             IPlayer player = state.Player;
+            player.SetNextMove(direction);
+
             ITile[,] tiles = state.Map.GetCurrentLayer().Tiles;
             ILayer layer = state.Map.GetCurrentLayer();
 

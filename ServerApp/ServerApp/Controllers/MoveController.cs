@@ -27,11 +27,7 @@ namespace ServerApp.Controllers
 
             try
             {
-                var direction = StringToDirection(value);
                 IGameState gameState = SessionManager.GetGameState(HttpContext);
-                gameState.Player.SetNextMove(direction);
-                gameState.Map.GetPlayer().SetNextMove(direction);
-
 
                 IMoveValidator validator = new MoveValidator();
                 ICharacterFormatter characterFormatter = new CharacterFormatter();
@@ -40,7 +36,9 @@ namespace ServerApp.Controllers
                 IInteractionHandler interactionHandler = new InteractionHandler();
                 ITurnExecutioner turnExecutioner = new ConcreteTurnExecutioner(validator, characterFormatter, turnScheduler, moveExecutioner, interactionHandler);
 
-                gameState = turnExecutioner.ExecuteTurn(gameState);
+                var direction = StringToDirection(value);
+
+                gameState = turnExecutioner.ExecuteTurn(gameState, direction);
 
                 // GameState is casted since we only have one valid implementation of gamestate
                 // Interface is for testability (interface needed for mocking)

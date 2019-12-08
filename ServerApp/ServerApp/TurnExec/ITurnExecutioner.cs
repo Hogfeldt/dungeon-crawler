@@ -8,6 +8,6 @@ namespace ServerApp.TurnExec
 {
     public interface ITurnExecutioner
     {
-        IGameState ExecuteTurn(IGameState state);
+        IGameState ExecuteTurn(IGameState state, GameState.Direction direction);
     }
 }
