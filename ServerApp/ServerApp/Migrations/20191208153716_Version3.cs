@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ServerApp.Migrations
 {
-    public partial class Version20 : Migration
+    public partial class Version3 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,9 +11,9 @@ namespace ServerApp.Migrations
                 name: "UserInfoModel",
                 columns: table => new
                 {
-                    Username = table.Column<string>(nullable: false),
-                    Password = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(nullable: true)
+                    Username = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Password = table.Column<string>(type: "varchar(100)", nullable: true),
+                    Email = table.Column<string>(type: "varchar(100)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -26,9 +26,9 @@ namespace ServerApp.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Sprite = table.Column<string>(nullable: true),
-                    Color = table.Column<string>(nullable: true),
-                    Username = table.Column<string>(nullable: true)
+                    Sprite = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Color = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Username = table.Column<string>(type: "varchar(50)", nullable: true)
                 },
                 constraints: table =>
                 {

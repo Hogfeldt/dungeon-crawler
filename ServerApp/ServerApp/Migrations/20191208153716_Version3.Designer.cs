@@ -9,8 +9,8 @@ using ServerApp.Data;
 namespace ServerApp.Migrations
 {
     [DbContext(typeof(ServerAppContext))]
-    [Migration("20191130140429_Version2.0")]
-    partial class Version20
+    [Migration("20191208153716_Version3")]
+    partial class Version3
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,11 +26,14 @@ namespace ServerApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Color");
+                    b.Property<string>("Color")
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Sprite");
+                    b.Property<string>("Sprite")
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
@@ -42,11 +45,14 @@ namespace ServerApp.Migrations
             modelBuilder.Entity("ServerApp.Database.Models.UserInfoModel", b =>
                 {
                     b.Property<string>("Username")
-                        .ValueGeneratedOnAdd();
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("varchar(50)");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .HasColumnType("varchar(100)");
 
-                    b.Property<string>("Password");
+                    b.Property<string>("Password")
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Username");
 
