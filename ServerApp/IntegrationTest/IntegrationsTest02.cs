@@ -10,7 +10,7 @@ namespace IntegrationTest
     {
         private IGameState _gameState;
         private IMoveValidator _fakeMoveValidator;
-        private IInteractionHandler _uut;
+        private IInteractionHandler _sut;
 
 
 
@@ -25,7 +25,7 @@ namespace IntegrationTest
 
             _fakeMoveValidator = new MoveValidator();
 
-            _uut = new InteractionHandler();
+            _sut = new InteractionHandler();
         }
 
         [Test]
@@ -35,7 +35,7 @@ namespace IntegrationTest
             _gameState.Player.Position = new Position(8, 5);
 
             // Act
-            _uut.Interact(_gameState);
+            _sut.Interact(_gameState);
 
             // Assert
             Assert.AreEqual(1, _gameState.Map.CurrentLayerNumber);
@@ -48,7 +48,7 @@ namespace IntegrationTest
             _gameState.Player.Position = new Position(0, 0);
 
             // Act
-            _uut.Interact(_gameState);
+            _sut.Interact(_gameState);
 
             // Assert
             Assert.AreEqual(0, _gameState.Map.CurrentLayerNumber);
