@@ -65,7 +65,15 @@ namespace ServerApp.GameState
 
         public int DropLoot()
         {
-            throw new NotImplementedException();
+            /* Quick-fix, player 'drops' loot.
+             * If exception ->
+             * problems when player dies after DropLoot-call from Fight class
+             */
+            int tmp = Gold;
+            Gold = 0;
+
+            return tmp;
+            //throw new NotImplementedException();
         }
     }
 }

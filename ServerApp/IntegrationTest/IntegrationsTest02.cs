@@ -8,50 +8,111 @@ namespace IntegrationTest
 {
     public class IntegrationTest02
     {
+        private IMoveValidator _sut;
+
         private IGameState _gameState;
-        private IMoveValidator _fakeMoveValidator;
-        private IInteractionHandler _sut;
-
-
+        //private IInteractionHandler _interactionHandler;
+        
+        private ITile[,] _tiles;
 
         [SetUp]
         public void Setup()
         {
+            _sut = new MoveValidator();
+
+
+            /*
+             * Player starts in position 0,0
+             * Valid moves from this position, based upon HardCodedLayerGenerator
+             * is Down, and Right.
+             * From Position Y = 1, one can move Up
+             * From position X = 1, one can move Left
+             */
             _gameState = new GameStateClass(
                 new Map(
                     new HardCodedLayerGenerator(),
                     3,
                     new Player(new Position(), new Stats(1, 1, 1), "john", 10)));
 
-            _fakeMoveValidator = new MoveValidator();
+            //_interactionHandler = new InteractionHandler();
+        }
 
-            _sut = new InteractionHandler();
+        // === TEST MOVE VALIDATOR ===
+
+        #region MoveValidator
+
+        [Test]
+        public void MoveValidator_ValidMoveUp_ReturnTrue()
+        {
+            _gameState.Player.Position = new Position(1,1);
+
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Up, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(true, result);   
         }
 
         [Test]
-        public void InteractionHandler_PlayerStandsOnStairs_LayerNumberIsIncremented()
+        public void MoveValidator_ValidMoveUp_ReturnFalse()
         {
-            // Arrange
-            _gameState.Player.Position = new Position(8, 5);
+            _gameState.Player.Position = new Position(0,0);
 
-            // Act
-            _sut.Interact(_gameState);
-
-            // Assert
-            Assert.AreEqual(1, _gameState.Map.CurrentLayerNumber);
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Up, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(false, result);
         }
 
         [Test]
-        public void InteractionHandler_PlayerDoesNotStandsOnStairs_LayerNumberIsIncremented()
+        public void MoveValidator_ValidMoveDown_ReturnTrue()
         {
-            // Arrange
-            _gameState.Player.Position = new Position(0, 0);
+            _gameState.Player.Position = new Position(0,0);
 
-            // Act
-            _sut.Interact(_gameState);
-
-            // Assert
-            Assert.AreEqual(0, _gameState.Map.CurrentLayerNumber);
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Down, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(true, result);
         }
+
+        [Test]
+        public void MoveValidator_ValidMoveDown_ReturnFalse()
+        {
+            _gameState.Player.Position = new Position(1,1);
+
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Down, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(false, result);
+        }
+
+        [Test]
+        public void MoveValidator_ValidMoveLeft_ReturnTrue()
+        {
+            _gameState.Player.Position = new Position(1,0);
+
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Left, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void MoveValidator_ValidMoveLeft_ReturnFalse()
+        {
+            _gameState.Player.Position = new Position(0,0);
+
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Left, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(false, result);
+        }
+
+        [Test]
+        public void MoveValidator_ValidMoveRight_ReturnTrue()
+        {
+            _gameState.Player.Position = new Position(0,0);
+
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Right, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(true, result);
+        }
+
+        [Test]
+        public void MoveValidator_ValidMoveRight_ReturnFalse()
+        {
+            _gameState.Player.Position = new Position(3,0);
+
+            bool result = _sut.Validate(_gameState.Player.Position, Direction.Right, _gameState.Map.GetCurrentLayer().Tiles);
+            Assert.AreEqual(false, result);
+        }
+
+        #endregion
     }
 }
