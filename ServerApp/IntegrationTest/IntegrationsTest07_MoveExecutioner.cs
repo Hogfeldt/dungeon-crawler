@@ -8,7 +8,7 @@ using ServerApp.TurnExec;
 
 namespace IntegrationTest
 {
-    class IntegrationsTest06
+    class IntegrationsTest07_MoveExecutioner
     {
         private IGameState _gameState;
         private IMovement _movement;

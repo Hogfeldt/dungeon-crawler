@@ -7,7 +7,7 @@ using ServerApp.TurnExec;
 
 namespace IntegrationTest
 {
-    class IntegrationsTest05
+    class IntegrationsTest01_CharacterFormatter
     {
         public IGameState _gameState;
         public ICharacterFormatter _sut;

@@ -6,7 +6,7 @@ using ServerApp.GameState;
 
 namespace IntegrationTest
 {
-    public class IntegrationTest02
+    public class IntegrationsTest04_MoveValidator
     {
         private IMoveValidator _sut;
 

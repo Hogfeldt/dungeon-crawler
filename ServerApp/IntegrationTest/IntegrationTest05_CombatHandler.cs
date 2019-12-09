@@ -6,7 +6,7 @@ using ServerApp.GameState;
 
 namespace IntegrationTest
 {
-    public class IntegrationTest03
+    public class IntegrationTest05_CombatHandler
     {
         private IGameState _gameState;
         private ICombatHandler _sut;
