@@ -27,7 +27,7 @@ namespace IntegrationTest
         }
 
         [Test]
-        public void Movement()
+        public void Movement_MovesNpcToValidPosition_NpcIsMoved()
         {
             // Arrange
             var currentPosition = new Position(3, 1);
@@ -41,7 +41,23 @@ namespace IntegrationTest
             // Assert
             Assert.AreEqual(newPosition.X, _npc.Position.X);
             Assert.AreEqual(newPosition.Y, _npc.Position.Y);
+        }
 
+        [Test]
+        public void Movement_MovesNpcToInvalidPosition_NpcIsMoved()
+        {
+            // Arrange
+            var currentPosition = new Position(3, 1);
+            var newPosition = new Position(currentPosition.X + 1, currentPosition.Y);
+            _npc = _gameState.Map.GetCurrentLayer().GetCharacter(currentPosition);
+
+
+            // Act
+            _sut.MoveCharacter(currentPosition, newPosition, _gameState.Map.GetCurrentLayer());
+
+            // Assert
+            Assert.AreEqual(currentPosition.X, _npc.Position.X);
+            Assert.AreEqual(currentPosition.Y, _npc.Position.Y);
         }
     }
 }
