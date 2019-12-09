@@ -68,6 +68,8 @@ namespace IntegrationTest
         {
             // Arrange
             _gameState.Player.Position = new Position(7, 5);
+
+            // Moves player to the correct position. 
             _gameState.Map.GetCurrentLayer().AddCharacter(_gameState.Player);
             _gameState.Map.GetCurrentLayer().Characters[0, 0] = null;
 
