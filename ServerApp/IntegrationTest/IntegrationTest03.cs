@@ -23,7 +23,7 @@ namespace IntegrationTest
                     3,
                     new Player(new Position(), new Stats(2, 2, 1), "john", 10)));
 
-            _npc = new HostileNPC(new Position(0, 0), new Stats(1, 1, 1), new StandStillMovementStrategy(), "johnKiller", 30);
+            _npc = new HostileNPC(new Position(2, 2), new Stats(1, 1, 1), new StandStillMovementStrategy(), "johnKiller", 30);
         }
 
         [Test]
