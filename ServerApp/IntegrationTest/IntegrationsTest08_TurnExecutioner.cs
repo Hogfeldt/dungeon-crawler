@@ -8,7 +8,7 @@ using ServerApp.TurnExec;
 
 namespace IntegrationTest
 {
-    class IntegrationsTest08
+    class IntegrationsTest08_TurnExecutioner
     {
         private ITurnExecutioner _sut;
         private IMoveExecutioner _moveExecutioner;
