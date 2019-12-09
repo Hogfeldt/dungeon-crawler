@@ -36,15 +36,39 @@ namespace IntegrationTest
 
             _characterGrid = new ICharacter[,] {
                 {player, npc_1 },
-                {npc_2, npc_3}
+                {npc_2, npc_3},
+                {null, null}
             };
         }
 
         [Test]
-        public void Characterformatter_ToList_AllCharacterFromLayerAdded()
+        public void Characterformatter_ToList_NumberOfCharactersFromLayerAdded()
         {
             List<ICharacter> allCharacters = _sut.ToList(_characterGrid);
+
             Assert.AreEqual(4, allCharacters.Count);
+        }
+
+        [Test]
+        public void Characterformatter_ToList_CheckCorrectCharacterFromLayerAdded()
+        {
+            List<ICharacter> allCharacters = _sut.ToList(_characterGrid);
+
+            Assert.IsTrue(allCharacters[0].Name == "john");
+            Assert.IsTrue(allCharacters[1].Name == "Hurtigfar");
+            Assert.IsTrue(allCharacters[2].Name == "Mellemhurtigfar");
+            Assert.IsTrue(allCharacters[3].Name == "Langsomfar");
+        }
+
+        [Test]
+        public void Characterformatter_ToList_CheckNotCharacterAdded()
+        {
+            List<ICharacter> allCharacters = _sut.ToList(_characterGrid);
+
+            foreach (var character in allCharacters)
+            {
+                Assert.AreNotEqual(null, character);
+            }
         }
 
     }
