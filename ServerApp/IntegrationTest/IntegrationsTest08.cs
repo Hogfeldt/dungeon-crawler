@@ -62,5 +62,22 @@ namespace IntegrationTest
             Assert.AreEqual(1, _gameState.Player.Position.X);
             Assert.AreEqual(0, _gameState.Player.Position.Y);
         }
+
+        [Test]
+        public void TurnExecutioner_PlayerWalkOntoStairs_LayerIsChanged()
+        {
+            // Arrange
+            _gameState.Player.Position = new Position(7, 5);
+            _gameState.Map.GetCurrentLayer().AddCharacter(_gameState.Player);
+            _gameState.Map.GetCurrentLayer().Characters[0, 0] = null;
+
+            _gameState.Player.SetNextMove(Direction.Right);
+
+            // Act
+            _sut.ExecuteTurn(_gameState);
+
+            // Assert
+            Assert.AreEqual(1, _gameState.Map.CurrentLayerNumber);
+        }
     }
 }
