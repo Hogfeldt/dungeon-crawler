@@ -59,5 +59,39 @@ namespace IntegrationTest
             Assert.AreEqual(currentPosition.X, _npc.Position.X);
             Assert.AreEqual(currentPosition.Y, _npc.Position.Y);
         }
+
+        [Test]
+        public void Movement_MovesPlayerToValidPosition_PlayerIsMoved()
+        {
+            // Arrange
+            var currentPosition = _gameState.Player.Position;
+            var newPosition = new Position(currentPosition.X + 1, currentPosition.Y);
+            var player = _gameState.Player;
+
+
+            // Act
+            _sut.MoveCharacter(currentPosition, newPosition, _gameState.Map.GetCurrentLayer());
+
+            // Assert
+            Assert.AreEqual(newPosition.X, player.Position.X);
+            Assert.AreEqual(newPosition.Y, player.Position.Y);
+        }
+
+        [Test]
+        public void Movement_MovesPlayerToInvalidPosition_PlayerIsMoved()
+        {
+            // Arrange
+            var currentPosition = _gameState.Player.Position;
+            var newPosition = new Position(currentPosition.X - 1, currentPosition.Y);
+            var player = _gameState.Player;
+
+
+            // Act
+            _sut.MoveCharacter(currentPosition, newPosition, _gameState.Map.GetCurrentLayer());
+
+            // Assert
+            Assert.AreEqual(currentPosition.X, player.Position.X);
+            Assert.AreEqual(currentPosition.Y, player.Position.Y);
+        }
     }
 }
