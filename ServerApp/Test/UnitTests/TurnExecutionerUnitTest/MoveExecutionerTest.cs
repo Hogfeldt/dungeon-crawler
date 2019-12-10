@@ -2,8 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using Castle.Components.DictionaryAdapter;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 using NSubstitute;
 using NUnit.Framework;
 using ServerApp.GameState;
@@ -14,52 +12,45 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
     class MoveExecutionerTest
     {
         private IMoveExecutioner _uut;
-
-        private ICharacter _npc1;
-        private ICharacter _npc2;
-        private ICharacter _player;
-        private ILayer _layer;
-
-        //_____________
-
+        private IMovement _movement;
         private ICombatHandler _combatHandler;
         private ITile[,] _tiles;
         private Queue<ICharacter> _turns;
+
+        private IInteractiveObject[,] _interactiveObjects;
+        private IGameState _gameState;
+
+        private ICharacter _player;
+        private ICharacter _npc1;
+        private ICharacter _npc2;
+        private ILayer _layer;
+
+        class DumbLayer : Layer
+        {
+            public DumbLayer(ITile[,] tiles, ICharacter[,] characters, IInteractiveObject[,] interactiveObjects)
+                : base(tiles, characters, interactiveObjects)
+            { }
+
+            public override IPosition getEnteringPositionOrNull()
+            {
+                throw new NotImplementedException();
+            }
+
+            public override IPosition getExitingPositionOrNull()
+            {
+                throw new NotImplementedException();
+            }
+        }
 
 
         [SetUp]
         public void Setup()
         {
-            _player = Substitute.For<IPlayer>();
-            _player.Position.X.Returns(5);
-            _player.Position.Y.Returns(5);
-
-            _npc1 = Substitute.For<IPlayer>();
-            _npc1.Position.X.Returns(4);
-            _npc1.Position.Y.Returns(5);
-
-            _layer = Substitute.For<ILayer>();
-
-
-
-            /*
-            _player = Substitute.For<Player>();
-            _layer = Substitute.For<Layer>();
+            //_combatHandler = new CombatHandler();
             _combatHandler = Substitute.For<ICombatHandler>();
-            _tiles = Substitute.For<ITile>();
-            _character = Substitute.For<ICharacter>();
+            _movement = Substitute.For<IMovement>();
 
-            _turns = new Queue<ICharacter>();
-
-            _uut = new MoveExecutioner(_combatHandler);
-            */
-
-            //_player.Position.X.Returns(1);
-
-            /*
-
-            _combatHandler = new CombatHandler();
-            _uut = new MoveExecutioner(_combatHandler);
+            _uut = new MoveExecutioner(_combatHandler, _movement);
 
             _tiles = new ITile[10, 10];
 
@@ -76,7 +67,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
 
             _npc1 = new HostileNPC(new Position(1, 1), new Stats(), new StandStillMovementStrategy(), "bad boi 1");
             _npc2 = new HostileNPC(new Position(2, 2), new Stats(), new StandStillMovementStrategy(), "bad boi 2");
-            _player = new ConcretePlayer(new Position(5, 5), new Stats(100, 10, 1), "player boi", 0, 0);
+            _player = new Player(new Position(5, 5), new Stats(100, 10, 1), "player boi", 0);
 
             _turns.Enqueue(_npc1);
             _turns.Enqueue(_npc2);
@@ -85,50 +76,42 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             characters[_npc1.Position.X, _npc1.Position.Y] = _npc1;
             characters[_npc2.Position.X, _npc2.Position.Y] = _npc2;
             characters[_player.Position.X, _player.Position.Y] = _player;
-            
-            IInteractiveObject[,] blabla = new IInteractiveObject[1,1];
 
-            _layer = new TopLayer(
-                _tiles,
-                characters,
-                new Position(0, 0), new Position(9, 9),
-                new IInteractiveObject[1, 1]);
-            */
-        }
+            _interactiveObjects = new IInteractiveObject[10, 10];
+            _layer = new DumbLayer(_tiles, characters, _interactiveObjects);
 
-        [Test]
-        public void MoveExecutioner_PlayerMovesDown_PlayerHasMoved()
-        {
-            //_player = new ConcretePlayer(new Position(0,1), new Stats(1,1,1), "Name", 15);
+            _gameState = Substitute.For<IGameState>();
             /*
-             _player.Received().AddGold(10);
-            _player.Position.Y = 1;
-            _player.Received().SetNextMove(Character.Direction.Down);
+            _gameState = new GameStateClass(
+                new Map(
+                    new HardCodedLayerGenerator(),
+                    3,
+                    new Player(new Position(), new Stats(2, 2, 1), "john", 10)));
             */
 
 
+        }
+        
+        [Test]
+        public void MoveExecutioner_ExecuteMove_PlayerHasMoved()
+        {
+            //_player.NextMove(Direction.Down);
 
-
-
-
+            //_player.SetNextMove(Character.Direction.Down);
             //List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
 
-            //Assert.True(_player.Position.X == 1);
-            Assert.True(1 + 1 == 2);
+            // Player moves down, should increment Y position
+
+            //_player.NextMove(Direction.Down);
+            _gameState.Player.SetNextMove(Direction.Down);
+
+            _uut.ExecuteMoves(_turns, _layer);
+
+            Assert.AreEqual(5, _player.Position.X);
+            Assert.AreEqual(5, _player.Position.Y);
         }
 
         /*
-        [Test]
-        public void MoveExecutioner_PlayerMovesDown_PlayerHasMoved()
-        {
-            _player.SetNextMove(Character.Direction.Down);
-            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
-
-            // Player moves down, should increment Y position
-            Assert.AreEqual(5, _player.Position.X);
-            Assert.AreEqual(6, _player.Position.Y);
-        }
-
         [Test]
         public void MoveExecutioner_PlayerDoesNotMove_PlayerHasNotMoved()
         {
@@ -174,8 +157,8 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         {
             // Player walks into NPC
             _player.Position = new Position(2, 3);
-            _npc2.Stats = new Stats(100, 0 ,0);
-            
+            _npc2.Stats = new Stats(100, 0, 0);
+
             _player.SetNextMove(Character.Direction.Up);
 
             List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
@@ -190,7 +173,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         {
             // Player walks into NPC
             _player.Position = new Position(2, 3);
-            _npc2.Stats = new Stats(100, 0 ,0);
+            _npc2.Stats = new Stats(100, 0, 0);
             _player.SetNextMove(Character.Direction.Up);
 
             List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);

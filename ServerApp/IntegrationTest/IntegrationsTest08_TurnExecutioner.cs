@@ -81,5 +81,79 @@ namespace IntegrationTest
             // Assert
             Assert.AreEqual(1, _gameState.Map.CurrentLayerNumber);
         }
+
+        // TODO: FROM UNIT TEST -> MAKE SOME INTO INTEGRATION TEST
+        /*
+        [Test]
+        public void MoveExecutioner_PlayerDoesNotMove_PlayerHasNotMoved()
+        {
+            _player.SetNextMove(Character.Direction.None);
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // Player moves down, should increment Y position
+            Assert.AreEqual(5, _player.Position.X);
+            Assert.AreEqual(5, _player.Position.Y);
+        }
+
+        [Test]
+        public void MoveExecutioner_PlayerMoves_NPCsHasNotMoved()
+        {
+            _player.SetNextMove(Character.Direction.Down);
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // Player moves down, should increment Y position
+            Assert.AreEqual(1, _npc1.Position.X);
+            Assert.AreEqual(1, _npc1.Position.Y);
+
+            Assert.AreEqual(2, _npc2.Position.X);
+            Assert.AreEqual(2, _npc2.Position.Y);
+        }
+
+        [Test]
+        public void MoveExecutioner_PlayerFightsNPC_NpcDies()
+        {
+            // Player walks into NPC
+            _player.Position = new Position(2, 3);
+            _npc2.Stats = new Stats(1, 0, 0); // ?
+            _player.SetNextMove(Character.Direction.Up);
+
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // npc2 is dead and removed from list
+            //Assert.IsFalse(charactersAfterTurn.Contains(_npc2));
+            Assert.IsFalse(_npc2.Alive);
+        }
+
+        [Test]
+        public void MoveExecutioner_PlayerFightsNPC_NpcDoesNotDie()
+        {
+            // Player walks into NPC
+            _player.Position = new Position(2, 3);
+            _npc2.Stats = new Stats(100, 0, 0);
+
+            _player.SetNextMove(Character.Direction.Up);
+
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // npc2 not dead
+            Assert.IsTrue(charactersAfterTurn.Contains(_npc2));
+            Assert.IsTrue(_npc2.Alive);
+        }
+
+        [Test]
+        public void MoveExecutioner_NpcDoesNotDieInFight_PlayerStaysOnPosition()
+        {
+            // Player walks into NPC
+            _player.Position = new Position(2, 3);
+            _npc2.Stats = new Stats(100, 0, 0);
+            _player.SetNextMove(Character.Direction.Up);
+
+            List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+
+            // player has not moved
+            Assert.AreEqual(2, _player.Position.X);
+            Assert.AreEqual(3, _player.Position.Y);
+        }
+        */
     }
 }
