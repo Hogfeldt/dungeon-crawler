@@ -10,14 +10,14 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
 {
     class CombatHandlerTest
     {
-        private ICombatHandler _combatHandler;
+        private ICombatHandler _uut;
         private ILayer layer;
 
         [SetUp]
         public void Setup()
         {
             layer = Substitute.For<ILayer>();
-            _combatHandler = new CombatHandler();
+            _uut = new CombatHandler();
         }
 
         [Test]
@@ -26,7 +26,7 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             var player = new Player(new Position(), new Stats(100, 10, 1), "player", 0);
             var npc = new HostileNPC(new Position(), new Stats(1, 1, 1), new StandStillMovementStrategy(), "enemy", 0);
             
-            _combatHandler.Fight(player, npc, layer);
+            _uut.Fight(player, npc, layer);
 
             Assert.IsFalse(npc.Alive);
         }
@@ -37,9 +37,9 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
             var player = new Player(new Position(), new Stats(10, 10, 1), "player", 0);
             var npc = new HostileNPC(new Position(), new Stats(100, 10, 1), new StandStillMovementStrategy(), "enemy", 0);
 
-            _combatHandler.Fight(player, npc, layer);
+            _uut.Fight(npc, player, layer);
 
-            Assert.IsFalse(npc.Alive);
+            Assert.IsFalse(player.Alive);
         }
 
         [Test]
@@ -47,9 +47,13 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         {
             // Both can kill each other, First strike wins
             var player = new Player(new Position(), new Stats(10, 10, 2), "player", 0);
-            var npc = new HostileNPC(new Position(), new Stats(100, 10, 1), new StandStillMovementStrategy(), "enemy", 0);
+            var npc = new HostileNPC(new Position(), new Stats(10, 10, 1), new StandStillMovementStrategy(), "enemy", 0);
 
-            _combatHandler.Fight(player, npc, layer);
+
+            if(player.Alive)
+                _uut.Fight(player, npc, layer);
+            if(npc.Alive)
+                _uut.Fight(npc, player, layer);
 
             Assert.IsFalse(npc.Alive);
             Assert.IsTrue(player.Alive);
@@ -60,9 +64,12 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         {
             // Both can kill each other, First strike wins
             var player = new Player(new Position(), new Stats(10, 10, 1), "player", 0);
-            var npc = new HostileNPC(new Position(), new Stats(10, 10, 2), new StandStillMovementStrategy(), "enemy", 0);
+            var npc = new HostileNPC(new Position(), new Stats(11, 10, 2), new StandStillMovementStrategy(), "enemy", 0);
 
-            _combatHandler.Fight(player, npc, layer);
+            if (player.Alive)
+                _uut.Fight(player, npc, layer);
+            if (npc.Alive)
+                _uut.Fight(npc, player, layer);
 
             Assert.IsTrue(npc.Alive);
             Assert.IsFalse(player.Alive);

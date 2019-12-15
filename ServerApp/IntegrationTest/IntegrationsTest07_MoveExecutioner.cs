@@ -20,23 +20,23 @@ namespace IntegrationTest
         [SetUp]
         public void Setup()
         {
-            _gameState = new GameStateClass(
-                new Map(
-                    new HardCodedLayerGenerator(),
-                    3,
-                    new Player(new Position(), new Stats(2, 2, 1), "john", 10)));
-
             _movement = new Movement();
-
             _combatHandler = new CombatHandler();
 
             _sut = new MoveExecutioner(_combatHandler, _movement);
 
             _turns = new Queue<ICharacter>();
+
+            _gameState = new GameStateClass(
+                new Map(
+                    new HardCodedLayerGenerator(),
+                    3,
+                    new Player(new Position(), new Stats(2, 2, 1), "john", 10)));
         }
 
+
         [Test]
-        public void TurnExecutioner_PlayerNextMoveValid_PlayerHasMoved()
+        public void TurnExecutioner_PlayerNextMoveValid_PlayerMovesRight()
         {
             // Arrange
             _gameState.Player.SetNextMove(Direction.Right);

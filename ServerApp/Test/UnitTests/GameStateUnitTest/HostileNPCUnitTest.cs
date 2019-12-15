@@ -17,6 +17,7 @@ namespace Test.UnitTests.GameStateUnitTest
         [SetUp]
         public void setup()
         {
+            //uut = new HostileNPC(new Position(3, 1), new Stats(1, 1, 1), new StandStillMovementStrategy(), "Hurtigfar", 30); 
             uut = new HostileNPC(position, stats, movementStrategy, "HostileName");
         }
 
@@ -32,6 +33,9 @@ namespace Test.UnitTests.GameStateUnitTest
         {
             Player player = Substitute.For<Player>(position, stats, "SomePLayer", 100);
             uut.DroppedGold = 200;
+
+            player.AddGold(uut.DroppedGold);
+
             Assert.AreEqual(300, player.Gold);
         }
 
@@ -45,7 +49,9 @@ namespace Test.UnitTests.GameStateUnitTest
             IStats npcStats = Substitute.For<IStats>();
             npcStats.MaxHealth.Returns(xp1);
             npcStats.Damage.Returns(xp2);
+            
             uut = new HostileNPC(position, npcStats, movementStrategy, "HostileName");
+            player.AddExperience(xp1 * xp2);
             Assert.AreEqual(xp1 * xp2, player.Experience);
         }
 

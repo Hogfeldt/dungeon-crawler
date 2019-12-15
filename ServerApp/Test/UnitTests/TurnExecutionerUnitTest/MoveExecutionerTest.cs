@@ -3,9 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Text;
 using NSubstitute;
+using NSubstitute.Core.Arguments;
 using NUnit.Framework;
 using ServerApp.GameState;
 using ServerApp.TurnExec;
+using Test.UnitTests.Fakes;
 
 namespace Test.UnitTests.TurnExecutionerUnitTest
 {
@@ -25,90 +27,107 @@ namespace Test.UnitTests.TurnExecutionerUnitTest
         private ICharacter _npc2;
         private ILayer _layer;
 
-        class DumbLayer : Layer
-        {
-            public DumbLayer(ITile[,] tiles, ICharacter[,] characters, IInteractiveObject[,] interactiveObjects)
-                : base(tiles, characters, interactiveObjects)
-            { }
-
-            public override IPosition getEnteringPositionOrNull()
-            {
-                throw new NotImplementedException();
-            }
-
-            public override IPosition getExitingPositionOrNull()
-            {
-                throw new NotImplementedException();
-            }
-        }
-
-
         [SetUp]
         public void Setup()
         {
-            //_combatHandler = new CombatHandler();
             _combatHandler = Substitute.For<ICombatHandler>();
-            _movement = Substitute.For<IMovement>();
+            //_movement = Substitute.For<IMovement>();
 
-            _uut = new MoveExecutioner(_combatHandler, _movement);
+            //_movement = new Movement();
+            _uut = new MoveExecutioner(_combatHandler, new FakeMovement());
 
-            _tiles = new ITile[10, 10];
-
-            for (int x = 0; x < 10; x++)
-            {
-                for (int y = 0; y < 10; y++)
-                {
-                    _tiles[x, y] = new Tile(true);
-                }
-            }
+            //_movement.MoveCharacter().Returns(true);
 
             _turns = new Queue<ICharacter>();
-            var characters = new ICharacter[10, 10];
-
-            _npc1 = new HostileNPC(new Position(1, 1), new Stats(), new StandStillMovementStrategy(), "bad boi 1");
-            _npc2 = new HostileNPC(new Position(2, 2), new Stats(), new StandStillMovementStrategy(), "bad boi 2");
-            _player = new Player(new Position(5, 5), new Stats(100, 10, 1), "player boi", 0);
-
-            _turns.Enqueue(_npc1);
-            _turns.Enqueue(_npc2);
-            _turns.Enqueue(_player);
-
-            characters[_npc1.Position.X, _npc1.Position.Y] = _npc1;
-            characters[_npc2.Position.X, _npc2.Position.Y] = _npc2;
-            characters[_player.Position.X, _player.Position.Y] = _player;
-
-            _interactiveObjects = new IInteractiveObject[10, 10];
-            _layer = new DumbLayer(_tiles, characters, _interactiveObjects);
-
-            _gameState = Substitute.For<IGameState>();
-            /*
+            
             _gameState = new GameStateClass(
                 new Map(
-                    new HardCodedLayerGenerator(),
-                    3,
+                    new FakeLayer(), 
+                    1,
                     new Player(new Position(), new Stats(2, 2, 1), "john", 10)));
-            */
-
-
+            
         }
-        
+
         [Test]
-        public void MoveExecutioner_ExecuteMove_PlayerHasMoved()
+        public void MoveExecutioner_ExecuteMove_PlayerMovesUp()
         {
-            //_player.NextMove(Direction.Down);
+            // Arrange
+            _gameState.Player.SetNextMove(Direction.Up);
 
-            //_player.SetNextMove(Character.Direction.Down);
-            //List<ICharacter> charactersAfterTurn = _uut.ExecuteMoves(_turns, _layer);
+            _turns.Enqueue(_gameState.Player);
 
-            // Player moves down, should increment Y position
+            // Act
+            _uut.ExecuteMoves(_turns, _gameState.Map.GetCurrentLayer());
 
-            //_player.NextMove(Direction.Down);
+            // Assert
+            Assert.AreEqual(5, _gameState.Player.Position.X);
+            Assert.AreEqual(4, _gameState.Player.Position.Y);
+        }
+
+        [Test]
+        public void MoveExecutioner_ExecuteMove_PlayerMovesRight()
+        {
+            // Arrange
+            _gameState.Player.SetNextMove(Direction.Right);
+
+            _turns.Enqueue(_gameState.Player);
+
+            // Act
+            _uut.ExecuteMoves(_turns, _gameState.Map.GetCurrentLayer());
+
+            // Assert
+            Assert.AreEqual(6, _gameState.Player.Position.X);
+            Assert.AreEqual(5, _gameState.Player.Position.Y);
+        }
+
+
+        [Test]
+        public void MoveExecutioner_ExecuteMove_PlayerMovesDown()
+        {
+            // Arrange
             _gameState.Player.SetNextMove(Direction.Down);
 
-            _uut.ExecuteMoves(_turns, _layer);
+            _turns.Enqueue(_gameState.Player);
 
-            Assert.AreEqual(5, _player.Position.X);
-            Assert.AreEqual(5, _player.Position.Y);
+            // Act
+            _uut.ExecuteMoves(_turns, _gameState.Map.GetCurrentLayer());
+
+            // Assert
+            Assert.AreEqual(5, _gameState.Player.Position.X);
+            Assert.AreEqual(6, _gameState.Player.Position.Y);
+        }
+
+        [Test]
+        public void MoveExecutioner_ExecuteMove_PlayerMovesLeft()
+        {
+            // Arrange
+            _gameState.Player.SetNextMove(Direction.Left);
+
+            _turns.Enqueue(_gameState.Player);
+
+            // Act
+            _uut.ExecuteMoves(_turns, _gameState.Map.GetCurrentLayer());
+
+            // Assert
+            Assert.AreEqual(4, _gameState.Player.Position.X);
+            Assert.AreEqual(5, _gameState.Player.Position.Y);
+        }
+
+
+        [Test]
+        public void MoveExecutioner_ExecuteMove_PlayerDoesNotMove()
+        {
+            // Arrange
+            _gameState.Player.SetNextMove(Direction.None);
+
+            _turns.Enqueue(_gameState.Player);
+
+            // Act
+            _uut.ExecuteMoves(_turns, _gameState.Map.GetCurrentLayer());
+
+            // Assert
+            Assert.AreEqual(5, _gameState.Player.Position.X);
+            Assert.AreEqual(5, _gameState.Player.Position.Y);
         }
 
         /*
