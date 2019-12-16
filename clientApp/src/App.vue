@@ -18,7 +18,7 @@
     import { IApiUser } from '@/UserCreation/IApi';
     import { ApiUser } from '@/UserCreation/API';
 
-    const userApi: IApiUser = new ApiUser('http://178.62.43.127:5000/');
+    const userApi: IApiUser = new ApiUser('http://dungeondash.me:5000/');
     const loginHandler: LoginHandler = new LoginHandler(userApi);
    
 

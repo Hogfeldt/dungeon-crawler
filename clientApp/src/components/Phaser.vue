@@ -14,7 +14,7 @@
     let SERVER_PATH: string | undefined = process.env.VUE_APP_SERVER_PATH;
     if (SERVER_PATH === undefined) {
         // Default to server if environment variable is not set.
-        SERVER_PATH = 'http://178.62.43.127:5000/';
+        SERVER_PATH = 'http://dungeondash.me:5000/';
     }
 
     const api: IApi = new Api(SERVER_PATH);
