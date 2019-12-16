@@ -10,7 +10,7 @@ using ServerApp.Data;
 namespace ServerApp
 {
     public class Startup
-    {   
+    {
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,13 +27,13 @@ namespace ServerApp
                 {
                     builder.AllowAnyHeader();
                     builder.AllowAnyMethod();
-		    builder.WithOrigins("http://127.0.0.1:8080", "http://178.62.43.127:8080");
+                    builder.WithOrigins("http://127.0.0.1:8080", "http://178.62.43.127:8080", "http://dungeondash.me:8080/");
                     builder.AllowCredentials();
                 });
             });
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1)
                 .AddJsonOptions(options => options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-            
+
 
             services.AddDistributedMemoryCache();
 
